@@ -1,0 +1,58 @@
+{% extends "tip_app_main/base.html" %}
+{% block content %}
+{% load i18n dicthelpers %}
+
+<section data-role="content">
+    <form action="{% url 'tip-champion'%}" method="post">
+        {% csrf_token %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <div class="row">
+                <div class="col">
+                    <small class="text-muted"></small><br>
+                    <small class="text-muted">Champion</small>
+                </div>
+                <div class="col">
+                    <small class="text-muted"></small><br>
+                    <small class="text-muted">Drinnen?</small>
+                </div>
+                <div class="col">
+                    <small class="text-muted"></small><br>
+                    <small class="text-muted">Ausgeschieden?</small>
+                </div>
+          </div>
+         </div>
+              {% for team in teams %}
+               <div class="row">
+                <div class="col">
+                    <small class="text-muted">{{ team.team_name }}</small><br>
+{#                    <small class="text-muted">{{ champion.team_name }}</small>#}
+                </div>
+                {% if team.eliminated %}
+                <div class="col">
+                    <input type="checkbox" id="in_{{ team.id }}" >
+                </div>
+                <div class="col">
+                    <small class="text-muted"></small><br>
+                </div>
+                {% else %}
+                <div class="col">
+                    <small class="text-muted"></small><br>
+                </div>
+                <div class="col">
+                    <input type="checkbox" id="out_{{ team.id }}">
+                </div>
+                {% endif %}
+               </div>
+              {% endfor %}
+            </div>
+        </article>
+        <button type="submit" class="btn btn-outline-info">{% trans "Sichern" %}</button>
+    </form>
+</section>
+{% endblock content %}
+{#                    <fieldset id="group1">#}
+{#                        <input type="radio" value="value1" name="group1" id="Ausgeschieden-{{ champion.champion.id }}">Ausgeschieden<br>#}
+{#                        <input type="radio" value="value2" name="group1" id="Drinnen-{{ champion.champion.id }}">Drinnen<br>#}
+{#                    </fieldset>#}

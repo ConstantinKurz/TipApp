@@ -1,0 +1,38 @@
+{% extends "tip_app_main/base.html" %}
+{% block content %}
+{% load i18n dicthelpers %}
+
+<div class="dashboard page offset">
+<div data-v-ce1968d6="" id="bg_rankings_table">
+    <table data-v-ce1968d6="" class="table">
+      <thead data-v-ce1968d6="">
+        <th data-v-ce1968d6="" class="col_pos"></th>
+        <th data-v-ce1968d6="" class="col_avatar"></th>
+        <th data-v-ce1968d6="" class="col_user"></th>
+        <th data-v-ce1968d6="" class="col_user_source"></th>
+        <th data-v-ce1968d6="" class="col_value">Pkt</th>
+        <th data-v-ce1968d6="" class="col_value">6er</th>
+        <th data-v-ce1968d6="" class="col_value_joker">
+          <img src="/media/static_pics/joker.svg">
+        </th>
+        <th data-v-ce1968d6="" class="col_value">
+          <img src="/media/static_pics/trophy.svg">
+        </th>
+      </thead>
+      <tbody data-v-ce1968d6=""></tbody>
+      {% for user in users_ranked %}
+      <tr {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
+        <td class="col_pos">{{ user.rank }}.</td>
+        <!-- -->
+        <td colspan="3" class="col_user">{{ user.user.username }}</td>
+        <td class="col_value">{{ user.score }}</td>
+        <td class="col_value">{{ user.right_tips }}</td>
+        <td class="col_value_joker">{{ user.joker }}</td>
+        <td class="col_value">{{ user.user_champion }}</td>
+      </tr>
+      {% endfor %}
+      <tfoot data-v-ce1968d6=""></tfoot>
+    </table>
+</div>
+</div>
+{% endblock %}

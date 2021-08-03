@@ -1,0 +1,14 @@
+{% extends "tip_app_main/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load i18n dicthelpers %}
+<div>
+ <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="form-actions">
+      <button class="btn btn-outline-info mb-4" type="submit">Senden</button>
+    </div>
+</form>
+</div>
+{% endblock content %}

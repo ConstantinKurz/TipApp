@@ -1,0 +1,10 @@
+{% extends "tip_app_main/base.html" %}
+{# schönere forms #}
+{% block content %}
+        <h2> Du bist ausgeloggt</h2>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Schon einen Account? <a href="{% url 'login' %}">Einloggen</a>
+            </small>
+        </div>
+{% endblock content %}

@@ -1,0 +1,26 @@
+{% extends "tip_app_main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        {% comment %} <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"> {% endcomment %}
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+        </div>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4">Profile Info</legend>
+              {{ u_form|crispy }}
+          <div class="mb-4">
+          <a href="{% url 'password_reset' %}">Passwort ändern?</a>
+          </div>
+              {{ p_form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="profile_page_button" type="submit">Update</button>
+          </div>
+      </form>
+    </div>
+{% endblock content %}

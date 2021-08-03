@@ -1,0 +1,24 @@
+{% extends "tip_app_main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section" xmlns="http://www.w3.org/1999/html">
+        <form method="POST">
+            {%  csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Log In</legend>
+                {{ form|crispy }}
+            <small>
+                <a class="ml-2" href="{% url 'password_reset' %}">Passwort vergessen?</a>
+            </small>
+            </fieldset>
+            <div class="form-group">
+                <button class="profile_page_button" type="submit">Log In</button>
+            </div>
+        </form>
+        {% comment %} <div class="border-top pt-3">
+            <small class="text-muted">
+                Kein Account? <a class="ml-2" href="{% url 'register' %}">Registrieren</a>
+            </small>
+        </div> {% endcomment %}
+    </div>
+{% endblock content %}

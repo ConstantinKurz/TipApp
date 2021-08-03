@@ -1,0 +1,88 @@
+{% extends "tip_app_main/base.html" %}
+{% block content %}
+{% load i18n dicthelpers %}
+{% load static %}
+<div class="dashboard page pageoffset">
+  <div class="dashboard-container">
+    <div>
+      <table class="dashboard-countdown">
+        <tr>
+          <td id="days" class="dashboard-countdown--value">{{ days }}</td>
+          <td id="hours" class="dashboard-countdown--value">{{ hours }}</td>
+          <td id="minutes" class="dashboard-countdown--value">{{ minutes }}</td>
+          <td id="seconds" class="dashboard-countdown--value">{{ seconds }}</td>
+        </tr>
+        <tr>
+          <td class="dashboard-countdown--label">Tage</td>
+          <td class="dashboard-countdown--label">Std.</td>
+          <td class="dashboard-countdown--label">Min.</td>
+          <td class="dashboard-countdown--label">Sek.</td>
+        </tr>
+      </table>
+      <div class="dashboard-text">
+        <h1>Deine Tipps warten</h1>
+        <div class="powered-by-teamtip">
+        {% if upcoming_matchday %}
+        <a href="{% url 'tip-matchday' upcoming_matchday.matchday %}">
+          <button>
+            <img src="" class="button button-icon--left">
+            Tipps abgeben
+          </button>
+        </a> 
+        {% else %}
+        <a href="{% url 'tip-matchday' 0 %}">
+          <button>
+            <img src="" class="button button-icon--left">
+            Tipps abgeben
+          </button>
+        </a> 
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-v-ce1968d6="" id="bg_rankings_table">
+    <table data-v-ce1968d6="" class="table">
+      <thead data-v-ce1968d6="">
+        <th data-v-ce1968d6="" class="col_pos"></th>
+        <th data-v-ce1968d6="" class="col_avatar"></th>
+        <th data-v-ce1968d6="" class="col_user"></th>
+        <th data-v-ce1968d6="" class="col_user_source"></th>
+        <th data-v-ce1968d6="" class="col_value">Pkt</th>
+        <th data-v-ce1968d6="" class="col_value">6er</th>
+        <th data-v-ce1968d6="" class="col_value_joker">
+          <img src="/media/static_pics/joker.svg">
+        </th>
+        <th data-v-ce1968d6="" class="col_value">
+          <img src="/media/static_pics/trophy.svg">
+        </th>
+      </thead>
+      <tbody data-v-ce1968d6=""></tbody>
+      {% for user in users_ranked %}
+      <tr {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
+        <td class="col_pos">{{ user.rank }}.</td>
+        <!-- -->
+        <td colspan="3" class="col_user">{{ user.user.username }}</td>
+        <td class="col_value">{{ user.score }}</td>
+        <td class="col_value">{{ user.right_tips }}</td>
+        <td class="col_value_joker">{{ user.joker }}</td>
+        <td class="col_value">{{ user.user_champion }}</td>
+      </tr>
+      {% endfor %}
+      <tfoot data-v-ce1968d6=""></tfoot>
+    </table>
+    {% comment %} {% if upcoming_match %} {% endcomment %}
+    <a data-v-ce1968d6="" href="{% url 'tip-ranking'%}" class="">
+      <button data-v-ce1968d6="">La Liste</button>
+    </a>
+    {% comment %} {% else %}
+    <a data-v-ce1968d6="" href="{% url 'tip-results' 6 %}" class="">
+      <button data-v-ce1968d6="">Zur Übersicht</button>
+    </a>
+    {% endif %} {% endcomment %}
+  </div>
+</div>
+<div id="home-endpoint-url" url="{% url 'tip-home' %}">
+  <span id="days"></span>
+</div>
+{% endblock content %}

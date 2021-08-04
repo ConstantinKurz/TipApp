@@ -3041,7 +3041,6 @@ thead .col_value--all[data-v-2ca298f2] {
     height: 100%;
     top: 0;
     left: 0;
-    background: url(../img/ic_dashboard_live_bg.6b04c789.svg);
     background-position:50%
 }
 
@@ -5096,7 +5095,6 @@ ul[data-v-423a6f04] {
 .match-statistics-form-left[data-v-2d11ce9d]:after, .match-statistics-form-right[data-v-2d11ce9d]:after {
     content: "";
     position: absolute;
-    background: url(../img/ic_form_arrow.a223c9e1.svg);
     width: 8px;
     height: 10px;
     top:7px
@@ -7216,7 +7214,6 @@ ul[data-v-73570791] {
     color: #24e07c;
     padding-left: 8px;
     font-size: 10px;
-    background: url(../img/ic_bet_saved.78f420b5.svg) no-repeat;
     background-position:0
 }
 

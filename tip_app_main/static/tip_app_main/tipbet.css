@@ -1863,7 +1863,6 @@ button[disabled] {
 }
 
 .header[data-v-56c9b2d1] {
-    background: url(../img/header-background.ca9e09e2.jpg);
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2173,7 +2172,6 @@ button[disabled] {
 }
 
 .whitelabel[data-v-56c9b2d1] {
-    background: url(../img/whitelabel-background.2fd96847.jpg);
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -7340,7 +7338,6 @@ small[data-v-bc6e54da] {
 }
 
 .intro-header[data-v-cc9bc342] {
-    background: url(../img/header-background.ca9e09e2.jpg);
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -8356,7 +8353,6 @@ p[data-v-1a534275] {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     min-height: 100vh;
-    background: url(../img/header-background.ca9e09e2.jpg);
     background-position: 50%;
     background-repeat: no-repeat;
     background-size:cover

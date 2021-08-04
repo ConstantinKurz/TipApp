@@ -313,7 +313,7 @@ svg[data-v-7d184569] {
     top: 16px;
     width: 16px;
     height: 16px;
-    background:url(../img/ic_16_drilldown.20d6c0a3.svg)
+    background:url(../ )
 }
 
 .menu_item--highlighted[data-v-2180cdf4] {
@@ -1280,7 +1280,7 @@ button[disabled] {
     flex-shrink: 0;
     width: 16px;
     height: 16px;
-    background:url(../img/ic_16_drilldown.20d6c0a3.svg)
+    /* background:url(../ ) */
 }
 
 .table-view-cell.active {

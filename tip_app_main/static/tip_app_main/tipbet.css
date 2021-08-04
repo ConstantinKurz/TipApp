@@ -614,7 +614,6 @@ a {
     height: 18px;
     top: 11px;
     left: 40px;
-    background:url(../img/ic_language_arrow.06e0327f.svg)
 }
 
 .navigation-list-language:hover .navigation-list-language-item--selected {
@@ -623,10 +622,6 @@ a {
     top: inherit;
     -webkit-box-shadow: inset 0 -1px 0 0 rgba(95, 93, 97, .08);
     box-shadow:inset 0 -1px 0 0 rgba(95, 93, 97, .08)
-}
-
-.navigation-list-language:hover .navigation-list-language-item--selected:before {
-    background:url(../img/ic_language_check.8bb2b5e7.svg)
 }
 
 .navigation-list-language-item img {
@@ -831,12 +826,7 @@ a {
     cursor:pointer
 }
 
-.input-container .input-stepper-button-down {
-    background-image:url(../img/bt_stepper_down.d81ceacf.svg)
-}
-
 .input-container .input-stepper-button-up {
-    background-image: url(../img/bt_stepper_up.2073f2b4.svg);
     margin-right:-8px
 }
 
@@ -865,11 +855,6 @@ a {
     right: 0;
     width: 20px;
     height: 20px;
-    background:url(../img/ic_20_radio.01a3ce6f.svg)
-}
-
-.input-container .input-radio input[type=radio]:checked + label:before {
-    background:url(../img/ic_20_radio_active.a4fe6c97.svg)
 }
 
 .input-container .input-radio input[type=radio]:disabled + label:before {
@@ -905,11 +890,6 @@ a {
     right: 0;
     width: 20px;
     height: 20px;
-    background:url(../img/ic_20_checkbox.f07eb067.svg)
-}
-
-.input-container .input-checkbox input[type=checkbox]:checked + label:before {
-    background:url(../img/ic_20_checkbox_active.5981db2d.svg)
 }
 
 .input-container .input-checkbox:last-child label {
@@ -967,14 +947,6 @@ a {
     right: 0;
     width: 16px;
     height:16px
-}
-
-.validation_false:before {
-    background:url(../img/ic_16_validation_false.1c428c1c.svg)
-}
-
-.validation_true:before {
-    background:url(../img/ic_16_validation_true.c4a7a87f.svg)
 }
 
 button {
@@ -1705,14 +1677,6 @@ button[disabled] {
     height:16px
 }
 
-.searchbar .searchbar-item.searchtype-user:before {
-    background:url(../img/ic_16_search_user.f38b36e7.svg)
-}
-
-.searchbar .searchbar-item.searchtype-location:before {
-    background:url(../img/ic_16_search_pin.2043e102.svg)
-}
-
 .searchbar .searchbar-item.searchtype-location:after {
     content: "";
     position: absolute;
@@ -1720,7 +1684,6 @@ button[disabled] {
     height: 12px;
     right: 0;
     top: calc(50% - 6px);
-    background:url(../img/ic_12_dropdown.bd0bccb6.svg)
 }
 
 .searchbar .searchbar-item .search-input {
@@ -2242,7 +2205,6 @@ button[disabled] {
     height: 10px;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
-    background:url(../img/ic_arrow.7cd7487b.svg)
 }
 
 .whitelabel h3[data-v-56c9b2d1] {
@@ -2888,7 +2850,6 @@ button[data-v-ce1968d6] {
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    background:url(../img/ic_32_star.94b12ca7.svg)
 }
 
 .trend-box-label[data-v-06f2b70b] {
@@ -3104,7 +3065,6 @@ thead .col_value--all[data-v-0104f075] {
     height: 100%;
     top: 0;
     left: 0;
-    background: url(../img/ic_dashboard_live_bg.6b04c789.svg);
     background-position:50%
 }
 
@@ -3814,16 +3774,8 @@ input[type=number][data-v-c1661192] {
     left:4px
 }
 
-.match-goals-divider.bet_saved[data-v-c1661192]:before {
-    background:url(../img/ic_bet_saved.78f420b5.svg)
-}
-
 .match-goals-divider.bet_not_saved[data-v-c1661192]:before {
     background-color:red
-}
-
-.match-goals-divider.bet_saving[data-v-c1661192]:before {
-    background:url(../img/ic_24_update.616b47b2.svg)
 }
 
 .match-goals .match_result_guest[data-v-c1661192], .match-goals .match_result_home[data-v-c1661192] {
@@ -4235,16 +4187,8 @@ input[type=number][data-v-d709007e] {
     left:4px
 }
 
-.match-goals-divider.bet_saved[data-v-d709007e]:before {
-    background:url(../img/ic_bet_saved.78f420b5.svg)
-}
-
 .match-goals-divider.bet_not_saved[data-v-d709007e]:before {
     background-color:red
-}
-
-.match-goals-divider.bet_saving[data-v-d709007e]:before {
-    background:url(../img/ic_24_update.616b47b2.svg)
 }
 
 .match-goals .match_result_guest[data-v-d709007e], .match-goals .match_result_home[data-v-d709007e] {
@@ -5181,7 +5125,6 @@ ul[data-v-0f635d70] {
 .match-statistics-form-left[data-v-2d11ce9d]:after, .match-statistics-form-right[data-v-2d11ce9d]:after {
     content: "";
     position: absolute;
-    background: url(../img/ic_form_arrow.a223c9e1.svg);
     width: 8px;
     height: 10px;
     top:7px
@@ -5708,7 +5651,6 @@ ul[data-v-0f635d70] {
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    background:url(../img/ic_16_slider_thumb.7616585a.svg)
 }
 
 .bet-input input[type=range][data-v-a1caff42] {
@@ -7261,7 +7203,6 @@ ul[data-v-a2d19d28] {
     color: #24e07c;
     padding-left: 8px;
     font-size: 10px;
-    background: url(../img/ic_bet_saved.78f420b5.svg) no-repeat;
     background-position:0
 }
 
@@ -7344,7 +7285,6 @@ ul[data-v-a2d19d28] {
     height: 16px;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
-    background:url(../img/ic_16_collapse_down.80996c1c.svg)
 }
 
 small[data-v-bc6e54da] {

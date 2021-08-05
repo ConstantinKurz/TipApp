@@ -7,11 +7,12 @@ from tip_app_main.forms import ContactForm
 from .models import Match, Tip
 from users.models import Profile
 from django.http import BadHeaderError, HttpResponse
-from django.utils import timezone
 from django.shortcuts import render
 from tip_app.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 import json
+from datetime import timedelta
+from django.utils import timezone
 
 # -*- coding: utf-8 -*-
 
@@ -21,10 +22,11 @@ from django.http import JsonResponse
 @login_required
 @csrf_protect
 def home(request):
-
     update_scores_and_ranks(request)
     # users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker', 'user__username')[:5]
     users_ranked = Profile.objects.filter(rank__lte=5).order_by('-score','-right_tips', 'joker', 'user__username')
+    print('timezone.now', timezone.now())
+    print('timezone',timezone.now() + timedelta(seconds=30*60))
     if request.user not in users_ranked:
         users_ranked.union(Profile.objects.filter(user=request.user))
 
@@ -45,8 +47,9 @@ def home(request):
         tipps=None
         tipps_by_matches = None
     # send mail if user has not tipped yet
-    if upcoming_match and upcoming_match.half_hour_remaining:
-       send_remainder_mail(upcoming_match)
+    if upcoming_match and upcoming_match.half_hour_remaining():
+        print('yes')
+        send_remainder_mail(upcoming_match)
     if request.method == "GET" and request.is_ajax():
         upcoming_match_time = upcoming_match.match_date
         #print(upcoming_match_time)

@@ -14,7 +14,6 @@ class Profile(models.Model):
     right_tips = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
     user_champion = models.CharField(max_length=12, default='---')
-    #  choices=champion_choices
     joker = models.IntegerField(default=0)
 
     def update_score_and_joker(self):

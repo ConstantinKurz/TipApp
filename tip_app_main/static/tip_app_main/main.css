@@ -373,8 +373,12 @@ a.article-title:hover {
 }
 
 .matchday {
-    max-width: 600px;
-    margin-left: 400px;
+    -webkit-box-flex: 0;
+    flex: 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+    overflow: hidden;
+    width: 600px;
+    margin: 0 auto;
 }
 
 .col_value_champion{

@@ -27,7 +27,6 @@ class Match(models.Model):
         return self.match_date <= timezone.now() - timedelta(seconds=180)
 
     def half_hour_remaining(self):
-        # print('half_houer', self.match_date + timedelta(seconds=30*60))
         return timezone.now().replace(microsecond=0) == (self.match_date - timedelta(seconds=30*60)).replace(microsecond=0)
 
     def __str__(self):

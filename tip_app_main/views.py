@@ -23,7 +23,6 @@ from django.http import JsonResponse
 @csrf_protect
 def home(request):
     update_scores_and_ranks(request)
-    # users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker', 'user__username')[:5]
     users_ranked = Profile.objects.filter(rank__lte=5).order_by('-score','-right_tips', 'joker', 'user__username')
     if request.user not in users_ranked:
         users_ranked.union(Profile.objects.filter(user=request.user))
@@ -45,12 +44,7 @@ def home(request):
         tipps=None
         tipps_by_matches = None
     # send mail if user has not tipped yet
-    print('half_hour', (upcoming_match.match_date - timedelta(seconds=30*60)).replace(microsecond=0))
-    print('timezone.now', timezone.now().replace(microsecond=0))
-    print('remaining', upcoming_match.half_hour_remaining())
-    print(upcoming_match.match_date == upcoming_match.match_date - timedelta(seconds=30*60))
     if upcoming_match and upcoming_match.half_hour_remaining():
-        print('yes')
         send_remainder_mail(upcoming_match)
     if request.method == "GET" and request.is_ajax():
         upcoming_match_time = upcoming_match.match_date
@@ -130,6 +124,7 @@ def results(request, matchday_number):
 
 @login_required
 def ranking(request):
+    update_scores_and_ranks(request)
     users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker', 'user__username')
     context = {
         'request_user': request.user,

@@ -24,7 +24,7 @@ class Profile(models.Model):
             tip_score = tipp.points()        
             if tipp.points() % 6 == 0 and tipp.points() != 0:
                 right_tips += 1
-            if tipp.joker:
+            if tipp.joker and tipp.match.has_started():
                 joker += 1
                 tip_score = tipp.joker_multiplicator(tipp.points())  
             tip_score = tipp.matchday_multiplicator(tipp.points())

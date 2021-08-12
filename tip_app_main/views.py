@@ -119,6 +119,7 @@ def results(request, matchday_number):
         'matchday_scores': matchday_scores,
         'users_ranked': users_ranked,
         'matchday_tips': matchday_tips,
+        'request_user': request.user,
     }
     return render(request, 'tip_app_main/results_per_day.html', context)
 

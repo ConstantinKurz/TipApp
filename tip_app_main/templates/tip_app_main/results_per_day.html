@@ -34,9 +34,9 @@
                                 {% get_users_matchday_tips matchday_tips user matchday_number as get_users_matchday_tips %}
 
                                 <td data-v-bb729c54="" class="col_pos_result_body">{{user.rank}}.</td>
-                                <td data-v-bb729c54="" class="col_user col_user_body">{{user.user.username}}</td>
-                                <td data-v-bb729c54="" class="col_value col_value--gesamt sort_column col_value_gesamt_body">{{user.score}}</td>
-                                <td data-v-bb729c54="" class="col_value col_value--spieltag sort_column col_value_spieltag_body">{{ get_users_matchday_score }}</td>
+                                <td data-v-bb729c54="" class="col_user col_user_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.user.username}}</td>
+                                <td data-v-bb729c54="" class="col_value col_value--gesamt sort_column col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
+                                <td data-v-bb729c54="" class="col_value col_value--spieltag sort_column col_value_spieltag_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
                                 {% for tip in get_users_matchday_tips %}
                                 {% ifequal forloop.counter|modulo:2 0 %}
                                 <td data-v-bb729c54="" class="col_result col_white width_result_teams">

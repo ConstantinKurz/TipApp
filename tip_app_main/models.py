@@ -19,8 +19,8 @@ class Match(models.Model):
     guest_team = models.ForeignKey(Team, related_name="guest_team", on_delete=models.CASCADE, default=0)
     match_date = models.DateTimeField(default=timezone.now)
     matchday = models.IntegerField(default=0)
-    guest_score = models.IntegerField(default=-1)
     home_score = models.IntegerField(default=-1)
+    guest_score = models.IntegerField(default=-1)
 
 
     def has_started(self):

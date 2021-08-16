@@ -29,8 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['tip-app-wm22.herokuapp.com']
 
-ALLOWED_HOSTS = ['tip-app-wm22.herokuapp.com']
-
 
 # Application definition
 
@@ -44,7 +42,12 @@ INSTALLED_APPS = [
     'tip_app_main.apps.TipAppMainConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'django_mobile',
 ]
+
+TEMPLATE_LOADERS = ['django_mobile.loader.Loader']
+
+TEMPLATE_CONTEXT_PROCESSORS = ['django_mobile.context_processors.flavour',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,6 +59,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MIDDLEWARE_CLASSES = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware',]
+
 ROOT_URLCONF = 'tip_app.urls'
 
 TEMPLATES = [
@@ -64,6 +72,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            # 'loaders': ['django_mobile.loader.Loader',],
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',

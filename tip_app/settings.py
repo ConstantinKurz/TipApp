@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'tip_app_main.apps.TipAppMainConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
-    'django_mobile',
+    # 'django_mobile',
 ]
 
 TEMPLATE_LOADERS = ['django_mobile.loader.Loader']
 
-TEMPLATE_CONTEXT_PROCESSORS = ['django_mobile.context_processors.flavour',]
+# TEMPLATE_CONTEXT_PROCESSORS = ['django_mobile.context_processors.flavour',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,10 +59,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-MIDDLEWARE_CLASSES = [
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django_mobile.middleware.MobileDetectionMiddleware',
-    'django_mobile.middleware.SetFlavourMiddleware',]
+# MIDDLEWARE_CLASSES = [
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django_mobile.middleware.MobileDetectionMiddleware',
+#     'django_mobile.middleware.SetFlavourMiddleware',]
 
 ROOT_URLCONF = 'tip_app.urls'
 

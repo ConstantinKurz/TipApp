@@ -23,6 +23,7 @@ from django.http import JsonResponse
 @csrf_protect
 def home(request):
     update_scores_and_ranks(request)
+    mobile_agent = False
     users_ranked = Profile.objects.filter(rank__lte=5).order_by('-score','-right_tips', 'joker', 'user__username')
     if request.user not in users_ranked:
         users_ranked.union(Profile.objects.filter(user=request.user))
@@ -54,7 +55,10 @@ def home(request):
         data = request.GET.get(upcoming_match_time)
         # #print(request.GET.get(data))
         return JsonResponse({"upcoming_match_time": upcoming_match_time}, status = 200)
+    if is_mobile(request):
+        mobile_agent = True
     context = {
+        'mobile_agent': mobile_agent,
         'time_diff': time_diff,
         'days': days,
         'hours': hours,
@@ -75,8 +79,12 @@ def tip_matchday(request, matchday_number):
     m_nr: int = int(matchday_number)
     matches_per_day = Match.objects.filter(
         matchday=m_nr).order_by('match_date')
-    tips = Tip.objects.filter(author=request.user).filter(match__matchday=m_nr)
-    tips_by_matches = {t.match.pk: t for t in tips}
+    try:
+        tipps = Tip.objects.filter(author=request.user).filter(match__matchday=m_nr)
+        tipps_by_matches = {t.match.pk: t for t in tipps}
+    except:
+        tipps = None
+        tipps_by_matches = None
     n_joker = get_n_joker(request.user, m_nr)
     matchday_matches_ids = get_match_ids_for_matchday(m_nr)
     if request.method == 'POST' and request.is_ajax():
@@ -91,7 +99,7 @@ def tip_matchday(request, matchday_number):
     context = {
             'number': m_nr,
             'matches_per_day': matches_per_day,
-            'tips': tips_by_matches,
+            'tips': tipps_by_matches,
             'n_joker': n_joker,
         }
     return render(request, 'tip_app_main/matchday.html', context)

@@ -70,10 +70,13 @@ def new_joker(tip, match, value, user, request):
     tip.save() 
     is_joker_valid(match.matchday, get_n_joker(user, match.matchday), tip)
 
-def is_joker_valid(matchday, njoker, tip):
-    if matchday < 3 and njoker > 3:
+def is_joker_valid(matchday_number, njoker, tip):
+    if matchday_number < 3 and njoker > 3:
         set_joker_false(tip)
- # TODO: Hier noch Validierung für Matchdays anpassen
+    if matchday_number >= 3 and matchday_number < 5 and njoker > 2:
+        set_joker_false(tip)
+    if matchday_number >= 5 and njoker > 1:
+        set_joker_false(tip)
 
 def set_joker_false(tip: Tip):
     tip.joker = False
@@ -83,13 +86,13 @@ def get_n_joker(user, matchday_number):
     n_joker = 0
     if (matchday_number < 3):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday__lte=2).order_by('match__match_date')
+        author=user).filter(match__matchday__lt=3).order_by('match__match_date')
     if (matchday_number >= 3 and matchday_number < 5):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday=matchday_number).order_by('match__match_date')
-    if (matchday_number > 5):
+        author=user).filter(match__matchday__gte=3).filter(match__matchday__lt=5).order_by('match__match_date')
+    if (matchday_number >= 5):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday__gt=4).order_by('match__match_date')
+        author=user).filter(match__matchday__gte=5).order_by('match__match_date')
     for tip in tips:
         if tip.joker:
             n_joker += 1
@@ -152,3 +155,8 @@ def send_remainder_mail(upcoming_match):
         send_mail(subject,
                   message, EMAIL_HOST_USER, recipient_list=recepients, fail_silently=False)
 
+def is_mobile(request):
+    user_agent = request.META['HTTP_USER_AGENT']
+    print(user_agent)
+    print('Mobile' in user_agent)
+    return 'Mobile' in user_agent

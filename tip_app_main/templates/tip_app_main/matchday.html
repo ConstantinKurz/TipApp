@@ -44,7 +44,7 @@
               </div>
             </div>
               <div data-v-c1661192="" class="match-tipp">
-                <input type="checkbox" id="joker-{{ match.id }}" name="joker" title="Joker"
+                <input type="checkbox" id="joker_{{ match.id }}" name="joker" title="Joker"
                 {% if tip.joker %} checked {% endif %}
               {% if joker_upper_limit_reached and not tip.joker or match.has_started %} disabled {% endif %}>
               {% comment %} or tip.tip_home == -1 or tip.tip_guest == -1 {% endcomment %}

@@ -29,14 +29,17 @@ if (tipForm) {
       success: function (e) {
         console.log(e)
         console.log(e.n_joker)
+        console.log(e.matchday_matches_ids)
         var matchIdArray = e.matchday_matches_ids;
         var matchIdArrayLength = matchIdArray.length;
         if (upperLimitJokersReached(e.m_nr, e.n_joker)) {
           console.log('too many')
           for (var i = 0; i < matchIdArrayLength; i++) {
-            jokerButton = document.getElementById('joker-' + `${matchIdArray[i]}`)
+            console.log(matchIdArray[i])
+            console.log(document.getElementById('joker_' + `${matchIdArray[i]}`))
+            jokerButton = document.getElementById('joker_' + `${matchIdArray[i]}`)
+            console.log(jokerButton)
             if (!jokerButton.checked) {
-              console.log(jokerButton)
               jokerButton.disabled = true
             }
           }
@@ -44,7 +47,7 @@ if (tipForm) {
         }
         else {
           for (var i = 0; i < matchIdArrayLength; i++) {
-            jokerButton = document.getElementById('joker-' + `${matchIdArray[i]}`)
+            jokerButton = document.getElementById('joker_' + `${matchIdArray[i]}`)
             if (!jokerButton.checked) {
               console.log(jokerButton)
               jokerButton.disabled = false

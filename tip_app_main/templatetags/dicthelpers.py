@@ -22,8 +22,13 @@ def modulo(value, arg):
     return value % arg
 
 @register.simple_tag
+# TODO: Hier stimmt was mit den Jokern nicht!
 def joker_upper_limit_reached(matchday, njoker):
     if matchday < 3 and njoker == 3:
+        return True
+    if matchday >= 3 and matchday < 5 and njoker == 2:
+        return True
+    if matchday >= 5 and njoker == 1:
         return True
 
 @register.simple_tag

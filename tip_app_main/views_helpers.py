@@ -6,21 +6,25 @@ from django.core.mail import send_mail
 from tip_app.settings import EMAIL_HOST_USER
 
 def save_tip(id, value, joker,  user, request):
-        # #print(id, value, joker, user, request )
-        match_id = id[-1]
+        print("#####save_tip#####")
+        print(id, value, joker, user, request )
+        print(id.split('_', -1))
+        match_id = id.split('_', -1)[-1]
+        print(match_id)
         match = get_object_or_404(Match, pk=match_id)
+        print(match_id, match)
         try: 
             tip = Tip.objects.get(author=user, match__id=match_id)
         except:
             tip = None
-        # #print('match', match)
-        # #print('tip', tip)     
+        print('match', match)
+        print('tip', tip)     
         if 'home' in id:
             new_home_tip(tip, match, value, user)   
         if 'guest' in id: 
             new_guest_tip(tip, match, value, user)    
         if 'joker' in id:
-            new_joker(tip, match, joker, user, request)  
+            new_joker(tip, match, joker, user)  
      
 
 def new_home_tip(tip, match, value, user):
@@ -55,7 +59,7 @@ def new_guest_tip(tip, match, value, user):
     else:
         return     
 
-def new_joker(tip, match, value, user, request):
+def new_joker(tip, match, value, user):
     #print(value) 
     if tip: 
         tip.tip_date = timezone.now()
@@ -67,20 +71,20 @@ def new_joker(tip, match, value, user, request):
             match = match,
             tip_joker = value,
         )
-    tip.save() 
     is_joker_valid(match.matchday, get_n_joker(user, match.matchday), tip)
+    tip.save() 
 
 def is_joker_valid(matchday_number, njoker, tip):
     if matchday_number < 3 and njoker > 3:
-        set_joker_false(tip)
+        tip.joker = False
     if matchday_number >= 3 and matchday_number < 5 and njoker > 2:
-        set_joker_false(tip)
+        tip.joker = False
     if matchday_number >= 5 and njoker > 1:
-        set_joker_false(tip)
+        tip.joker = False
 
-def set_joker_false(tip: Tip):
-    tip.joker = False
-    tip.save()
+# def set_joker_false(tip: Tip):
+#     tip.joker = False
+#     tip.save()
 
 def get_n_joker(user, matchday_number):
     n_joker = 0

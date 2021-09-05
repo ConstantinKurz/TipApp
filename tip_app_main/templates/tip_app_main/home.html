@@ -30,7 +30,7 @@
           </button>
         </a> 
         {% else %}
-        <a href="{% url 'tip-matchday' 0 %}">
+        <a href="{% url 'tip-matchday' upcoming_matchday.matchday %}">
           <button>
             <img src="" class="button button-icon--left">
             Tipps abgeben

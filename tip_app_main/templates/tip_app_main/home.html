@@ -22,15 +22,15 @@
       <div class="dashboard-text">
         <h1>Deine Tipps warten</h1>
         <div class="powered-by-teamtip">
-        {% if upcoming_matchday %}
-        <a href="{% url 'tip-matchday' upcoming_matchday.matchday %}">
+        {% if upcoming_match %}
+        <a href="{% url 'tip-matchday' upcoming_match.matchday %}">
           <button>
             <img src="" class="button button-icon--left">
             Tipps abgeben
           </button>
         </a> 
         {% else %}
-        <a href="{% url 'tip-matchday' upcoming_matchday.matchday %}">
+        <a href="{% url 'tip-matchday' 0 %}">
           <button>
             <img src="" class="button button-icon--left">
             Tipps abgeben

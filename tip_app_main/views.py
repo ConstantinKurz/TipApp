@@ -82,12 +82,12 @@ def tip_matchday(request, matchday_number):
     try:
         tipps = Tip.objects.filter(author=request.user).filter(match__matchday=m_nr)
         tipps_by_matches = {t.match.pk: t for t in tipps}
-        print('tipps_match: ', tipps_by_matches)
+        # print('tipps_match: ', tipps_by_matches)
     except:
         tipps = None
         tipps_by_matches = None
     n_joker = get_n_joker(request.user, m_nr)
-    print('n_joker', n_joker)
+    # print('n_joker', n_joker)
     matchday_matches_ids = get_match_ids_for_matchday(m_nr)
     if request.method == 'POST' and request.is_ajax():
         body_unicode = request.body.decode('utf-8')
@@ -97,9 +97,9 @@ def tip_matchday(request, matchday_number):
         joker = received_json['joker']
         save_tip(id, value, joker, request.user, request)
         n_joker = get_n_joker(request.user, m_nr)
-        print('id', id)
-        print('value', value)
-        print('n_joker_post', n_joker)
+        # print('id', id)
+        # print('value', value)
+        # print('n_joker_post', n_joker)
         return HttpResponse(json.dumps({'n_joker': n_joker, 'm_nr': m_nr, 'matchday_matches_ids': matchday_matches_ids})) 
     context = {
             'number': m_nr,

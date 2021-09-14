@@ -442,3 +442,19 @@ a.article-title:hover {
     margin: 0 auto;
     max-width: calc(30% - 12px);
 }
+
+
+.navigation_bottom_results {
+    position: fixed;
+    /* padding-bottom: 100px; */
+    bottom: 0;
+    /* margin: 0 -16px; */
+    background: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    -webkit-box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, .12);
+    box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, .12);
+    cursor:pointer
+}

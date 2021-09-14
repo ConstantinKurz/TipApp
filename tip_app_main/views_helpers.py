@@ -6,19 +6,19 @@ from django.core.mail import send_mail
 from tip_app.settings import EMAIL_HOST_USER
 
 def save_tip(id, value, joker,  user, request):
-        print("#####save_tip#####")
-        print(id, value, joker, user, request )
-        print(id.split('_', -1))
+        # print("#####save_tip#####")
+        # print(id, value, joker, user, request )
+        # print(id.split('_', -1))
         match_id = id.split('_', -1)[-1]
-        print(match_id)
+        # print(match_id)
         match = get_object_or_404(Match, pk=match_id)
-        print(match_id, match)
+        # print(match_id, match)
         try: 
             tip = Tip.objects.get(author=user, match__id=match_id)
         except:
             tip = None
-        print('match', match)
-        print('tip', tip)     
+        # print('match', match)
+        # print('tip', tip)     
         if 'home' in id:
             new_home_tip(tip, match, value, user)   
         if 'guest' in id: 
@@ -152,8 +152,8 @@ def send_remainder_mail(upcoming_match):
             tip = None
         if not tip:
             not_tipped.append(user.user.email)
-    subject = 'WO SIND DEINE TIPPS DU ARSCH?'
-    message = 'LIES DEN BETREFF DU IDIOT UND TIPPEN KANNST DU HIER: https://django-tipapp.herokuapp.com/'
+    subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
+    message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'
     recepients = not_tipped
     if not_tipped:
         send_mail(subject,
@@ -161,6 +161,6 @@ def send_remainder_mail(upcoming_match):
 
 def is_mobile(request):
     user_agent = request.META['HTTP_USER_AGENT']
-    print(user_agent)
-    print('Mobile' in user_agent)
+    # print(user_agent)
+    # print('Mobile' in user_agent)
     return 'Mobile' in user_agent

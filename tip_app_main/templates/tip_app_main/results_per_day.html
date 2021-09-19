@@ -38,7 +38,6 @@
                                 <td data-v-bb729c54="" class="col_value col_value--gesamt sort_column col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
                                 <td data-v-bb729c54="" class="col_value col_value--spieltag sort_column col_value_spieltag_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
                                 {% for tip in get_users_matchday_tips %}
-                                {{tip.match.home_team.team_name}}
                                 {% ifequal forloop.counter|modulo:2 0 %}
                                 <td data-v-bb729c54="" class="col_result col_white width_result_teams">
                                                 {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
@@ -49,6 +48,7 @@
                                                 {% else %}
                                                 <span data-v-bb729c54="" 
                                                 class="bet_result">
+                                                {{tip.match.home_team.team_name}}
                                                 {{tip.tip_home}} : {{tip.tip_guest}}
                                                 {% comment %} {% if tip.points > 0%} {% endcomment %}
                                                 <small data-v-bb729c54="" {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 

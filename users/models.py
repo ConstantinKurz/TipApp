@@ -21,6 +21,7 @@ class Profile(models.Model):
         joker = 0
         right_tips = 0
         for tipp in tipps:
+            tip_score = 0
             tip_score = tipp.points()        
             if tipp.points() % 6 == 0 and tipp.points() != 0:
                 right_tips += 1
@@ -29,7 +30,7 @@ class Profile(models.Model):
                 tip_score = tipp.joker_multiplicator(tipp.points())  
             tip_score = tipp.matchday_multiplicator(tipp.points())
         self.joker = joker
-        self.score += tip_score
+        self.score = tip_score
         self.right_tips = right_tips
 
     def get_score_and_joker_for_matchday(self, matchday):

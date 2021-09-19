@@ -445,7 +445,7 @@ a.article-title:hover {
 
 
 .navigation_bottom_results {
-    position: fixed;
+    position: sticky;
     /* padding-bottom: 100px; */
     bottom: 0;
     /* margin: 0 -16px; */

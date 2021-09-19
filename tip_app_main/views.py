@@ -25,6 +25,8 @@ def home(request):
     update_scores_and_ranks(request)
     mobile_agent = False
     users_ranked = Profile.objects.filter(rank__lte=5).order_by('-score','-right_tips', 'joker', 'user__username')
+    if len(users_ranked) > 5: 
+        users_ranked = Profile.objects.filter(rank__lte=5).order_by('-score','-right_tips', 'joker', 'user__username')[:5]
     if request.user not in users_ranked:
         users_ranked.union(Profile.objects.filter(user=request.user))
 

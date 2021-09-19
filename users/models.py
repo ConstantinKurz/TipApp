@@ -42,11 +42,11 @@ class Profile(models.Model):
         tip_score = 0
         joker = 0
         for tipp in matchday_tipps:
-            tip_score = tipp.points()
+            tip_score += tipp.points()
             if tipp.joker:
                 joker += 1
                 tip_score = tipp.joker_multiplicator(tipp.points())
-            tip_score = tipp.matchday_multiplicator(tipp.points())
+        #    tip_score = tipp.matchday_multiplicator(tipp.points())
             matchday_score += tip_score  
         return matchday_score, joker
     

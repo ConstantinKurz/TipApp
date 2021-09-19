@@ -37,12 +37,12 @@ class Profile(models.Model):
         tip_score = 0
         joker = 0
         for tipp in matchday_tipps:
-            print("########")
-            print("tipp", tipp)
-            print("points", tipp.points())
+            # print("########")
+            # print("tipp", tipp)
+            # print("points", tipp.points())
             tip_score = tipp.points()
             matchday_score += tip_score
-            print("matchday_score", matchday_score)
+            # print("matchday_score", matchday_score)
         return matchday_score, joker
     
     def __str__(self):

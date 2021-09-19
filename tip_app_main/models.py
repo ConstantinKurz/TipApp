@@ -24,10 +24,7 @@ class Match(models.Model):
 
 
     def has_started(self):
-        # print("##############")
-        # print("has_started")
-        # print(timezone.now() - timedelta(seconds=180))
-        return self.match_date <= timezone.now() - timedelta(seconds=180)
+        return self.match_date < timezone.now() + timedelta(seconds=180)
 
     def half_hour_remaining(self):
         return timezone.now().replace(microsecond=0) == (self.match_date - timedelta(seconds=30*60)).replace(microsecond=0)

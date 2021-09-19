@@ -64,4 +64,8 @@ def get_users_matchday_tips(matchday_tips, user, matchday):
 
 @register.simple_tag
 def get_upcoming_match():
-    return Match.objects.filter(match_date__gte=timezone.now()).order_by('match_date')[0]
+    try: 
+        upcoming_match = Match.objects.filter(match_date__gte=timezone.now()).order_by('match_date')[0]
+    except:
+        return None
+    return upcoming_match

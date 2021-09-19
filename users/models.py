@@ -21,33 +21,28 @@ class Profile(models.Model):
         joker = 0
         right_tips = 0
         tip_score = 0
-        for tipp in tipps:
-            tip_score += tipp.points()        
+        for tipp in tipps:     
             if tipp.points() % 6 == 0 and tipp.points() != 0:
                 right_tips += 1
             if tipp.joker and tipp.match.has_started():
                 joker += 1
-                tip_score = tipp.joker_multiplicator(tipp.points())  
-            # tip_score = tipp.matchday_multiplicator(tipp.points())
+            tip_score += tipp.points()  
         self.joker = joker
         self.score = tip_score
         self.right_tips = right_tips
 
     def get_score_and_joker_for_matchday(self, matchday):
-        tipps = Tip.objects.filter(author=self.user.id).filter(match__matchday=matchday)
-        matchday_tipps = []
-        for tipp in tipps:
-            matchday_tipps.append(tipp)
-        matchday_score = 0    
+        matchday_tipps = Tip.objects.filter(author=self.user.id).filter(match__matchday=matchday)
+        matchday_score = 0 
         tip_score = 0
         joker = 0
         for tipp in matchday_tipps:
-            tip_score += tipp.points()
-            if tipp.joker:
-                joker += 1
-                tip_score = tipp.joker_multiplicator(tipp.points())
-        #    tip_score = tipp.matchday_multiplicator(tipp.points())
-            matchday_score += tip_score  
+            print("########")
+            print("tipp", tipp)
+            print("points", tipp.points())
+            tip_score = tipp.points()
+            matchday_score += tip_score
+            print("matchday_score", matchday_score)
         return matchday_score, joker
     
     def __str__(self):

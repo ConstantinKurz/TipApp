@@ -139,7 +139,6 @@ def update_scores_and_ranks(request, matchday=None):
         user.rank=temp_rank
         user.save()
         temp_rank+=1
-
     return matchday_tipps_per_user
 
 

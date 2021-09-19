@@ -24,6 +24,9 @@ class Match(models.Model):
 
 
     def has_started(self):
+        # print("##############")
+        # print("has_started")
+        # print(timezone.now() - timedelta(seconds=180))
         return self.match_date <= timezone.now() - timedelta(seconds=180)
 
     def half_hour_remaining(self):
@@ -52,45 +55,45 @@ class Tip(models.Model):
         th = self.tip_home
         tg = self.tip_guest
         # no tip
+        sgn = lambda x: 0 if x == 0 else x / abs(x)
         if -1 in [sh, sg, th, tg]:
             return 0
-        sgn = lambda x: 0 if x == 0 else x / abs(x)
         points = 0
         ds = sh - sg
         dt = th - tg
+        # print(self.match)
+        # print(self.author)
         if sgn(ds) == sgn(dt):
-            # #print("tendenz richtig:")
-            # #print(sh,sg,th,tg, ds, dt )
-            # #print(sgn(ds))
-            # #print(sgn(dt))
-            # correct tendency
+            # print("tendenz richtig:")
+            # print("------------")
+            # print(sh,sg,th,tg, ds, dt )
+            # print(sgn(ds))
+            # print(sgn(dt))
+            #correct tendency
             points += 2
+            # print(points)
         if sh == th or sg == tg:
             points += 1
-            # #print("===========================")
-            # #print("ein ergbniss richtig")
-            # #print("points", points)
+            # print("===========================")
+            # print("ein ergbniss richtig")
+            # print("points", points)
+        if sh == th and sg == tg: 
+            # print("beide ergebnisse richtig")
+            points += 1
+            # print("points", points)
         if ds == dt:
-            # correct difference
-            points += 1
-        if sh == th:
-            # correct result
-            points += 1
-        if tg == sg:
-            # correct result
-            points += 1
-        # if self.joker:
-        #     points *= 2
-        # points = self.matchday_multiplicator(points)
+            #correct difference
+            # print("differenz")
+            points += 2
+            # print(points)
+        if self.joker: 
+            points *= 2
         return points
+        #TODO: multiplicator nicht vergessen
     
     def matchday_multiplicator(self, points):
         if  2 < self.match.matchday < 5:
             points*=2
         if  self.match.matchday > 4:
             points*=3
-        return points
-    
-    def joker_multiplicator(self, points):
-        points*=2
         return points

@@ -20,15 +20,15 @@ class Profile(models.Model):
         tipps = Tip.objects.filter(author=self.user.id)
         joker = 0
         right_tips = 0
+        tip_score = 0
         for tipp in tipps:
-            tip_score = 0
-            tip_score = tipp.points()        
+            tip_score += tipp.points()        
             if tipp.points() % 6 == 0 and tipp.points() != 0:
                 right_tips += 1
             if tipp.joker and tipp.match.has_started():
                 joker += 1
                 tip_score = tipp.joker_multiplicator(tipp.points())  
-            tip_score = tipp.matchday_multiplicator(tipp.points())
+            # tip_score = tipp.matchday_multiplicator(tipp.points())
         self.joker = joker
         self.score = tip_score
         self.right_tips = right_tips

@@ -9,6 +9,9 @@ register = template.Library()
 def lookup(dict, index):
     if index in dict:
         return dict[index]
+    print("lookup!!!!!!!!!!")
+    print(index, dict)
+    print("dict!!!!!", dict[index])
     return None
 
 @register.filter(name='current_matchday')
@@ -22,7 +25,6 @@ def modulo(value, arg):
     return value % arg
 
 @register.simple_tag
-# TODO: Hier stimmt was mit den Jokern nicht!
 def joker_upper_limit_reached(matchday, njoker):
     if matchday < 3 and njoker == 3:
         return True

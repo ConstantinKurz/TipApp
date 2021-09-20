@@ -67,7 +67,7 @@ class Tip(models.Model):
             # print(sgn(ds))
             # print(sgn(dt))
             #correct tendency
-            points += 2
+            points += 3
             # print(points)
         if sh == th or sg == tg:
             points += 1
@@ -81,7 +81,7 @@ class Tip(models.Model):
         if ds == dt:
             #correct difference
             # print("differenz")
-            points += 2
+            points += 1
             # print(points)
         if self.joker: 
             points *= 2

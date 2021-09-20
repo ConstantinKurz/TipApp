@@ -58,7 +58,7 @@ def get_users_matchday_tips(matchday_tips, user, matchday):
         print("----------------------------------------------")
         print(tip.match.match_date)
         print(tip)
-    for match in matchday_matches:
+    for match in matchday_matches.order_by('match_date'):
         print("+++++++++++++++++++++++++++++++++++++++++++")
         print(match)
         print(match.match_date)

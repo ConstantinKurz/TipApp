@@ -40,6 +40,7 @@ def home(request):
         seconds = time_diff.seconds % 60
     except:
         upcoming_match = None
+        time_diff = None
     try:
         tipps = Tip.objects.filter(author=request.user)
         tipps_by_matches = {t.match.pk: t for t in tipps}

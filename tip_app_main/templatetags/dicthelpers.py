@@ -64,7 +64,7 @@ def get_users_matchday_tips(matchday_tips, user, matchday):
         print(match.match_date)
         # print(tip.order_by('match__match_date'))
     print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-    return user_matchday_tips.order_by('match__match_date')
+    return user_matchday_tips.order_by('match__match_date', 'match__home_team__team_name')
 
 @register.simple_tag
 def get_upcoming_match():

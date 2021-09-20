@@ -101,9 +101,6 @@ def tip_matchday(request, matchday_number):
         joker = received_json['joker']
         save_tip(id, value, joker, request.user, request)
         n_joker = get_n_joker(request.user, m_nr)
-        # print('id', id)
-        # print('value', value)
-        # print('n_joker_post', n_joker)
         return HttpResponse(json.dumps({'n_joker': n_joker, 'm_nr': m_nr, 'matchday_matches_ids': matchday_matches_ids})) 
     context = {
             'number': m_nr,
@@ -124,7 +121,7 @@ def results(request, matchday_number):
     """
     matchday_number: int = int(matchday_number)
     matchday_matches = Match.objects.filter(matchday=matchday_number)
-    ordered_matchday_matches = matchday_matches.order_by('match_date', 'home_team')
+    ordered_matchday_matches = matchday_matches.order_by('match_date', 'home_team__team_name')
     matchday_scores = update_scores_and_ranks(request, matchday_number)
     matchday_tips = Tip.objects.filter(match__matchday=matchday_number)
     users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker', 'user__username')
@@ -149,63 +146,6 @@ def ranking(request):
         'users_ranked': users_ranked,
     }
     return render(request, 'tip_app_main/ranking.html', context)
-
-# def champion(request):
-#     # do it with twp checkboxes
-#     if request.method == 'POST':
-#         for k, v in request.POST.items():
-#             team_id = k[5]
-#             team = Team.objects.get(team__id = team_id)
-#             #print("champion:", team)
-#             #print('k_champion:', k)
-#             #print('v_champion:', v)
-#             if k.startswith('out_'):
-#                 #print("-----------")
-#                 team.eliminated = 1
-#             else:
-#                 champion.eliminated = 0
-#                 #print(champion.eliminated)
-#             champion.save()    
-#         messages.success(request, 'Gespeichert!')
-#         return HttpResponseRedirect(reverse('tip-champion'))
-#     teams = Team.objects.all()
-#     context = {
-#         'teams': teams,
-#     }
-#     return render(request, 'tip_app_main/champion.html', context)
-
-
-# @staff_member_required
-# @csrf_protect
-# def reminder_email(request):
-#     """
-#     send email to profiles which haven't tipped for next match yet.
-#     :param request:
-#     :return:
-#     """
-#     not_tipped = []
-#     next_match = Match.objects.filter(
-#         match_date__gte=timezone.now()).order_by('match_date')[0]
-#     for user in Profile.objects.all():
-#         try:
-#             tipp = Tip.objects.get(author=user.user.id, match_id=next_match.id)
-
-#         except:
-#             tipp = None
-#             # #print(user.user.email)
-#         if not tipp:
-#             not_tipped.append(user.user.email)
-#             # #print("not_tipped:", not_tipped)
-#     subject = 'WO SIND DEINE TIPPS DU ARSCH?'
-#     message = 'LIES DEN BETREFF DU IDIOT UND TIPPEN KANNST DU HIER: https://django-tipapp.herokuapp.com/'
-
-    #print(subject)
-    #print(message)
-    # recepients = not_tipped
-    # if not_tipped:
-    #     send_mail(subject,
-    #               message, EMAIL_HOST_USER, recipient_list=recepients, fail_silently=False)
-    # return HttpResponseRedirect(reverse('tip-mail'))
 
 
 @csrf_protect

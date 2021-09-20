@@ -74,14 +74,14 @@ class Tip(models.Model):
             # print("ein ergbniss richtig")
             # print("points", points)
             # print(points)
-            if sh == th and sg == tg: 
+            elif sh == th and sg == tg: 
             # print("beide ergebnisse richtig")
-                points += 1
+                points += 3
             # print("points", points)
-            if ds == dt:
+            elif ds == dt:
             #correct difference
             # print("differenz")
-                points += 1
+                points += 2
             # print(points)
         elif sh == th or sg == tg:
             points += 1

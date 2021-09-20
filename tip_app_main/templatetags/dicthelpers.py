@@ -54,11 +54,11 @@ def get_users_matchday_tips(matchday_tips, user, matchday):
                 )
                 tip.save()
     user_matchday_tips = matchday_tips.filter(author=user.user.id)
-    for tip in user_matchday_tips.order_by('match__match_date'):
+    for tip in user_matchday_tips.order_by('match__match_date', 'match__home_team__team_name'):
         print("----------------------------------------------")
         print(tip.match.match_date)
         print(tip)
-    for match in matchday_matches.order_by('match_date'):
+    for match in matchday_matches.order_by('match_date', 'home_team__team_name'):
         print("+++++++++++++++++++++++++++++++++++++++++++")
         print(match)
         print(match.match_date)

@@ -21,7 +21,6 @@ USE_TZ = False
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '8fe0j$bkmb*tebr8-^=xbfl#7l01_ws01m1tz&ge2-)fl^-owy'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!

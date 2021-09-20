@@ -5,6 +5,7 @@
 <div class="dashboard page pageoffset">
   <div class="dashboard-container">
     <div>
+    {% if upcoming_match != None %}
       <table class="dashboard-countdown">
         <tr>
           <td id="days" class="dashboard-countdown--value">{{ days }}</td>
@@ -19,6 +20,11 @@
           <td class="dashboard-countdown--label">Sek.</td>
         </tr>
       </table>
+      {% else %}
+      <table class="dashboard-countdown">
+       <span>Keine weiteren Spiele</span>
+      </table>
+      {% endif %}
       <div class="dashboard-text">
         <h1>Deine Tipps warten</h1>
         <div class="powered-by-teamtip">

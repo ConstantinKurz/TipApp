@@ -58,31 +58,16 @@ class Tip(models.Model):
         points = 0
         ds = sh - sg
         dt = th - tg
-        # print(self.match)
-        # print(self.author)
+        #correct tendency
         if sgn(ds) == sgn(dt):
-            # print("tendenz richtig:")
-            # print("------------")
-            # print(sh,sg,th,tg, ds, dt )
-            # print(sgn(ds))
-            # print(sgn(dt))
-            #correct tendency
             points += 3
             if sh == th or sg == tg:
                 points += 1
-            # print("===========================")
-            # print("ein ergbniss richtig")
-            # print("points", points)
-            # print(points)
             elif sh == th and sg == tg: 
-            # print("beide ergebnisse richtig")
                 points += 3
-            # print("points", points)
             elif ds == dt:
-            #correct difference
-            # print("differenz")
                 points += 2
-            # print(points)
+        #not correct tendency
         elif sh == th or sg == tg:
             points += 1
         if self.joker: 

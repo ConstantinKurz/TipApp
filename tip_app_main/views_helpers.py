@@ -149,7 +149,7 @@ def send_remainder_mail(upcoming_match):
             tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
         except:
             tip = None
-        if not tip:
+        if not tip or tip.tip_home == -1:
             not_tipped.append(user.user.email)
     subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
     message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'

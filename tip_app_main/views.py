@@ -118,7 +118,7 @@ def results(request, matchday_number):
     matchday_number: int = int(matchday_number)
     matchday_matches = Match.objects.filter(matchday=matchday_number)
     ordered_matchday_matches = matchday_matches.order_by('match_date', 'home_team__team_name')
-    matchday_scores = update_scores_and_ranks(request, matchday_number)
+    matchday_scores = update_scores_and_ranks(matchday_number)
     matchday_tips = Tip.objects.filter(match__matchday=matchday_number)
     users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker', 'user__username')
 

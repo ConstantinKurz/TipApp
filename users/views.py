@@ -16,7 +16,7 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
+            messages.success(request, f'Account für {username} erstellt!')
             subject = "Willkommen bei ShortyTipp"
             message = f'Hi {username}'
             send_mail(subject,

@@ -77,15 +77,9 @@
       {% endfor %}
       <tfoot data-v-ce1968d6=""></tfoot>
     </table>
-    {% comment %} {% if upcoming_match %} {% endcomment %}
     <a data-v-ce1968d6="" href="{% url 'tip-ranking'%}" class="">
       <button data-v-ce1968d6="">La Liste</button>
     </a>
-    {% comment %} {% else %}
-    <a data-v-ce1968d6="" href="{% url 'tip-results' 6 %}" class="">
-      <button data-v-ce1968d6="">Zur Übersicht</button>
-    </a>
-    {% endif %} {% endcomment %}
   </div>
 </div>
 <div id="home-endpoint-url" url="{% url 'tip-home' %}">

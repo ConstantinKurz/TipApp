@@ -7,9 +7,6 @@ register = template.Library()
 
 @register.filter(name='lookup')
 def lookup(dict, index):
-    # print("lookup!!!!!!!!!!")
-    # print(index, dict)
-    # print("dict!!!!!", dict[index])
     if index in dict:
         return dict[index]
     return None
@@ -54,16 +51,6 @@ def get_users_matchday_tips(matchday_tips, user, matchday):
                 )
                 tip.save()
     user_matchday_tips = matchday_tips.filter(author=user.user.id)
-    for tip in user_matchday_tips.order_by('match__match_date', 'match__home_team__team_name'):
-        print("----------------------------------------------")
-        print(tip.match.match_date)
-        print(tip)
-    for match in matchday_matches.order_by('match_date', 'home_team__team_name'):
-        print("+++++++++++++++++++++++++++++++++++++++++++")
-        print(match)
-        print(match.match_date)
-        # print(tip.order_by('match__match_date'))
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     return user_matchday_tips.order_by('match__match_date', 'match__home_team__team_name')
 
 @register.simple_tag

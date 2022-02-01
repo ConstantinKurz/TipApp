@@ -6,19 +6,12 @@ from django.core.mail import send_mail
 from tip_app.settings import EMAIL_HOST_USER
 
 def save_tip(id, value, joker,  user, request):
-        # print("#####save_tip#####")
-        # print(id, value, joker, user, request )
-        # print(id.split('_', -1))
         match_id = id.split('_', -1)[-1]
-        # print(match_id)
         match = get_object_or_404(Match, pk=match_id)
-        # print(match_id, match)
         try: 
             tip = Tip.objects.get(author=user, match__id=match_id)
         except:
-            tip = None
-        # print('match', match)
-        # print('tip', tip)     
+            tip = None   
         if 'home' in id:
             new_home_tip(tip, match, value, user)   
         if 'guest' in id: 
@@ -60,7 +53,6 @@ def new_guest_tip(tip, match, value, user):
         return     
 
 def new_joker(tip, match, value, user):
-    #print(value) 
     if tip: 
         tip.tip_date = timezone.now()
         tip.joker = value
@@ -77,26 +69,27 @@ def new_joker(tip, match, value, user):
 def is_joker_valid(matchday_number, njoker, tip):
     if matchday_number < 3 and njoker > 3:
         tip.joker = False
-    if matchday_number >= 3 and matchday_number < 5 and njoker > 2:
+    if matchday_number == 3 and njoker > 1:
         tip.joker = False
-    if matchday_number >= 5 and njoker > 1:
+    if matchday_number == 4 and njoker > 1:
         tip.joker = False
-
-# def set_joker_false(tip: Tip):
-#     tip.joker = False
-#     tip.save()
+    if matchday_number > 4 and njoker > 1:
+        tip.joker = False
 
 def get_n_joker(user, matchday_number):
     n_joker = 0
     if (matchday_number < 3):
         tips = Tip.objects.filter(
         author=user).filter(match__matchday__lt=3).order_by('match__match_date')
-    if (matchday_number >= 3 and matchday_number < 5):
+    if (matchday_number == 3):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday__gte=3).filter(match__matchday__lt=5).order_by('match__match_date')
-    if (matchday_number >= 5):
+        author=user).filter(match__matchday=3).order_by('match__match_date')
+    if (matchday_number == 4):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday__gte=5).order_by('match__match_date')
+        author=user).filter(match__matchday=4).order_by('match__match_date')
+    if (matchday_number > 4):
+        tips = Tip.objects.filter(
+        author=user).filter(match__matchday__gt=4).order_by('match__match_date')
     for tip in tips:
         if tip.joker:
             n_joker += 1
@@ -117,7 +110,7 @@ def get_match_ids_for_matchday(matchday_number):
         match_ids.append(match.id)
     return match_ids
 
-def update_scores_and_ranks(request, matchday=None):
+def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
     for user in Profile.objects.all():
         if (Tip.objects.filter(author=user.user)):

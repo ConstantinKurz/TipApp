@@ -61,10 +61,10 @@ class Tip(models.Model):
         #correct tendency
         if sgn(ds) == sgn(dt):
             points += 3
-            if sh == th or sg == tg:
-                points += 1
-            elif sh == th and sg == tg: 
+            if sh == th and sg == tg: 
                 points += 3
+            elif (sh == th and sg != tg) or (sg == tg and th != sg):
+                points += 1
             elif ds == dt:
                 points += 2
         #not correct tendency
@@ -72,12 +72,11 @@ class Tip(models.Model):
             points += 1
         if self.joker: 
             points *= 2
-        return points
-        #TODO: multiplicator nicht vergessen
+        return self.matchday_multiplicator(points)
     
     def matchday_multiplicator(self, points):
-        if  2 < self.match.matchday < 5:
+        if  2 < self.match.matchday < 4:
             points*=2
-        if  self.match.matchday > 4:
+        if  self.match.matchday >= 5:
             points*=3
         return points

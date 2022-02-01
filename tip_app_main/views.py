@@ -53,11 +53,9 @@ def home(request):
         send_remainder_mail(upcoming_match)
     if request.method == "GET" and request.is_ajax():
         upcoming_match_time = upcoming_match.match_date
-        #print(upcoming_match_time)
         data = {}
         data['countdown_match'] = upcoming_match_time
         data = request.GET.get(upcoming_match_time)
-        # #print(request.GET.get(data))
         return JsonResponse({"upcoming_match_time": upcoming_match_time}, status = 200)
     if is_mobile(request):
         mobile_agent = True
@@ -86,12 +84,10 @@ def tip_matchday(request, matchday_number):
     try:
         tipps = Tip.objects.filter(author=request.user).filter(match__matchday=m_nr)
         tipps_by_matches = {t.match.pk: t for t in tipps}
-        # print('tipps_match: ', tipps_by_matches)
     except:
         tipps = None
         tipps_by_matches = None
     n_joker = get_n_joker(request.user, m_nr)
-    # print('n_joker', n_joker)
     matchday_matches_ids = get_match_ids_for_matchday(m_nr)
     if request.method == 'POST' and request.is_ajax():
         body_unicode = request.body.decode('utf-8')
@@ -155,7 +151,6 @@ def email(request):
     recepients = []
     for user in Profile.objects.all():
         recepients.append(user.user.email)
-    #print(recepients)
     if request.method == 'GET':
         form = ContactForm()
     else:
@@ -163,8 +158,6 @@ def email(request):
         if form.is_valid():
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
-            #print(subject)
-            #print(messages)
             try:
                 send_mail(subject, message, EMAIL_HOST_USER,
                           recipient_list=recepients)

@@ -58,11 +58,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# MIDDLEWARE_CLASSES = [
-#     'django.contrib.sessions.middleware.SessionMiddleware',
-#     'django_mobile.middleware.MobileDetectionMiddleware',
-#     'django_mobile.middleware.SetFlavourMiddleware',]
-
 ROOT_URLCONF = 'tip_app.urls'
 
 TEMPLATES = [
@@ -71,7 +66,6 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
-            # 'loaders': ['django_mobile.loader.Loader',],
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -124,9 +118,6 @@ LANGUAGE_CODE = 'de-de'
 USE_I18N = True
 
 USE_L10N = True
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 # custom stuff --> added by me
 

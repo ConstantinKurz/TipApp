@@ -27,9 +27,11 @@ if (tipForm) {
       processData: false,
       contentType: false,
       success: function (e) {
+        console.log("#######e#######")
         console.log(e)
         console.log(e.n_joker)
         console.log(e.matchday_matches_ids)
+        console.log("#######e#######-------")
         var matchIdArray = e.matchday_matches_ids;
         var matchIdArrayLength = matchIdArray.length;
         if (upperLimitJokersReached(e.m_nr, e.n_joker)) {
@@ -107,13 +109,10 @@ function upperLimitJokersReached(matchday, nJoker) {
   if (matchday < 3 && nJoker == 3) {
     return true;
   }
-  if (matchday == 4 && nJoker == 1) {
+  if (matchday == 3 && nJoker == 1) {
     return true;
   }
-  if (matchday == 5 && nJoker == 1) {
-    return true;
-  }
-  if (matchday > 5 && nJoker == 2) {
+  if (matchday > 4 && nJoker == 1) {
     return true;
   }
   return false;

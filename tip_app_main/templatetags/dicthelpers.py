@@ -25,9 +25,11 @@ def modulo(value, arg):
 def joker_upper_limit_reached(matchday, njoker):
     if matchday < 3 and njoker == 3:
         return True
-    if matchday >= 3 and matchday < 5 and njoker == 2:
+    if matchday == 3 and matchday < 5 and njoker == 1:
         return True
-    if matchday >= 5 and njoker == 1:
+    if matchday == 4 and njoker == 1:
+        return True
+    if matchday > 4 and njoker == 1:
         return True
 
 @register.simple_tag

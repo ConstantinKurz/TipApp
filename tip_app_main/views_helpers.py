@@ -97,6 +97,7 @@ def get_n_joker(user, matchday_number):
     # plus/minus 1 berücksichtigt werden. 
     # if value == False and n_joker > 0: n_joker -= 1
     # if value: n_joker += 1
+    print(n_joker)
     return n_joker
 
 
@@ -116,6 +117,7 @@ def update_scores_and_ranks(matchday=None):
         if (Tip.objects.filter(author=user.user)):
             user.update_score_and_joker()
         if matchday != None:
+            print(user.get_score_and_joker_for_matchday(matchday))
             matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(matchday)
         user.save()
 

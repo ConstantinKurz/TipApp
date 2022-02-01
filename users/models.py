@@ -32,7 +32,10 @@ class Profile(models.Model):
         self.right_tips = right_tips
 
     def get_score_and_joker_for_matchday(self, matchday):
-        matchday_tipps = Tip.objects.filter(author=self.user.id).filter(match__matchday=matchday)
+        try:
+            matchday_tipps = Tip.objects.filter(author=self.user.id).filter(match__matchday=matchday)
+        except:
+            matchday_tipps = []
         matchday_score = 0 
         tip_score = 0
         joker = 0

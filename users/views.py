@@ -17,7 +17,7 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account für {username} erstellt!')
-            subject = "Willkommen bei ShortyTipp"
+            subject = "Willkommen bei ShortyTipp!"
             message = f'Hi {username}'
             send_mail(subject,
                       message, EMAIL_HOST_USER, recipient_list=[form.cleaned_data.get('email')], fail_silently=False)

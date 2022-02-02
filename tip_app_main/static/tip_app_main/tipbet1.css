@@ -1070,9 +1070,9 @@ button[disabled] {
 }
 
 .navigation_bottom {
-    position: sticky;
+    position: fixed;
     /* padding-bottom: 100px; */
-    /* bottom: 0; */
+    bottom: 0;
     /* margin: 0 -16px; */
     background: #fff;
     display: -webkit-box;

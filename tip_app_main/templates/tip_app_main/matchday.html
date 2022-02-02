@@ -43,9 +43,10 @@
                   {% endif %}>
               </div>
             </div>
+            <!-- TODO: setze templatetag hier für disabled joker. Schreibe noch funktion für kein score tips -->
               <div data-v-c1661192="" class="match-tipp">
                 <input type="checkbox" id="joker_{{ match.id }}" name="joker" title="Joker"
-                {% if tip.joker %} checked {% endif %}
+              {% if tip.joker %} checked {% endif %}
               {% if joker_upper_limit_reached and not tip.joker or match.has_started %} disabled {% endif %}>
               </div>
             <div data-v-c1661192="" class="match-guest">

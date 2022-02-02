@@ -250,22 +250,23 @@ class TeamModelTest(TestCase):
             user=user, matchday_number=0), tip=tip)
         self.assertEqual(tip.joker, False)
 
-        def joker_reduce_correctly(self):
-            match = Match.objects.get(
-                home_team__team_name='Deutschland', guest_team__team_name='Italien')
-            match_ger_fr = Match.objects.get(
-                home_team__team_name='Deutschland', guest_team__team_name='Frankreich')
-            tip = Tip.objects.get(match=match, author__username='angela_merkel')
-            tip_ger_fr = Tip.objects.get(match=match_ger_fr,
-                              author__username='angela_merkel')
-            tip.joker = True
-            tip_ger_fr.joker = True
-            self.assertEqual(get_n_joker(user=user, matchday_number=0), 2)
-            tip_ger_fr.joker = False
-            self.assertEqual(get_n_joker(user=user, matchday_number=0), 1)
-            tip.joker = False
-            self.assertEqual(get_n_joker(user=user, matchday_number=0), 0)
+    def joker_reduce_correctly(self):
+        match = Match.objects.get(
+            home_team__team_name='Deutschland', guest_team__team_name='Italien')
+        match_ger_fr = Match.objects.get(
+            home_team__team_name='Deutschland', guest_team__team_name='Frankreich')
+        tip = Tip.objects.get(match=match, author__username='angela_merkel')
+        tip_ger_fr = Tip.objects.get(match=match_ger_fr,
+                                     author__username='angela_merkel')
+        user = User.objects.get(username='angela_merkel')
+        tip.joker = True
+        tip_ger_fr.joker = True
+        self.assertEqual(get_n_joker(user=user, matchday_number=0), 2)
+        tip_ger_fr.joker = False
+        tip_ger_fr.save()
+        self.assertEqual(get_n_joker(user=user, matchday_number=0), 1)
+        tip.joker = False
+        tip.save()
+        self.assertEqual(get_n_joker(user=user, matchday_number=0), 0)
 
-
-
-
+        #TODO: teste has_started bei matches. überlege dir weitere tests

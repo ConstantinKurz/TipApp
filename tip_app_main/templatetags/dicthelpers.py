@@ -24,7 +24,7 @@ def current_matchday(matchday):
 def modulo(value, arg):
     return value % arg
 
-@register.simple_tag
+
 def joker_upper_limit_reached(matchday, njoker):
     if matchday < 3 and njoker == 3:
         return True
@@ -37,10 +37,11 @@ def joker_upper_limit_reached(matchday, njoker):
 
 @register.simple_tag
 def disable_joker(tip: Tip, match: Match, njoker):
-    boolVariable = tip.joker or match.has_started()
-    if (tip.tip_home == -1 or tip.tip_guest == -1):
-        return True
-    if joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) and not boolVariable:
+    if tip:
+        boolVariable = tip.joker or match.has_started()
+        if joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) and not boolVariable:
+            return True
+    elif  tip == None and match.has_started():
         return True
     return False
 

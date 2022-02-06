@@ -104,12 +104,20 @@ def get_n_joker(user, matchday_number):
 def validate_input(value):
     return int(value) > -1
 
-def get_match_ids_for_matchday(matchday_number):
-    match_ids = []
+def get_match_ids_and_matchdates_for_matchday(matchday_number):
+    match_ids_and_dates = {}
     matchday_matches = Match.objects.filter(matchday=matchday_number).order_by('match_date')
     for match in matchday_matches:
-        match_ids.append(match.id)
-    return match_ids
+        match_ids_and_dates[match.id] = match.match_date.strftime("%Y-%m-%dT%H:%M:%S")
+    print(match_ids_and_dates)
+    return match_ids_and_dates
+
+# def get_match_dates(matchday_number):
+#     match_dates = []
+#     matchday_matches = Match.objects.filter(matchday=matchday_number).order_by('match_date')
+#     for match in matchday_matches:
+#         match_dates.append(match.matchdate)
+#     return match_dates
 
 def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}

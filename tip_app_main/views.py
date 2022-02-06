@@ -24,9 +24,11 @@ from django.http import JsonResponse
 def home(request):
     update_scores_and_ranks(request)
     mobile_agent = False
-    users_ranked = Profile.objects.filter(rank__lte=5).order_by('-score','-right_tips', 'joker', 'user__username')
-    if len(users_ranked) > 5: 
-        users_ranked = Profile.objects.filter(rank__lte=5).order_by('-score','-right_tips', 'joker', 'user__username')[:5]
+    users_ranked = Profile.objects.filter(rank__lte=5).order_by(
+        '-score', '-right_tips', 'joker', 'user__username')
+    if len(users_ranked) > 5:
+        users_ranked = Profile.objects.filter(rank__lte=5).order_by(
+            '-score', '-right_tips', 'joker', 'user__username')[:5]
     if request.user not in users_ranked:
         users_ranked.union(Profile.objects.filter(user=request.user))
 
@@ -36,7 +38,7 @@ def home(request):
         time_diff = upcoming_match.match_date - timezone.now()
         days = time_diff.days
         hours = time_diff.seconds//3600
-        minutes = (time_diff.seconds//60)%60
+        minutes = (time_diff.seconds//60) % 60
         seconds = time_diff.seconds % 60
     except:
         upcoming_match = None
@@ -46,7 +48,7 @@ def home(request):
         tipps = Tip.objects.filter(author=request.user)
         tipps_by_matches = {t.match.pk: t for t in tipps}
     except:
-        tipps=None
+        tipps = None
         tipps_by_matches = None
     # send mail if user has not tipped yet
     if upcoming_match and upcoming_match.half_hour_remaining():
@@ -56,7 +58,7 @@ def home(request):
         data = {}
         data['countdown_match'] = upcoming_match_time
         data = request.GET.get(upcoming_match_time)
-        return JsonResponse({"upcoming_match_time": upcoming_match_time}, status = 200)
+        return JsonResponse({"upcoming_match_time": upcoming_match_time}, status=200)
     if is_mobile(request):
         mobile_agent = True
     context = {
@@ -82,13 +84,16 @@ def tip_matchday(request, matchday_number):
     matches_per_day = Match.objects.filter(
         matchday=m_nr).order_by('match_date')
     try:
-        tipps = Tip.objects.filter(author=request.user).filter(match__matchday=m_nr)
+        tipps = Tip.objects.filter(
+            author=request.user).filter(match__matchday=m_nr)
         tipps_by_matches = {t.match.pk: t for t in tipps}
     except:
         tipps = None
         tipps_by_matches = None
     n_joker = get_n_joker(request.user, m_nr)
-    matchday_matches_ids = get_match_ids_for_matchday(m_nr)
+    matchday_match_ids_and_matchdates = get_match_ids_and_matchdates_for_matchday(
+        m_nr)
+    # match_dates = get_match_dates(m_nr)
     if request.method == 'POST' and request.is_ajax():
         body_unicode = request.body.decode('utf-8')
         received_json = json.loads(body_unicode)
@@ -97,14 +102,17 @@ def tip_matchday(request, matchday_number):
         joker = received_json['joker']
         save_tip(id, value, joker, request.user, request)
         n_joker = get_n_joker(request.user, m_nr)
-        return HttpResponse(json.dumps({'n_joker': n_joker, 'm_nr': m_nr, 'matchday_matches_ids': matchday_matches_ids})) 
+        return HttpResponse(json.dumps({'n_joker': n_joker, 'm_nr': m_nr,
+         'matchday_matches_ids_and_matchdates': matchday_match_ids_and_matchdates,
+         'match_array_length': len(matchday_match_ids_and_matchdates)}))
     context = {
-            'number': m_nr,
-            'matches_per_day': matches_per_day,
-            'tips': tipps_by_matches,
-            'n_joker': n_joker,
-        }
+        'number': m_nr,
+        'matches_per_day': matches_per_day,
+        'tips': tipps_by_matches,
+        'n_joker': n_joker,
+    }
     return render(request, 'tip_app_main/matchday.html', context)
+
 
 @login_required
 @csrf_protect
@@ -117,10 +125,12 @@ def results(request, matchday_number):
     """
     matchday_number: int = int(matchday_number)
     matchday_matches = Match.objects.filter(matchday=matchday_number)
-    ordered_matchday_matches = matchday_matches.order_by('match_date', 'home_team__team_name')
+    ordered_matchday_matches = matchday_matches.order_by(
+        'match_date', 'home_team__team_name')
     matchday_scores = update_scores_and_ranks(matchday_number)
     matchday_tips = Tip.objects.filter(match__matchday=matchday_number)
-    users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker', 'user__username')
+    users_ranked = Profile.objects.order_by(
+        '-score', '-right_tips', 'joker', 'user__username')
 
     context = {
         'ordered_matchday_matches': ordered_matchday_matches,
@@ -133,10 +143,12 @@ def results(request, matchday_number):
     }
     return render(request, 'tip_app_main/results_per_day.html', context)
 
+
 @login_required
 def ranking(request):
     update_scores_and_ranks(request)
-    users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker', 'user__username')
+    users_ranked = Profile.objects.order_by(
+        '-score', '-right_tips', 'joker', 'user__username')
     context = {
         'request_user': request.user,
         'users_ranked': users_ranked,

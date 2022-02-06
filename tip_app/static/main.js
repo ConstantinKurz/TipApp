@@ -7,9 +7,9 @@ if (tipForm) {
     const newTipId = e.target.id
     const newTipValue = document.getElementById(e.target.id).value
     const newJoker = document.getElementById(e.target.id).checked
-    console.log(newTipId);
-    console.log(newJoker)
-    console.log(newTipValue)
+    // console.log(newTipId);
+    // console.log(newJoker)
+    // console.log(newTipValue)
     $.ajaxSetup({
       headers: {
         "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -27,42 +27,31 @@ if (tipForm) {
       processData: false,
       contentType: false,
       success: function (e) {
-        console.log("#######e#######")
-        console.log(e)
-        console.log(e.n_joker)
-        console.log(e.matchday_matches_ids)
-        console.log("#######e#######-------")
-        var matchIdArray = e.matchday_matches_ids;
-        var matchIdArrayLength = matchIdArray.length;
-        if (upperLimitJokersReached(e.m_nr, e.n_joker)) {
-          console.log('too many')
-          for (var i = 0; i < matchIdArrayLength; i++) {
-            console.log(matchIdArray[i])
-            console.log(document.getElementById('joker_' + `${matchIdArray[i]}`))
-            jokerButton = document.getElementById('joker_' + `${matchIdArray[i]}`)
-            console.log(jokerButton)
+        // console.log("#######e#######")
+        // console.log(e)
+        // console.log("#######e#######-------")
+        for (var i = 0; i < e.match_array_length; i++) {
+          // let match_id = Object.keys(e.matchday_matches_ids_and_matchdates)[parseInt(i)]
+          // console.log(match_has_started(e.matchday_matches_ids_and_matchdates[match_id]))
+          if (upperLimitJokersReached(e.m_nr, e.n_joker) || match_has_started(e.matchday_matches_ids_and_matchdates[match_id])) {
+            jokerButton = document.getElementById('joker_' + `${match_id}`)
             if (!jokerButton.checked) {
               jokerButton.disabled = true
             }
           }
-          console.log("++++++++")
-        }
-        else {
-          for (var i = 0; i < matchIdArrayLength; i++) {
-            jokerButton = document.getElementById('joker_' + `${matchIdArray[i]}`)
+          else {
+            let match_id = Object.keys(e.matchday_matches_ids_and_matchdates)[parseInt(i)]
+            jokerButton = document.getElementById('joker_' + `${match_id}`)
             if (!jokerButton.checked) {
-              console.log(jokerButton)
+              // console.log(jokerButton)
               jokerButton.disabled = false
             }
           }
         }
-      },
-      error: function (e) {
-        // alert('Zu viele Joker gesetzt' + e)
       }
-    })
-  });
-};
+    });
+  })
+}
 
 const home_endpoint = document.getElementById('home-endpoint-url');
 if (home_endpoint) {
@@ -105,11 +94,21 @@ if (home_endpoint) {
   }, 1000)
 }
 
+function match_has_started(matchdate) {
+  var now = new Date().getTime();
+  const formatted_matchdate = new Date(matchdate).getTime();
+  const distance = formatted_matchdate - now;
+  return distance < 0
+}
+
 function upperLimitJokersReached(matchday, nJoker) {
   if (matchday < 3 && nJoker == 3) {
     return true;
   }
   if (matchday == 3 && nJoker == 1) {
+    return true;
+  }
+  if (matchday == 4 && nJoker == 1) {
     return true;
   }
   if (matchday > 4 && nJoker == 1) {

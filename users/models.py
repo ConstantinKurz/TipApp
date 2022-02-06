@@ -42,7 +42,7 @@ class Profile(models.Model):
         for tipp in matchday_tipps:
             tip_score = tipp.points()
             matchday_score += tip_score
-        return matchday_score, joker
+        return matchday_score
     
     def __str__(self):
         return f'{self.user.username} Profile'

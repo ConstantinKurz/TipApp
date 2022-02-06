@@ -47,7 +47,7 @@ def disable_joker(tip: Tip, match: Match, njoker):
 
 @register.simple_tag
 def get_users_matchday_score(scores, user):
-    return scores[user.user.id][0]
+    return scores[user.user.id]
 
 
 @register.simple_tag

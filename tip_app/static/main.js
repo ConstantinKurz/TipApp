@@ -31,7 +31,7 @@ if (tipForm) {
         // console.log(e)
         // console.log("#######e#######-------")
         for (var i = 0; i < e.match_array_length; i++) {
-          // let match_id = Object.keys(e.matchday_matches_ids_and_matchdates)[parseInt(i)]
+          let match_id = Object.keys(e.matchday_matches_ids_and_matchdates)[parseInt(i)]
           // console.log(match_has_started(e.matchday_matches_ids_and_matchdates[match_id]))
           if (upperLimitJokersReached(e.m_nr, e.n_joker) || match_has_started(e.matchday_matches_ids_and_matchdates[match_id])) {
             jokerButton = document.getElementById('joker_' + `${match_id}`)

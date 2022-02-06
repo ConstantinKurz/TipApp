@@ -36,11 +36,11 @@ class TeamModelTest(TestCase):
             home_team=Ger, guest_team=Eng, home_score=1, guest_score=2, matchday=3)
         # ---------
         Fra_Ita = Match.objects.create(
-            home_team=Fra, guest_team=Ita, home_score=1, guest_score=2, matchday=5)
+            home_team=Fra, guest_team=Ita, home_score=3, guest_score=2, matchday=5)
         Fra_Esp = Match.objects.create(
-            home_team=Fra, guest_team=Esp, home_score=1, guest_score=2, matchday=5)
+            home_team=Fra, guest_team=Esp, home_score=2, guest_score=3, matchday=5)
         Fra_Ned = Match.objects.create(
-            home_team=Fra, guest_team=Ned, home_score=1, guest_score=2, matchday=5)
+            home_team=Fra, guest_team=Ned, home_score=4, guest_score=2, matchday=5)
         Fra_Eng = Match.objects.create(
             home_team=Fra, guest_team=Eng, home_score=1, guest_score=2, matchday=5)
         # ---------
@@ -127,9 +127,12 @@ class TeamModelTest(TestCase):
             author=Angela_Merkel, match=Ger_Eng, tip_home=1, tip_guest=4, joker=False)
         tip5_angela = Tip.objects.create(
             author=Angela_Merkel, match=Ger_Ned, tip_home=0, tip_guest=0, joker=False)
-        tip6_angela = Tip.objects.create(author=Angela_Merkel, match=Fra_Ita, tip_home=2, tip_guest=1, joker=True)
-        tip7_angela = Tip.objects.create(author=Angela_Merkel, match=Fra_Esp, tip_home=2, tip_guest=1, joker=False)
-        tip8_angela = Tip.objects.create(author=Angela_Merkel, match=Fra_Ned, tip_home=2, tip_guest=1, joker=False)
+        tip6_angela = Tip.objects.create(
+            author=Angela_Merkel, match=Fra_Ita, tip_home=2, tip_guest=1, joker=True)
+        tip7_angela = Tip.objects.create(
+            author=Angela_Merkel, match=Fra_Esp, tip_home=2, tip_guest=1, joker=False)
+        tip8_angela = Tip.objects.create(
+            author=Angela_Merkel, match=Fra_Ned, tip_home=2, tip_guest=1, joker=False)
         # ---------------
         tip1_felippe = Tip.objects.create(
             author=King_Felippe, match=Ger_Fra, tip_home=2, tip_guest=3, joker=False)
@@ -151,7 +154,7 @@ class TeamModelTest(TestCase):
         match_1.guest_score = 4
         match_1.save()
         self.assertEqual(tip_1.points(), 12)
-        #--------
+        # --------
         match_2 = Match.objects.get(
             home_team__team_name='Frankreich', guest_team__team_name='Italien', matchday=5)
         match_2.home_score = 2
@@ -160,7 +163,7 @@ class TeamModelTest(TestCase):
         tip_2 = Tip.objects.get(
             match=match_2, author__username='angela_merkel')
         self.assertEqual(tip_2.points(), 36)
-    
+
     def test_joker_valid_quarter_finals_round_of_sixty(self):
         match = Match.objects.get(
             home_team__team_name='Deutschland', guest_team__team_name='Italien')
@@ -171,19 +174,20 @@ class TeamModelTest(TestCase):
         tip = Tip.objects.get(match=match, author__username='angela_merkel')
         user = User.objects.get(username='angela_merkel')
         self.assertEqual(get_n_joker(user=user, matchday_number=3), 1)
-        tip = Tip.objects.get(match=match_ger_fr, author__username='angela_merkel')
+        tip = Tip.objects.get(match=match_ger_fr,
+                              author__username='angela_merkel')
         tip.joker = True
         tip.save()
-        #----------
+        # ----------
         self.assertEqual(get_n_joker(user=user, matchday_number=3), 2)
-        tip = Tip.objects.get(match=match_ger_ned, author__username='angela_merkel')
+        tip = Tip.objects.get(match=match_ger_ned,
+                              author__username='angela_merkel')
         tip.joker = True
         tip.save()
-        #----------
+        # ----------
         is_joker_valid(matchday_number=3, njoker=get_n_joker(
             user=user, matchday_number=3), tip=tip)
         self.assertEqual(tip.joker, False)
-        
 
     def test_joker_valid_semi_finals_final(self):
         match = Match.objects.get(
@@ -195,15 +199,17 @@ class TeamModelTest(TestCase):
         tip = Tip.objects.get(match=match, author__username='angela_merkel')
         user = User.objects.get(username='angela_merkel')
         self.assertEqual(get_n_joker(user=user, matchday_number=5), 1)
-        tip = Tip.objects.get(match=match_fr_esp, author__username='angela_merkel')
+        tip = Tip.objects.get(match=match_fr_esp,
+                              author__username='angela_merkel')
         tip.joker = True
         tip.save()
-        #----------
+        # ----------
         self.assertEqual(get_n_joker(user=user, matchday_number=5), 2)
-        tip = Tip.objects.get(match=match_fr_ned, author__username='angela_merkel')
+        tip = Tip.objects.get(match=match_fr_ned,
+                              author__username='angela_merkel')
         tip.joker = True
         tip.save()
-        #----------
+        # ----------
         is_joker_valid(matchday_number=5, njoker=get_n_joker(
             user=user, matchday_number=5), tip=tip)
         self.assertEqual(tip.joker, False)
@@ -219,9 +225,23 @@ class TeamModelTest(TestCase):
         users_ranked = Profile.objects.order_by(
             '-score', '-right_tips', 'joker', 'user__username')
         for user in users_ranked:
-            print(user.user.username, user.score, user.joker )
-        self.assertEqual(users_ranked[0].user.username, 'boris_yelzin')
+            print(user.user.username, user.score, user.joker)
+        self.assertEqual(users_ranked[0].user.username, 'angela_merkel')
         self.assertEqual(users_ranked[5].user.username, 'john_doe')
-        self.assertEqual(users_ranked[1].user.username, 'king_felippe')
+        self.assertEqual(users_ranked[1].user.username, 'boris_yelzin')
 
-        #TODO: Teste Spieltag tip punkte.
+        # TODO: Teste Spieltag tip punkte.
+    def test_matchday_points(self):
+        profiles = Profile.objects.all()
+
+        for profile in profiles:
+            profile.update_score_and_joker()
+            profile.save()
+
+        # wird in ranking angewendet
+        users_ranked = Profile.objects.order_by(
+            '-score', '-right_tips', 'joker', 'user__username')
+        for user in users_ranked:
+            print(user.user.username, user.score, user.joker )
+            print(user.get_score_and_joker_for_matchday(3))
+            print(user.get_score_and_joker_for_matchday(5))

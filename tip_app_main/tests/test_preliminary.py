@@ -269,4 +269,4 @@ class TeamModelTest(TestCase):
         tip.save()
         self.assertEqual(get_n_joker(user=user, matchday_number=0), 0)
 
-        #TODO: teste has_started bei matches. überlege dir weitere tests
+        #TODO: teste has_started() bei matches. überlege dir weitere tests

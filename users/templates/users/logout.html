@@ -1,9 +1,16 @@
 {% extends "tip_app_main/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
-        <h2> Du bist ausgeloggt</h2>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Schon einen Account? <a href="{% url 'login' %}">Einloggen</a>
-            </small>
+    <div class="content-section" xmlns="http://www.w3.org/1999/html">
+        <legend class="border-bottom mb-4">Du bist ausgeloggt!</legend>
+        <div class="dashboard-text">
+        <div class="powered-by-teamtip">
+        <a href="{% url 'login' %}">
+          <button style="width:50%;">
+            <img src="" class="button button-icon--left">
+            Wieder einloggen
+          </button>
+        </a> 
         </div>
+    </div>
 {% endblock content %}

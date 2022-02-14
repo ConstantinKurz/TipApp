@@ -38,7 +38,6 @@ class Profile(models.Model):
             matchday_tipps = []
         matchday_score = 0 
         tip_score = 0
-        joker = 0
         for tipp in matchday_tipps:
             tip_score = tipp.points()
             matchday_score += tip_score

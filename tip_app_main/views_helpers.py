@@ -11,7 +11,9 @@ def save_tip(id, value, joker,  user, request):
         try: 
             tip = Tip.objects.get(author=user, match__id=match_id)
         except:
-            tip = None   
+            tip = None
+        if tip < 0:
+            return 
         if 'home' in id:
             new_home_tip(tip, match, value, user)   
         if 'guest' in id: 

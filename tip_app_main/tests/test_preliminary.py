@@ -269,4 +269,22 @@ class TeamModelTest(TestCase):
         tip.save()
         self.assertEqual(get_n_joker(user=user, matchday_number=0), 0)
 
-        #TODO: teste has_started() bei matches. überlege dir weitere tests
+    def test_has_started(self):
+        match = Match.objects.get(
+            home_team__team_name='Deutschland', guest_team__team_name='Italien') 
+        self.assertEqual(match.has_started(), True)
+        match.match_date = match.match_date + timedelta(seconds=360)
+        match.save()
+        self.assertEqual(match.has_started(), False)
+
+    def valid_tip_input(self):
+        match = Match.objects.get(
+            home_team__team_name='Deutschland', guest_team__team_name='Italien')
+        tip = Tip.objects.get(match=match, author__username='angela_merkel')
+        self.assertNotEqual(tip.tip_home, -1)
+        print("++++++++++++++++")
+        tip.tip_home = -1
+        tip.save()
+        print("###########")
+        print(tip.tip_home)
+        self.assertNotEqual(tip.tip_home, -1)

@@ -230,7 +230,6 @@ class TeamModelTest(TestCase):
         self.assertEqual(users_ranked[5].user.username, 'john_doe')
         self.assertEqual(users_ranked[1].user.username, 'boris_yelzin')
 
-        # TODO: Teste Spieltag tip punkte.
     def test_matchday_points(self):
         profiles = Profile.objects.all()
 

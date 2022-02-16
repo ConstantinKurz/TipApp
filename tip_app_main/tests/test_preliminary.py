@@ -250,7 +250,7 @@ class TeamModelTest(TestCase):
             user=user, matchday_number=0), tip=tip)
         self.assertEqual(tip.joker, False)
 
-    def joker_reduce_correctly(self):
+    def test_joker_reduce_correctly(self):
         match = Match.objects.get(
             home_team__team_name='Deutschland', guest_team__team_name='Italien')
         match_ger_fr = Match.objects.get(
@@ -261,13 +261,15 @@ class TeamModelTest(TestCase):
         user = User.objects.get(username='angela_merkel')
         tip.joker = True
         tip_ger_fr.joker = True
-        self.assertEqual(get_n_joker(user=user, matchday_number=0), 2)
+        tip.save()
+        tip_ger_fr.save()
+        self.assertEqual(get_n_joker(user=user, matchday_number=0), 3)
         tip_ger_fr.joker = False
         tip_ger_fr.save()
-        self.assertEqual(get_n_joker(user=user, matchday_number=0), 1)
+        self.assertEqual(get_n_joker(user=user, matchday_number=0), 2)
         tip.joker = False
         tip.save()
-        self.assertEqual(get_n_joker(user=user, matchday_number=0), 0)
+        self.assertEqual(get_n_joker(user=user, matchday_number=0), 1)
 
     def test_has_started(self):
         match = Match.objects.get(
@@ -277,14 +279,10 @@ class TeamModelTest(TestCase):
         match.save()
         self.assertEqual(match.has_started(), False)
 
-    def valid_tip_input(self):
-        match = Match.objects.get(
-            home_team__team_name='Deutschland', guest_team__team_name='Italien')
-        tip = Tip.objects.get(match=match, author__username='angela_merkel')
-        self.assertNotEqual(tip.tip_home, -1)
-        print("++++++++++++++++")
-        tip.tip_home = -1
-        tip.save()
-        print("###########")
-        print(tip.tip_home)
-        self.assertNotEqual(tip.tip_home, -1)
+    # def test_valid_tip_input(self):
+    #     match = Match.objects.get(
+    #         home_team__team_name='Deutschland', guest_team__team_name='Italien')
+    #     tip = Tip.objects.get(match=match, author__username='angela_merkel')
+    #     tip.tip_home = -1
+    #     tip.save()
+    #     self.assertEqual(int(tip.tip_home), -1)

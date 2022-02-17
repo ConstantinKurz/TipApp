@@ -278,11 +278,3 @@ class TeamModelTest(TestCase):
         match.match_date = match.match_date + timedelta(seconds=360)
         match.save()
         self.assertEqual(match.has_started(), False)
-
-    # def test_valid_tip_input(self):
-    #     match = Match.objects.get(
-    #         home_team__team_name='Deutschland', guest_team__team_name='Italien')
-    #     tip = Tip.objects.get(match=match, author__username='angela_merkel')
-    #     tip.tip_home = -1
-    #     tip.save()
-    #     self.assertEqual(int(tip.tip_home), -1)

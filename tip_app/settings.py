@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
     # 'django_mobile',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 TEMPLATE_LOADERS = ['django_mobile.loader.Loader']
@@ -141,5 +143,13 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'shortytipp@gmail.com'
 EMAIL_HOST_PASSWORD = 'usvhllueogchzvse'
+
+CELERY_BROKER_URL = 'redis://:p6f3d88d215dcdfd12a2f7ee94b79d73f0de592f807538bf344b79ae96c6d6d4f@ec2-3-230-70-180.compute-1.amazonaws.com:31790'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Berlin'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 django_heroku.settings(locals())

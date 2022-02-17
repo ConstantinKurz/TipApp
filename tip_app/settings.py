@@ -91,6 +91,18 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get('REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {
+                "ssl_cert_reqs": None
+            },
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -143,8 +155,8 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'shortytipp@gmail.com'
 EMAIL_HOST_PASSWORD = 'usvhllueogchzvse'
-
-CELERY_BROKER_URL = 'redis://:p6f3d88d215dcdfd12a2f7ee94b79d73f0de592f807538bf344b79ae96c6d6d4f@ec2-3-230-70-180.compute-1.amazonaws.com:31790'
+ 
+CELERY_BROKER_URL = 'rediss://:p6f3d88d215dcdfd12a2f7ee94b79d73f0de592f807538bf344b79ae96c6d6d4f@ec2-3-230-70-180.compute-1.amazonaws.com:31790'
 # CELERY_ACCEPT_CONTENT = ['application/json']
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TASK_SERIALIZER = 'json'

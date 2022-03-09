@@ -1,4 +1,6 @@
 from datetime import timedelta
+
+from sqlalchemy import true
 from tip_app_main.models import Match, Tip
 from django.utils import timezone
 from django import template
@@ -37,14 +39,14 @@ def joker_upper_limit_reached(matchday, njoker):
 
 @register.simple_tag
 def disable_joker(tip: Tip, match: Match, njoker):
-    return joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) or match.has_started()
-    # if tip:
-    #     boolVariable = tip.joker or match.has_started()
-    #     if joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) and not boolVariable:
-    #         return True
-    # elif  tip == None and match.has_started():
-    #     return True
-    # return False
+    if tip:
+        if tip.joker and match.has_started():
+            return true
+        if not tip.joker and match.has_started():
+            return true
+    elif joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) or match.has_started():
+        return True
+    return False
 
 @register.simple_tag
 def get_users_matchday_score(scores, user):

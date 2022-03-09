@@ -1,4 +1,5 @@
 from tip_app_main.views_helpers import *
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -50,9 +51,6 @@ def home(request):
     except:
         tipps = None
         tipps_by_matches = None
-    # send mail if user has not tipped yet
-    if upcoming_match and upcoming_match.half_hour_remaining():
-        send_remainder_mail(upcoming_match)
     if request.method == "GET" and request.is_ajax():
         upcoming_match_time = upcoming_match.match_date
         data = {}
@@ -177,3 +175,30 @@ def email(request):
                 return HttpResponse('Invalid header found.')
             return redirect('tip-mail')
     return render(request, "tip_app_main/email.html", {'form': form})
+
+@csrf_protect
+@staff_member_required
+@login_required
+def reminder_email(request):
+    not_tipped = []
+    try:
+        upcoming_match = Match.objects.filter(
+            match_date__gte=timezone.now()).order_by('match_date')[0]
+    except: 
+        upcoming_match = None
+    for user in Profile.objects.all():
+        try:
+            tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
+        except:
+            tip = None
+        if not tip or tip.tip_home == -1:
+            not_tipped.append(user.user.email)
+    subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
+    message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'
+    if not_tipped:
+        send_mail(subject,
+                  message, EMAIL_HOST_USER, recipient_list=not_tipped)
+        messages.success(request, 'Reminder gesendet!')
+        return redirect('tip-mail')
+    
+    return render(request, "tip_app_main/email.html")

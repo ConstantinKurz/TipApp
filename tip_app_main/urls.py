@@ -7,5 +7,5 @@ urlpatterns = [
     path('ranking/', views.ranking, name='tip-ranking'),
     path('results_per_day/<int:matchday_number>/', views.results, name='tip-results'),
     path('email/', views.email, name='tip-mail'),
-    # path('email/reminder', views.reminder_email, name='tip-reminder-mail')
+    path('email/reminder', views.reminder_email, name='tip-reminder-mail')
     ]

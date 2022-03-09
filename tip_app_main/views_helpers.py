@@ -144,21 +144,21 @@ def update_scores_and_ranks(matchday=None):
     return matchday_tipps_per_user
 
 
-def send_remainder_mail(upcoming_match):
-    not_tipped = []
-    for user in Profile.objects.all():
-        try:
-            tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
-        except:
-            tip = None
-        if not tip or tip.tip_home == -1:
-            not_tipped.append(user.user.email)
-    subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
-    message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'
-    recepients = not_tipped
-    if not_tipped:
-        send_mail(subject,
-                  message, EMAIL_HOST_USER, recipient_list=recepients, fail_silently=False)
+# def remainder_email(upcoming_match):
+#     not_tipped = []
+#     for user in Profile.objects.all():
+#         try:
+#             tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
+#         except:
+#             tip = None
+#         if not tip or tip.tip_home == -1:
+#             not_tipped.append(user.user.email)
+#     subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
+#     message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'
+#     recepients = not_tipped
+#     if not_tipped:
+#         send_mail(subject,
+#                   message, EMAIL_HOST_USER, recipient_list=recepients, fail_silently=False)
 
 def is_mobile(request):
     user_agent = request.META['HTTP_USER_AGENT']

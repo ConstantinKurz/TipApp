@@ -40,9 +40,9 @@ def joker_upper_limit_reached(matchday, njoker):
 def disable_joker(tip: Tip, match: Match, njoker):
     if tip:
         if tip.joker and match.has_started():
-            return true
+            return True
         if not tip.joker and match.has_started():
-            return true
+            return True
     elif joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) or match.has_started():
         return True
     return False

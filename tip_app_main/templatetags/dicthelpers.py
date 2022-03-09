@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-from sqlalchemy import true
 from tip_app_main.models import Match, Tip
 from django.utils import timezone
 from django import template

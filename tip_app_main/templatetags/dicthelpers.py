@@ -38,13 +38,22 @@ def joker_upper_limit_reached(matchday, njoker):
 
 @register.simple_tag
 def disable_joker(tip: Tip, match: Match, njoker):
+    disable_criteria = joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) or match.has_started()
     if tip:
-        if tip.joker and match.has_started():
+        print("tip")
+        if match.has_started():
+            print("match")
             return True
-        if not tip.joker and match.has_started():
+        else:
+            print("not started")
+            if tip.joker:
+                print("joker")
+                return False
+            if not tip.joker and disable_criteria:
+                return True
+    if not tip:
+        if disable_criteria:
             return True
-    elif joker_upper_limit_reached(matchday=match.matchday, njoker=njoker) or match.has_started():
-        return True
     return False
 
 @register.simple_tag

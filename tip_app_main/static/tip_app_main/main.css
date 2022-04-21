@@ -1,7 +1,12 @@
 body {
     background: #fafafa;
     color: #333333;
-    margin-top: 5rem;
+    margin-top: 100px;
+    min-height: 100vh;
+    width:100vw;
+    font-family: Rubik,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 0.9rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -66,6 +71,11 @@ ul {
     margin: 0 auto;
     /* border-top-color: gray; */
 }
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .content-section{max-width: 100%;}
+  }
 
 .article-title {
     color: #444444;
@@ -140,7 +150,7 @@ a.article-title:hover {
 /* home + base */
 
 
-/* .navigation {
+.navigation {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -229,9 +239,9 @@ a.article-title:hover {
     overflow: hidden;
 }
 
-/* tippabgabe */  */
+/* tippabgabe */ 
 
-/* .betMatchList {
+.betMatchList {
         padding: 50px 16px;
 }
 
@@ -325,9 +335,9 @@ a.article-title:hover {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: Rubik,sans-serif;
-} */ */
+}
 
-/* .home_goals {
+.home_goals {
     background: #f1f1f5;
     font-family: Rubik,sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -343,9 +353,9 @@ a.article-title:hover {
     -moz-osx-font-smoothing: grayscale;
     min-height: 10px;
     width: 30px;
-} */
+}
 
-/* .match_goals_divider{
+.match_goals_divider{
     font-size: 20px;
     font-weight: 500;
     font-family: Rubik;
@@ -357,15 +367,15 @@ a.article-title:hover {
 
 .divider{
     text-align: left;
-} */
+} 
 
-/* .betMatchList {
+.betMatchList {
     position: absolute;
     top: 50%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
-} */
+}
 
 .bet_content {
     /* padding: 4px 100px; */
@@ -462,3 +472,104 @@ a.article-title:hover {
 .button_logout {
     width: 50%;
 }
+
+.tip_divider{
+    position: relative;
+    align-items: center;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.home_tip {
+    width: 35px;
+    display: block;
+    margin-left: auto;
+    text-align: center;
+}
+
+.guest_tip {
+    width: 35px;
+    display: block;
+    margin-right: auto;
+    text-align: center;
+}
+
+.matchdate {
+    align-items: center;
+    font-size: 14px;
+    color: #acacac;
+    margin: -3px 0 8px;
+}
+
+.form-control{
+    padding: 0 0 0 0;
+}
+
+.edit_bet_row {
+    text-align: inherit;
+}
+
+.tip_row {
+    flex-wrap: nowrap;
+}
+
+.row {
+    align-items: baseline;
+    /* margin-left: 0px; */
+}
+
+.match_tips{
+    display: contents;
+/*     
+    width: 70px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding:8px 0 */
+}
+
+.col_home{
+
+}
+
+.col_guest{
+padding-left: 15px;
+}
+
+.col_tip{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.tip_team_name{
+    text-align: center;
+}
+
+.container_tip_input{
+    background: #ffffff;
+    width: 100%;
+}
+.container_tip{
+    margin-bottom: 20px;
+}
+.rounded {
+    border-radius:.5rem!important;
+}
+
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    text-align: center;
+    height: 8%;
+}
+
+.dropup{
+    padding-top: inherit;
+}
+
+/* .betMatchList {
+    padding: 50px 16px;
+} */

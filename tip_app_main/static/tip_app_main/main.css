@@ -1,5 +1,5 @@
 body {
-    background: #fafafa;
+    background: #f1f1f5;
     color: #333333;
     margin-top: 100px;
     min-height: 100vh;
@@ -485,6 +485,7 @@ a.article-title:hover {
     display: block;
     margin-left: auto;
     text-align: center;
+    color: #f1f1f5
 }
 
 .guest_tip {
@@ -492,6 +493,7 @@ a.article-title:hover {
     display: block;
     margin-right: auto;
     text-align: center;
+    color: #f1f1f5;
 }
 
 .matchdate {
@@ -503,6 +505,7 @@ a.article-title:hover {
 
 .form-control{
     padding: 0 0 0 0;
+    background-color: #f1f1f5;
 }
 
 .edit_bet_row {
@@ -520,12 +523,6 @@ a.article-title:hover {
 
 .match_tips{
     display: contents;
-/*     
-    width: 70px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    padding:8px 0 */
 }
 
 .col_home{
@@ -548,6 +545,7 @@ padding-left: 15px;
 .container_tip_input{
     background: #ffffff;
     width: 100%;
+    padding-block: 5px;
 }
 .container_tip{
     margin-bottom: 20px;
@@ -569,7 +567,3 @@ padding-left: 15px;
 .dropup{
     padding-top: inherit;
 }
-
-/* .betMatchList {
-    padding: 50px 16px;
-} */

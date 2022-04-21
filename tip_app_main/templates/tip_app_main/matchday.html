@@ -68,15 +68,23 @@
               <div class="tip_team_name">{{ match.home_team.team_name}}</div>
             </div>
             <div class="col-1 col_tip">
+              {% if not match.has_started %}
               <input type="number" class="form-control home_tip"
                   placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}">
+              {% else%}
+              <span> {% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %} </span>
+              {% endif %}
+
             </div>
             <div class="col-1">
               <div class="tip_divider">:</div>
             </div>
             <div class="col-1 col_tip">
               <input type="number" class="form-control guest_tip"
-                   placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}">
+                   placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}"
+                  {% if match.has_started %}
+                  disabled
+                  {% endif %}>
             </div>
               {% disable_joker tip match n_joker as disable_joker %}
             <div class="col-1">

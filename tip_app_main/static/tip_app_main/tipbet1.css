@@ -421,14 +421,14 @@ body, html {
     height:100%
 }
 
-body {
+/* body {
     background: #f1f1f5;
     font-family: Rubik, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
     width:100vw
-}
+} */
 
 .page {
     padding:16px

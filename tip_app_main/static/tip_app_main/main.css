@@ -150,7 +150,7 @@ a.article-title:hover {
 /* home + base */
 
 
-.navigation {
+/* .navigation {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -239,9 +239,9 @@ a.article-title:hover {
     overflow: hidden;
 }
 
-/* tippabgabe */ 
+/* tippabgabe */  */
 
-.betMatchList {
+/* .betMatchList {
         padding: 50px 16px;
 }
 
@@ -335,9 +335,9 @@ a.article-title:hover {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: Rubik,sans-serif;
-}
+} */ */
 
-.home_goals {
+/* .home_goals {
     background: #f1f1f5;
     font-family: Rubik,sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -353,9 +353,9 @@ a.article-title:hover {
     -moz-osx-font-smoothing: grayscale;
     min-height: 10px;
     width: 30px;
-}
+} */
 
-.match_goals_divider{
+/* .match_goals_divider{
     font-size: 20px;
     font-weight: 500;
     font-family: Rubik;
@@ -367,15 +367,15 @@ a.article-title:hover {
 
 .divider{
     text-align: left;
-} 
+} */
 
-.betMatchList {
+/* .betMatchList {
     position: absolute;
     top: 50%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
-}
+} */
 
 .bet_content {
     /* padding: 4px 100px; */

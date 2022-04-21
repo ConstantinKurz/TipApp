@@ -1,4 +1,5 @@
 const tipForm = document.getElementById('tip-form')
+const home_endpoint = document.getElementById('home-endpoint-url');
 
 if (tipForm) {
   tipForm.addEventListener('change', e => {
@@ -53,7 +54,6 @@ if (tipForm) {
   })
 }
 
-const home_endpoint = document.getElementById('home-endpoint-url');
 if (home_endpoint) {
   const url = home_endpoint.url;
   const x = setInterval(function () {

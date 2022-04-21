@@ -2,7 +2,7 @@
 {% block content %}
 {% load i18n dicthelpers %}
 {% load crispy_forms_tags %}
-
+{% get_matchday_name number as matchday_name %}
 <div class="bet_content">
 <div class="betMatchList tab">
 <form action="{% url 'tip-matchday' number %}" id="tip-form">
@@ -10,14 +10,15 @@
   <div class="betMatchList tab" id="matchday-endpoint-url" url="{% url 'tip-matchday' number %}">
       {% for match in matches_per_day %}
       {% with tip=tips|lookup:match.pk %}
-      <div data-v-c1661192="" class="matchday">
+      {% comment %} <div data-v-c1661192="" class="matchday">
         <div data-v-c1661192="" class="edit_bet_row">
           <div data-v-c1661192="" class="column matchdate">
             <span data-v-c1661192="">{{ match.match_date|date:'l, d.m.Y' }}</span>
             <span data-v-c1661192="" class="matchdate_time">{{ match.match_date|date:'H:i' }} Uhr</span>
           </div>
-        </div>
-        <div data-v-c1661192="" class="matchday_list matchday_list_single">
+        </div> {% endcomment %}
+
+        {% comment %}<div data-v-c1661192="" class="matchday_list matchday_list_single">
           <div data-v-c1661192="" class="match">
             <div data-v-c1661192="" class="match-home">
               <div data-v-c1661192="" class="match-teamname">{{ match.home_team.team_name}}</div>
@@ -52,17 +53,70 @@
               <div data-v-c1661192="" class="match-teamname">{{ match.guest_team.team_name}}</div>
             </div>
           </div>
+        </div> {% endcomment %}
+        {% comment %} <div data-v-c1661192="" class="matchday"> {% endcomment %}
+        <div class="container container_tip">
+          <div class="edit_bet_row">
+            <div class="column matchdate">
+              <span >{{ match.match_date|date:'l, d.m.Y' }}</span>
+              <span>{{ match.match_date|date:'H:i' }} Uhr</span>
+            </div>
+          </div>
+          <div class="container container_tip_input rounded">
+          <div class="row">
+            <div class="col-4">
+              <div class="tip_team_name">{{ match.home_team.team_name}}</div>
+            </div>
+            <div class="col-1 col_tip">
+              <input type="number" class="form-control home_tip"
+                  placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}">
+            </div>
+            <div class="col-1">
+              <div class="tip_divider">:</div>
+            </div>
+            <div class="col-1 col_tip">
+              <input type="number" class="form-control guest_tip"
+                   placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}">
+            </div>
+              {% disable_joker tip match n_joker as disable_joker %}
+            <div class="col-1">
+              <input type="checkbox" id="joker_{{ match.id }}" name="joker" title="Joker"
+              {% if tip.joker %} checked {% endif %}
+              {% if disable_joker %} disabled {% endif %}>
+            </div>
+            <div class="col-3 col_guest">
+              <div class="tip_team_name">{{ match.guest_team.team_name}}</div>
+            </div>
+          </div>
         </div>
-      </div>
+        </div>
       {% endwith %}
       {% endfor %}
     </div> 
   <div>
 </form>
 </div>
-<div style="padding-bottom: 45px;"></div>
-<div data-v-7e6d69f7="" class="navigation_bottom">
-  {% if number > 0 %} 
+<footer class="footer">
+<div class="btn-group dropup" id="tip-dropup">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{ matchday_name }}
+  </button>
+  <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=0 %}">1.Spieltag</a>
+        <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=1 %}">2.Spieltag</a>
+        <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=2 %}">3.Spieltag</a>
+        <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=3 %}">Achtelfinale</a>
+        <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=4 %}">Viertelfinale</a>
+        <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=5 %}">Halbfinale</a>
+        <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=6 %}">Finale</a>
+  </div>
+</div>
+  {% comment %} <div class="container">
+    <span class="text-muted">Place sticky footer content here.</span>
+  </div> {% endcomment %}
+</footer>
+{% comment %} data-v-7e6d69f7="" class="navigation_bottom"> {% endcomment %}
+  {% comment %} {% if number > 0 %} 
   <div data-v-7e6d69f7="" class="navigation_bottom--left">
      <a href="{% url 'tip-matchday' matchday_number=number|add:"-1" %}">
      <img data-v-7e6d69f7="" src="/media/static_pics/back.svg">
@@ -75,8 +129,8 @@
      <img data-v-7e6d69f7="" src="/media/static_pics/back.svg">
      </a>
   </div>
-  {% endif %}
-  <div data-v-7e6d69f7="" variant="outline-primary" class="navigation_bottom--center dropup dropup-matchday">
+  {% endif %} {% endcomment %}
+  {% comment %} <div data-v-7e6d69f7="" variant="outline-primary" class="navigation_bottom--center dropup dropup-matchday">
       <button data-v-7e6d69f7="" type="button" class="navigation_bottom--center dropup-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Spieltag auswählen
        </button>
@@ -89,8 +143,8 @@
         <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=5 %}">Halbfinale</a>
         <a class="dropdown-item" href="{% url 'tip-matchday' matchday_number=6 %}">Finale</a>
       </div>
-  </div>
-  {% if number < 6 %} 
+  </div> {% endcomment %}
+  {% comment %} {% if number < 6 %} 
   <div data-v-7e6d69f7="" class="navigation_bottom--right">
      <a href="{% url 'tip-matchday' matchday_number=number|add:"+1" %}">
      <img data-v-7e6d69f7="" src="/media/static_pics/next.svg">
@@ -103,6 +157,6 @@
      <img data-v-7e6d69f7="" src="/media/static_pics/next.svg">
      </a>
   </div>
-  {% endif %}
-</div>
+  {% endif %} {% endcomment %}
+{% comment %} </div> {% endcomment %}
 {% endblock %}

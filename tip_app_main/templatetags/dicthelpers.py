@@ -89,3 +89,17 @@ def get_upcoming_match():
     except:
         return None
     return upcoming_match
+
+@register.simple_tag
+def get_matchday_name(matchday_number) -> str:
+    print(matchday_number)
+    matchday_dict = {
+        0: '1.Spieltag',
+        1: '2.Spieltag',
+        2: '3.Spieltag',
+        3: 'Achtelfinale',
+        4: 'Viertelfinale',
+        5: 'Halbfinale',
+        6: 'Finale'
+    }
+    return matchday_dict[matchday_number]

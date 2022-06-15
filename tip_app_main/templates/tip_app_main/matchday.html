@@ -4,10 +4,10 @@
 {% load crispy_forms_tags %}
 {% get_matchday_name number as matchday_name %}
 <div class="bet_content">
-<div class="betMatchList tab">
-<form action="{% url 'tip-matchday' number %}" id="tip-form">
+{% comment %} <div class="betMatchList tab"> {% endcomment %}
+<form action="{% url 'tip-matchday' number %}" id="tip-form" class="tip_form">
   {% csrf_token %}
-  <div class="betMatchList tab" id="matchday-endpoint-url" url="{% url 'tip-matchday' number %}">
+  <div class="" id="matchday-endpoint-url" url="{% url 'tip-matchday' number %}">
       {% for match in matches_per_day %}
       {% with tip=tips|lookup:match.pk %}
       {% comment %} <div data-v-c1661192="" class="matchday">
@@ -69,10 +69,10 @@
             </div>
             <div class="col-1 col_tip">
               {% if not match.has_started %}
-              <input type="number" class="form-control home_tip"
+              <input type="number" class="form-control home_tip" min="0" max="9" id="tip_home_{{ match.id }}"
                   placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}">
               {% else%}
-              <span> {% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %} </span>
+              <span class="home_tip"> {% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %} </span>
               {% endif %}
 
             </div>
@@ -80,11 +80,12 @@
               <div class="tip_divider">:</div>
             </div>
             <div class="col-1 col_tip">
-              <input type="number" class="form-control guest_tip"
-                   placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}"
-                  {% if match.has_started %}
-                  disabled
-                  {% endif %}>
+              {% if not match.has_started %}
+                <input type="number" class="form-control guest_tip" id="tip_guest_{{ match.id }}" min="0" max="9" pattern="[0-9]"
+                    placeholder="{% if tip.tip_guest == -1 %} - {% else %} {{ tip.tip_guest }} {% endif %}">
+              {% else%}
+                <span class="guest_tip"> {% if tip.tip_guest == -1 %} - {% else %} {{ tip.tip_guest }} {% endif %} </span>
+              {% endif %}
             </div>
               {% disable_joker tip match n_joker as disable_joker %}
             <div class="col-1">
@@ -104,6 +105,7 @@
   <div>
 </form>
 </div>
+<div class="seperator"></div>
 <footer class="footer">
 <div class="btn-group dropup" id="tip-dropup">
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

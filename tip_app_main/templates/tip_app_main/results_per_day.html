@@ -1,10 +1,57 @@
 {% extends "tip_app_main/base.html" %}
 {% block content %}
 {% load i18n dicthelpers %}
+{% get_matchday_name matchday_number as matchday_name %}
 
-<div data-v-bb729c54="" data-v-73570791="" class="scrolling-wrapper-flexbox">
-        <table data-v-bb729c54="" id="bg_rankings_detail_table" class="table card">
-                <thead data-v-3a0fdfcd="" data-v-bb729c54="">
+        {% comment %} <thead class="match_header">
+                <tr>
+                        <th class="col_pos_result_head"></th>
+                        <th class="col_user_head"></th>
+                        <th class="col_value col_value--gesamt sort col_value_gesamt_body">
+                                <span>Gesamt</span>
+                        </th>
+                        <th class="col_value col_value--spieltag sort col_value_spieltag_body">
+                                <span>Spieltag</span>
+                        </th>
+                        {% for match in ordered_matchday_matches %}
+                        <th class="col_teams col_white width_result_teams">
+                                <span class="col_teams_name">{{match.home_team.team_ccode}}</span>
+                                <span class="col_teams_name">{{match.guest_team.team_ccode}}</span>
+                                {% if match.home_score == -1 or match.guest_score == -1 %}
+                                <span>-:-</span>
+                                {% else %}
+                                <span>{{match.home_score}}:{{match.guest_score}}</span>
+                                {% endif %}
+                        </th>
+                        {% endfor %}
+                </tr>
+        </thead> {% endcomment %}
+<div class="scrolling-wrapper-flexbox">
+        <table id="bg_rankings_detail_table" class="table card">
+                <thead>
+                <tr>
+                        <th class="th_sticky col_pos_result_head"></th>
+                        <th class="th_sticky col_user_head"></th>
+                        <th class="th_sticky col_value_gesamt_head">
+                                <span class="span_gesamt">Gesamt</span>
+                        </th>
+                        <th class="th_sticky col_value--spieltag">
+                                <span>Spieltag</span>
+                        </th>
+                        {% for match in ordered_matchday_matches %}
+                        <th class="th_sticky col_teams">
+                                <span class="span_match_team_home">{{match.home_team.team_ccode}}</span>
+                                <span class="span_match_team_guest">{{match.guest_team.team_ccode}}</span>
+                                {% if match.home_score == -1 or match.guest_score == -1 %}
+                                <span class="span_result">-:-</span>
+                                {% else %}
+                                <span class="span_result">{{match.home_score}}:{{match.guest_score}}</span>
+                                {% endif %}
+                        </th>
+                        {% endfor %}
+                </tr>
+                </thead>
+                {% comment %} <thead data-v-3a0fdfcd="" data-v-bb729c54="">
                         <tr data-v-3a0fdfcd="">
                                 <th data-v-3a0fdfcd="" class="col_pos_result_head"></th>
                                 <th data-v-3a0fdfcd="" class="col_user_head"></th>
@@ -26,8 +73,54 @@
                                 </th>
                                 {% endfor %}
                         </tr>
-                </thead>
-                <tbody data-v-bb729c54="">
+                </thead> {% endcomment %}
+                <tbody>
+                        {% for user in users_ranked %}
+                        <tr>
+                                {% get_users_matchday_score matchday_scores user as get_users_matchday_score %}
+                                {% get_users_matchday_tips matchday_tips user matchday_number as get_users_matchday_tips %}
+
+                                <td class="col_pos_result_body">{{user.rank}}.</td>
+                                <td class="col_user col_user_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.user.username}}</td>
+                                <td class="col_value col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
+                                <td class="col_value col_value--spieltag sort_column col_value_spieltag_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
+                                {% for tip in get_users_matchday_tips %}
+                                {% ifequal forloop.counter|modulo:2 0 %}
+                                <td class="col_result col_white width_result_teams">
+                                                {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
+                                                <span class="bet_result">
+                                                - : -
+                                                <small></small>
+                                                </span>
+                                                {% else %}
+                                                <span class="bet_result">
+                                                {{tip.tip_home}} : {{tip.tip_guest}}
+                                                <small {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
+                                                </small>
+                                                </span>
+                                                {% endif %}
+                                </td>
+                                {% else %}
+                                <td class="col_result col_grey width_result_teams">
+                                        {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
+                                                <span class="bet_result">
+                                                - : -
+                                                <small></small>
+                                                </span>
+                                        {% else %}
+                                                <span class="bet_result">
+                                                {{tip.tip_home}} : {{tip.tip_guest}}
+                                                <small {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
+                                                </small>
+                                                </span>
+                                        {% endif %}
+                                </td>
+                                {% endifequal %}
+                                {% endfor %}
+                        </tr>
+                        {% endfor %}
+                </tbody>
+                {% comment %} <tbody data-v-bb729c54="">
                         {% for user in users_ranked %}
                         <tr data-v-bb729c54="" class="">
                                 {% get_users_matchday_score matchday_scores user as get_users_matchday_score %}
@@ -73,52 +166,26 @@
                                 {% endfor %}
                         </tr>
                         {% endfor %}
-                </tbody>
+                </tbody> {% endcomment %}
                 <tfoot data-v-bb729c54=""></tfoot>
         </table>
   </div>
-  <div data-v-7e6d69f7="" class="navigation_bottom_results">
-  {% if matchday_number > 0 %} 
-  <div data-v-7e6d69f7="" class="navigation_bottom--left">
-     <a href="{% url 'tip-results' matchday_number=matchday_number|add:"-1" %}">
-     <img data-v-7e6d69f7="" src="/media/static_pics/back.svg">
-     </a>
-  </div>   
-  {% endif %}
-  {% if matchday_number == 0 %}
-  <div data-v-7e6d69f7="" class="navigation_bottom--left">
-     <a href="{% url 'tip-results' 6 %}">
-     <img data-v-7e6d69f7="" src="/media/static_pics/back.svg">
-     </a>
-  </div>
-  {% endif %}
-  <div data-v-7e6d69f7="" variant="outline-primary" class="navigation_bottom--center dropup dropup-matchday">
-      <button data-v-7e6d69f7="" type="button" class="navigation_bottom--center dropup-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Spieltag auswählen
-       </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="{% url 'tip-results' matchday_number=0 %}">1.Spieltag</a>
-        <a class="dropdown-item" href="{% url 'tip-results' matchday_number=1 %}">2.Spieltag</a>
-        <a class="dropdown-item" href="{% url 'tip-results' matchday_number=2 %}">3.Spieltag</a>
-        <a class="dropdown-item" href="{% url 'tip-results' matchday_number=3 %}">Achtelfinale</a>
-        <a class="dropdown-item" href="{% url 'tip-results' matchday_number=4 %}">Viertelfinale</a>
-        <a class="dropdown-item" href="{% url 'tip-results' matchday_number=5 %}">Halbfinale</a>
-        <a class="dropdown-item" href="{% url 'tip-results' matchday_number=6 %}">Finale</a>
-      </div>
-  </div>
-  {% if matchday_number < 6 %} 
-  <div data-v-7e6d69f7="" class="navigation_bottom--right">
-     <a href="{% url 'tip-results' matchday_number=matchday_number|add:"+1" %}">
-     <img data-v-7e6d69f7="" src="/media/static_pics/next.svg">
-     </a>
-  </div>
-  {% endif %}
-  {% if matchday_number == 6 %} 
-  <div data-v-7e6d69f7="" class="navigation_bottom--right">
-     <a href="{% url 'tip-results' 0 %}">
-     <img data-v-7e6d69f7="" src="/media/static_pics/next.svg">
-     </a>
-  </div>
-  {% endif %}
 </div>
+<div class="seperator"></div>
+<footer class="footer">
+        <div class="btn-group dropup" id="tip-dropup">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ matchday_name }}
+        </button>
+        <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'tip-results' matchday_number=0 %}">1.Spieltag</a>
+                <a class="dropdown-item" href="{% url 'tip-results' matchday_number=1 %}">2.Spieltag</a>
+                <a class="dropdown-item" href="{% url 'tip-results' matchday_number=2 %}">3.Spieltag</a>
+                <a class="dropdown-item" href="{% url 'tip-results' matchday_number=3 %}">Achtelfinale</a>
+                <a class="dropdown-item" href="{% url 'tip-results' matchday_number=4 %}">Viertelfinale</a>
+                <a class="dropdown-item" href="{% url 'tip-results' matchday_number=5 %}">Halbfinale</a>
+                <a class="dropdown-item" href="{% url 'tip-results' matchday_number=6 %}">Finale</a>
+        </div>
+        </div>
+</footer>
 {% endblock %}

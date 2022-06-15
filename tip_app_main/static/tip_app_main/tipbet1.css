@@ -1123,17 +1123,17 @@ button[disabled] {
     border: 0px gray;
 }
 
-.table thead th {
+/* .table thead th {
     font-weight: 400;
     color: #6c757d;
     border-bottom:0
-}
+} */
 
 .table tr {
     background:#fff
 }
 
-.table td, .table th {
+/* .table td, .table th {
     padding: 14px 12px 0;
     margin: 0;
     border-bottom: 1px solid rgba(95, 93, 97, .08);
@@ -1142,7 +1142,7 @@ button[disabled] {
     font-weight: 500;
     text-align:right;
     border-top: 0px #f1f1f5;
-}
+} */
 
 .table td:first-child, .table th:first-child {
     padding-left: 16px;
@@ -6602,7 +6602,7 @@ ul[data-v-72d367bb] {
     --color-link-rgb:12, 62, 193
 }
 
-.col_teams[data-v-3a0fdfcd] {
+.col_teams{
     background: none;
     text-align: center;
     padding: 14px 8px 12px;

@@ -1136,17 +1136,17 @@ button[disabled] {
     padding-bottom:24px
 }
 
-.table thead th {
+/* .table thead th {
     font-weight: 400;
     color: #acacac;
     border-bottom:0
-}
+} */
 
 .table tr {
     background:#fff
 }
 
-.table td, .table th {
+/* .table td, .table th {
     padding: 14px 15 12px 0;
     margin: 0;
     border-bottom: 1px solid rgba(95, 93, 97, .08);
@@ -1154,7 +1154,7 @@ button[disabled] {
     font-size: 14px;
     font-weight: 500;
     text-align:right
-}
+} */
 
 /* .table td:first-child, .table th:first-child {
     padding-left: 16px;

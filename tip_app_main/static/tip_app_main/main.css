@@ -380,6 +380,8 @@ a.article-title:hover {
 .bet_content {
     /* padding: 4px 100px; */
     max-width: 100px;
+    padding-bottom: 10%;
+    overflow-y: scroll;
 }
 
 .matchday {
@@ -405,40 +407,38 @@ a.article-title:hover {
 }
 
 .col_user_head{
-    padding: 14px 0 12px 0;
+    /* padding: 14px 0 12px 0;
     margin: 0;
     border-bottom: 1px solid rgba(95,93,97,.08);
     color: #5f5d61;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 500; */
+    min-width: 120px;
     width: 120px;
 }
 
 .col_user_body{
     width: 120px;
+    min-width: 120px;
+    vertical-align: middle;
 }
 
 .col_pos_result_body{
     width: 80px;
 }
 
-.col_pos_result_head {
-    padding: 14px 0 12px 0;
-    margin: 0;
-    border-bottom: 1px solid rgba(95,93,97,.08);
-    color: #5f5d61;
-    font-size: 14px;
-    font-weight: 500;
-    width: 80px;
+.col_pos_result_head{
+    min-width: 40px;
 }
 
-.col_value_gesamt_body{
-    width: 80px;
+.col_value_gesamt_body {
+    min-width: 60px;
     text-align: center;
+    vertical-align: middle;
 }
 
 .col_value_spieltag_body{
-    width: 60px;
+    min-width: 60px;
     text-align: center;
 }
 
@@ -485,15 +485,16 @@ a.article-title:hover {
     display: block;
     margin-left: auto;
     text-align: center;
-    color: #f1f1f5
+    /* background-color: #f1f1f5 */
 }
+/* #6e777f */
 
 .guest_tip {
     width: 35px;
     display: block;
     margin-right: auto;
     text-align: center;
-    color: #f1f1f5;
+    /* background-color: #f1f1f5; */
 }
 
 .matchdate {
@@ -506,6 +507,7 @@ a.article-title:hover {
 .form-control{
     padding: 0 0 0 0;
     background-color: #f1f1f5;
+    color: #6e777f;
 }
 
 .edit_bet_row {
@@ -562,8 +564,143 @@ padding-left: 15px;
     background-color: red;
     text-align: center;
     height: 8%;
+
+/* --- */
+    /* display: flex;
+    flex-direction: column; */
+    /* position: relative; */
+    /* height:70px;
+    clear:both;
+    position:relative;
+    bottom:0;
+    width: 100%; */
 }
 
 .dropup{
     padding-top: inherit;
 }
+
+.tip_form{
+    /* background-color: yellow; */
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: scroll;
+}
+
+.bet_content{
+    /* background-color: red; */
+    /* display: flex;
+    flex-direction: column; */
+}
+
+.seperator{
+    padding-bottom: 100px;
+}
+
+/* Tippuebersicht */
+.col_teams{
+    background: none;
+    text-align: center;
+    padding: 14px 8px 12px;
+    max-width: 80px;
+    width: 80px;
+    font-weight:500;
+}
+
+.span_match_team_home{
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    border-bottom: 1px dashed #acacac;
+}
+
+.span_match_team_guest{
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.span_result{
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.scrolling-wrapper-flexbox{
+    /* display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column; */
+    overflow-x: auto;
+    /* margin:0 */
+}
+
+/* .match_header{
+
+} */
+
+.col_value--spieltag{
+    padding-right:4px;
+    min-width: 60px;
+    border-right: 2px solid rgba(95, 93, 97, .08);
+}
+
+.card{
+    padding-left: 10px;
+}
+
+.th_sticky{
+    /* background: white;
+    position: sticky; */
+    /* top: 0; */
+     /* Don't forget this,
+      required for the stickiness */
+}
+
+.col_value_gesamt_head{
+    border-right: 2px solid rgba(95, 93, 97, .08);
+    max-width: 60px;
+    padding-left: 5px;
+    text-align: center;
+}
+
+.table thead{
+    font-weight: 400;
+    color: #6c757d;
+    border-bottom: 0;
+}
+
+.table td, .table th {
+    /* padding: 14px 12px 0; */
+    margin: 0;
+    border-bottom: 1px solid rgba(95, 93, 97, .08);
+    color: #5f5d61;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: right;
+    border-top: 0px #f1f1f5;
+}
+
+.table thead th{
+    vertical-align: middle;
+}
+
+.table td{
+    vertical-align: middle;
+    border-top: 1.5px solid #dee2e6;
+    padding: 0rem;
+}
+
+.table th{
+    padding: 0px;
+    text-align: center;
+}
+/* .span_gesamt{
+    text-align: center;
+} */

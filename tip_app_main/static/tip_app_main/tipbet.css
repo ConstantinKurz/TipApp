@@ -948,7 +948,7 @@ a {
     width: 16px;
     height:16px
 }
-
+/* 
 button {
     background: var(--color-button);
     color: #fff;
@@ -960,7 +960,7 @@ button {
     margin: 0;
     cursor: pointer;
     width:100%
-}
+} */
 
 button, button:hover {
     -webkit-transition: .2s;

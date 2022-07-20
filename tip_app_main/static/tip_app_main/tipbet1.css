@@ -4375,14 +4375,14 @@ input[type=number][data-v-d709007e] {
     --color-link-rgb:12, 62, 193
 }
 
-.button[data-v-423a6f04] {
+/* .button[data-v-423a6f04] {
     background: var(--color-button);
     font-size: 17px;
     font-weight: 500;
     border: 0;
     border-radius: 6px;
     padding:14px 19px
-}
+} */
 
 .button a[data-v-423a6f04] {
     color: #fff;
@@ -6600,15 +6600,6 @@ ul[data-v-72d367bb] {
     --color-button-rgb: 12, 62, 193;
     --color-link: #0c3ec1;
     --color-link-rgb:12, 62, 193
-}
-
-.col_teams{
-    background: none;
-    text-align: center;
-    padding: 14px 8px 12px;
-    max-width: 80px;
-    width: 80px;
-    font-weight:500;
 }
 
 .col_teams_name[data-v-3a0fdfcd] {

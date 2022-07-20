@@ -30,16 +30,16 @@
         <table id="bg_rankings_detail_table" class="table card">
                 <thead>
                 <tr>
-                        <th class="th_sticky col_pos_result_head"></th>
-                        <th class="th_sticky col_user_head"></th>
-                        <th class="th_sticky col_value_gesamt_head">
+                        <th class="col_pos_result_head"></th>
+                        <th class="col_user_head"></th>
+                        <th class="col_value_gesamt_head">
                                 <span class="span_gesamt">Gesamt</span>
                         </th>
-                        <th class="th_sticky col_value--spieltag">
+                        <th class="col_value_spieltag">
                                 <span>Spieltag</span>
                         </th>
                         {% for match in ordered_matchday_matches %}
-                        <th class="th_sticky col_teams">
+                        <th class="col_teams">
                                 <span class="span_match_team_home">{{match.home_team.team_ccode}}</span>
                                 <span class="span_match_team_guest">{{match.guest_team.team_ccode}}</span>
                                 {% if match.home_score == -1 or match.guest_score == -1 %}
@@ -81,9 +81,9 @@
                                 {% get_users_matchday_tips matchday_tips user matchday_number as get_users_matchday_tips %}
 
                                 <td class="col_pos_result_body">{{user.rank}}.</td>
-                                <td class="col_user col_user_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.user.username}}</td>
+                                <td class="col_user_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.user.username}}</td>
                                 <td class="col_value col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
-                                <td class="col_value col_value--spieltag sort_column col_value_spieltag_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
+                                <td class="col_value col_value_spieltag" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
                                 {% for tip in get_users_matchday_tips %}
                                 {% ifequal forloop.counter|modulo:2 0 %}
                                 <td class="col_result col_white width_result_teams">
@@ -105,13 +105,13 @@
                                         {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
                                                 <span class="bet_result">
                                                 - : -
-                                                <small></small>
+                                                <span></span>
                                                 </span>
                                         {% else %}
                                                 <span class="bet_result">
                                                 {{tip.tip_home}} : {{tip.tip_guest}}
-                                                <small {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
-                                                </small>
+                                                </span>
+                                                <span {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
                                                 </span>
                                         {% endif %}
                                 </td>

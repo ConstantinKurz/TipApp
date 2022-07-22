@@ -1149,12 +1149,12 @@ button[disabled] {
     text-align:left
 }
 
-.table td.col_user, .table th.col_user {
+/* .table td.col_user, .table th.col_user {
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space:nowrap
-}
+} */
 
 .table td:last-child, .table th:last-child {
     padding-right:16px

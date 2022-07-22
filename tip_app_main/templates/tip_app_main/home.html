@@ -47,7 +47,7 @@
       </div>
     </div>
   </div>
-  <div data-v-ce1968d6="" id="bg_rankings_table">
+  <!-- <div data-v-ce1968d6="" id="bg_rankings_table">
     <table data-v-ce1968d6="" class="table">
       <thead data-v-ce1968d6="">
         <th data-v-ce1968d6="" class="col_pos"></th>
@@ -67,7 +67,6 @@
       {% for user in users_ranked %}
       <tr {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
         <td class="col_pos">{{ user.rank }}.</td>
-        <!-- -->
         <td colspan="3" class="col_user">{{ user.user.username }}</td>
         <td class="col_value">{{ user.score }}</td>
         <td class="col_value">{{ user.right_tips }}</td>
@@ -80,7 +79,39 @@
     <a data-v-ce1968d6="" href="{% url 'tip-ranking'%}" class="">
       <button data-v-ce1968d6="">La Liste</button>
     </a>
-  </div>
+  </div> -->
+<div id="bg_rankings_table">
+    <table  class="table">
+      <thead >
+        <th class="col_pos head_borders"></th>
+        <th class="col_avatar"></th>
+        <th class="col_user"></th>
+        <th class="col_user_source"></th>
+        <th class="col_value head_borders">Pkt</th>
+        <th class="col_value head_borders">6er</th>
+        <th class="col_value_joker head_borders">
+          <img src="/media/static_pics/joker.svg">
+        </th>
+        <th class="col_value">
+          <img src="/media/static_pics/trophy.svg">
+        </th>
+      </thead>
+      {% for user in users_ranked %}
+      <tr {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
+        <td class="col_pos">{{ user.rank }}.</td>
+        <td colspan="3" class="col_user">{{ user.user.username }}</td>
+        <td class="col_value">{{ user.score }}</td>
+        <td class="col_value">{{ user.right_tips }}</td>
+        <td class="col_value_joker">{{ user.joker }}</td>
+        <td class="col_value">{{ user.user_champion }}</td>
+      </tr>
+      {% endfor %}
+      <tfoot></tfoot>
+    </table>
+  <a href="{% url 'tip-ranking'%}">
+    <button class="la_liste_home_button">La Liste</button>
+  </a>
+</div>
 </div>
 <div id="home-endpoint-url" url="{% url 'tip-home' %}">
   <span id="days"></span>

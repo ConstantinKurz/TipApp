@@ -3,23 +3,22 @@
 {% load i18n dicthelpers %}
 
 <div class="dashboard page offset">
-<div data-v-ce1968d6="" id="bg_rankings_table">
-    <table data-v-ce1968d6="" class="table">
-      <thead data-v-ce1968d6="">
-        <th data-v-ce1968d6="" class="col_pos"></th>
-        <th data-v-ce1968d6="" class="col_avatar"></th>
-        <th data-v-ce1968d6="" class="col_user"></th>
-        <th data-v-ce1968d6="" class="col_user_source"></th>
-        <th data-v-ce1968d6="" class="col_value">Pkt</th>
-        <th data-v-ce1968d6="" class="col_value">6er</th>
-        <th data-v-ce1968d6="" class="col_value_joker">
+<div id="bg_rankings_table">
+    <table  class="table">
+      <thead >
+        <th class="col_pos head_borders"></th>
+        <th class="col_avatar"></th>
+        <th class="col_user"></th>
+        <th class="col_user_source"></th>
+        <th class="col_value head_borders">Pkt</th>
+        <th class="col_value head_borders">6er</th>
+        <th class="col_value_joker head_borders">
           <img src="/media/static_pics/joker.svg">
         </th>
-        <th data-v-ce1968d6="" class="col_value">
+        <th class="col_value">
           <img src="/media/static_pics/trophy.svg">
         </th>
       </thead>
-      <tbody data-v-ce1968d6=""></tbody>
       {% for user in users_ranked %}
       <tr {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
         <td class="col_pos">{{ user.rank }}.</td>
@@ -30,7 +29,7 @@
         <td class="col_value">{{ user.user_champion }}</td>
       </tr>
       {% endfor %}
-      <tfoot data-v-ce1968d6=""></tfoot>
+      <tfoot></tfoot>
     </table>
 </div>
 </div>

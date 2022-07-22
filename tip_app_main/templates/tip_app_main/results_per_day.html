@@ -2,44 +2,20 @@
 {% block content %}
 {% load i18n dicthelpers %}
 {% get_matchday_name matchday_number as matchday_name %}
-
-        {% comment %} <thead class="match_header">
-                <tr>
-                        <th class="col_pos_result_head"></th>
-                        <th class="col_user_head"></th>
-                        <th class="col_value col_value--gesamt sort col_value_gesamt_body">
-                                <span>Gesamt</span>
-                        </th>
-                        <th class="col_value col_value--spieltag sort col_value_spieltag_body">
-                                <span>Spieltag</span>
-                        </th>
-                        {% for match in ordered_matchday_matches %}
-                        <th class="col_teams col_white width_result_teams">
-                                <span class="col_teams_name">{{match.home_team.team_ccode}}</span>
-                                <span class="col_teams_name">{{match.guest_team.team_ccode}}</span>
-                                {% if match.home_score == -1 or match.guest_score == -1 %}
-                                <span>-:-</span>
-                                {% else %}
-                                <span>{{match.home_score}}:{{match.guest_score}}</span>
-                                {% endif %}
-                        </th>
-                        {% endfor %}
-                </tr>
-        </thead> {% endcomment %}
 <div class="scrolling-wrapper-flexbox">
         <table id="bg_rankings_detail_table" class="table card">
                 <thead>
                 <tr>
-                        <th class="col_pos_result_head"></th>
-                        <th class="col_user_head"></th>
-                        <th class="col_value_gesamt_head">
+                        <th class="col_pos_result_head head_borders"></th>
+                        <th class="col_user_head head_borders"></th>
+                        <th class="col_value_gesamt_head head_borders">
                                 <span class="span_gesamt">Gesamt</span>
                         </th>
                         <th class="col_value_spieltag">
                                 <span>Spieltag</span>
                         </th>
                         {% for match in ordered_matchday_matches %}
-                        <th class="col_teams">
+                        <th class="col_teams head_borders">
                                 <span class="span_match_team_home">{{match.home_team.team_ccode}}</span>
                                 <span class="span_match_team_guest">{{match.guest_team.team_ccode}}</span>
                                 {% if match.home_score == -1 or match.guest_score == -1 %}
@@ -51,29 +27,6 @@
                         {% endfor %}
                 </tr>
                 </thead>
-                {% comment %} <thead data-v-3a0fdfcd="" data-v-bb729c54="">
-                        <tr data-v-3a0fdfcd="">
-                                <th data-v-3a0fdfcd="" class="col_pos_result_head"></th>
-                                <th data-v-3a0fdfcd="" class="col_user_head"></th>
-                                <th data-v-3a0fdfcd="" class="col_value col_value--gesamt sort col_value_gesamt_body">
-                                        <span data-v-3a0fdfcd="">Gesamt</span></th>
-                                <th data-v-3a0fdfcd="" class="col_value col_value--spieltag sort col_value_spieltag_body">
-                                        <span data-v-3a0fdfcd="">Spieltag</span></th>
-                                {% for match in ordered_matchday_matches %}
-                                <th data-v-3a0fdfcd="" class="col_teams col_white width_result_teams">
-                                        <span data-v-3a0fdfcd=""
-                                                class="col_teams_name">{{match.home_team.team_ccode}}</span>
-                                        <span data-v-3a0fdfcd=""
-                                                class="col_teams_name">{{match.guest_team.team_ccode}}</span>
-                                        {% if match.home_score == -1 or match.guest_score == -1 %}
-                                        <span data-v-3a0fdfcd="">-:-</span>
-                                        {% else %}
-                                        <span data-v-3a0fdfcd="">{{match.home_score}}:{{match.guest_score}}</span>
-                                        {% endif %}
-                                </th>
-                                {% endfor %}
-                        </tr>
-                </thead> {% endcomment %}
                 <tbody>
                         {% for user in users_ranked %}
                         <tr>
@@ -90,13 +43,12 @@
                                                 {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
                                                 <span class="bet_result">
                                                 - : -
-                                                <small></small>
                                                 </span>
                                                 {% else %}
                                                 <span class="bet_result">
                                                 {{tip.tip_home}} : {{tip.tip_guest}}
-                                                <small {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
-                                                </small>
+                                                </span>
+                                                <span {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
                                                 </span>
                                                 {% endif %}
                                 </td>
@@ -105,7 +57,6 @@
                                         {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
                                                 <span class="bet_result">
                                                 - : -
-                                                <span></span>
                                                 </span>
                                         {% else %}
                                                 <span class="bet_result">
@@ -120,53 +71,6 @@
                         </tr>
                         {% endfor %}
                 </tbody>
-                {% comment %} <tbody data-v-bb729c54="">
-                        {% for user in users_ranked %}
-                        <tr data-v-bb729c54="" class="">
-                                {% get_users_matchday_score matchday_scores user as get_users_matchday_score %}
-                                {% get_users_matchday_tips matchday_tips user matchday_number as get_users_matchday_tips %}
-
-                                <td data-v-bb729c54="" class="col_pos_result_body">{{user.rank}}.</td>
-                                <td data-v-bb729c54="" class="col_user col_user_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.user.username}}</td>
-                                <td data-v-bb729c54="" class="col_value col_value--gesamt sort_column col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
-                                <td data-v-bb729c54="" class="col_value col_value--spieltag sort_column col_value_spieltag_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
-                                {% for tip in get_users_matchday_tips %}
-                                {% ifequal forloop.counter|modulo:2 0 %}
-                                <td data-v-bb729c54="" class="col_result col_white width_result_teams">
-                                                {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
-                                                <span data-v-bb729c54="" class="bet_result">
-                                                - : -
-                                                <small data-v-bb729c54=""></small>
-                                                </span>
-                                                {% else %}
-                                                <span data-v-bb729c54="" 
-                                                class="bet_result">
-                                                {{tip.tip_home}} : {{tip.tip_guest}}
-                                                <small data-v-bb729c54="" {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
-                                                </small>
-                                                </span>
-                                                {% endif %}
-                                </td>
-                                {% else %}
-                                <td data-v-bb729c54="" class="col_result col_grey width_result_teams">
-                                        {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
-                                                <span data-v-bb729c54="" class="bet_result">
-                                                - : -
-                                                <small data-v-bb729c54=""></small>
-                                                </span>
-                                        {% else %}
-                                                <span data-v-bb729c54="" class="bet_result">
-                                                {{tip.tip_home}} : {{tip.tip_guest}}
-                                                <small data-v-bb729c54="" {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
-                                                </small>
-                                                </span>
-                                        {% endif %}
-                                </td>
-                                {% endifequal %}
-                                {% endfor %}
-                        </tr>
-                        {% endfor %}
-                </tbody> {% endcomment %}
                 <tfoot data-v-bb729c54=""></tfoot>
         </table>
   </div>

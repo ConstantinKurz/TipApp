@@ -13,7 +13,7 @@ class Profile(models.Model):
     score = models.IntegerField(default=0)
     right_tips = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
-    user_champion = models.CharField(max_length=12, choices=champion_choices, default='---')
+    Weltmeister = models.CharField(max_length=12, choices=champion_choices, default='---')
     joker = models.IntegerField(default=0)
 
     def update_score_and_joker(self):

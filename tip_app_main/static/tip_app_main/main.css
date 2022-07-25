@@ -470,7 +470,14 @@ secondary.dropdown-toggle{
 .profile_page_button{
     display: table;
     margin: 0 auto;
-    max-width: calc(30% - 12px);
+    max-width: calc(50%);
+}
+
+.log_in_button{
+    display: table;
+    margin: 0 auto;
+    max-width: calc(50%);
+    background-color: #0c3ec1;
 }
 
 

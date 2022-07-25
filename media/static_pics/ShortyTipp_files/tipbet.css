@@ -3002,7 +3002,7 @@ thead .col_value--all[data-v-0104f075] {
 }
 
 .dashboard {
-    max-width: 768px;
+    max-width: calc(50%);
     margin:0 auto
 }
 

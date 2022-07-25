@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -35,7 +34,7 @@ def profile(request):
                                    request.FILES,
                                    instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
-            if 'user_champion' in p_form.cleaned_data and first_match.has_started():
+            if 'Weltmeister' in p_form.cleaned_data and first_match.has_started():
                 messages.warning(request, 'Das erste Spiel hat schon begonnen. Keine Änderung des Weltmeisters mehr möglich!')
                 return redirect('profile')
             else:

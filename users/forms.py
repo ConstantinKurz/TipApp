@@ -28,5 +28,5 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
 
         exclude = ['jokers']
-        fields = ['user_champion']
+        fields = ['Weltmeister']
 

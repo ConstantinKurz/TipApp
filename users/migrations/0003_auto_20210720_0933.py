@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='profile',
-            name='user_champion',
+            name='Champion',
             field=models.CharField(choices=[('GER', 'Deutschland'), ('FRA', 'Frankreich'), ('ITA', 'Italien'), ('ESP', 'Spanien'), ['', '']], default='', max_length=12),
         ),
     ]

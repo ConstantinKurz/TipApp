@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='profile',
-            name='user_champion',
+            name='Champion',
             field=models.CharField(choices=[('GER', 'Deutschland'), ('FRA', 'Frankreich'), ['', '']], default='', max_length=12),
         ),
     ]

@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(default='default.jpg', upload_to='profile_pics')),
                 ('score', models.IntegerField(default=0)),
                 ('rank', models.IntegerField(default=0)),
-                ('user_champion', models.CharField(default='----', max_length=12)),
+                ('Champion', models.CharField(default='----', max_length=12)),
                 ('joker', models.IntegerField(default=0)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

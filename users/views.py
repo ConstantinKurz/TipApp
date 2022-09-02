@@ -27,7 +27,10 @@ def register(request):
 
 @login_required
 def profile(request):
-    first_match = Match.objects.order_by('match_date')[0]
+    try:
+        first_match = Match.objects.order_by('match_date')[0]
+    except:
+        first_match = None
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,

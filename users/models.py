@@ -5,9 +5,9 @@ from tip_app_main.models import Team, Tip
 
 class Profile(models.Model):
 
-    # champion_choices = [(team.team_ccode, team.team_name) for team in Team.objects.all()]
-    champion_choices = [('GER', 'Deutschland'), ('FRA', 'Frankreich')]
-    # champion_choices.append([('---'), ('---')])
+    champion_choices = [(team.team_ccode, team.team_name) for team in Team.objects.all()]
+    # champion_choices = [('GER', 'Deutschland'), ('FRA', 'Frankreich')]
+    champion_choices.append([('---'), ('---')])
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')

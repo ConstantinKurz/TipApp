@@ -194,7 +194,7 @@ def reminder_email(request):
         if not tip or tip.tip_home == -1:
             not_tipped.append(user.user.email)
     subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
-    message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'
+    message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de '
     if not_tipped:
         send_mail(subject,
                   message, EMAIL_HOST_USER, recipient_list=not_tipped)

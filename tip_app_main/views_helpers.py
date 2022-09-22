@@ -12,8 +12,6 @@ def save_tip(id, value, joker,  user, request):
             tip = Tip.objects.get(author=user, match__id=match_id)
         except:
             tip = None
-        # if tip.tip_home < 0 or tip.tip_guest:
-        #     return 
         if 'home' in id:
             new_home_tip(tip, match, value, user)   
         if 'guest' in id: 
@@ -97,13 +95,14 @@ def get_n_joker(user, matchday_number):
             n_joker += 1
     # asynchrone abgabe ist nicht gespeichert. dewegen muss hier
     # plus/minus 1 berücksichtigt werden. 
-    # if value == False and n_joker > 0: n_joker -= 1
-    # if value: n_joker += 1
     return n_joker
 
 
 def validate_input(value):
-    return int(value) > -1
+    if int(value) > -1:
+        return True
+    else:
+        False
 
 def get_match_ids_and_matchdates_for_matchday(matchday_number):
     match_ids_and_dates = {}
@@ -143,25 +142,6 @@ def update_scores_and_ranks(matchday=None):
         temp_rank+=1
     return matchday_tipps_per_user
 
-
-# def remainder_email(upcoming_match):
-#     not_tipped = []
-#     for user in Profile.objects.all():
-#         try:
-#             tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
-#         except:
-#             tip = None
-#         if not tip or tip.tip_home == -1:
-#             not_tipped.append(user.user.email)
-#     subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
-#     message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'
-#     recepients = not_tipped
-#     if not_tipped:
-#         send_mail(subject,
-#                   message, EMAIL_HOST_USER, recipient_list=recepients, fail_silently=False)
-
 def is_mobile(request):
     user_agent = request.META['HTTP_USER_AGENT']
-    # print(user_agent)
-    # print('Mobile' in user_agent)
     return 'Mobile' in user_agent

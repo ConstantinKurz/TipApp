@@ -31,7 +31,7 @@ class Match(models.Model):
 
     def __str__(self):
         return 'Match: ' + self.home_team.team_name + ' : ' + self.guest_team.team_name \
-            + ' | Spieltag: ' + str(self.matchday)
+            + ' | Spieltag: ' + str(self.matchday) + ' | Datum: ' + str(self.match_date)
 
 class Tip(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)

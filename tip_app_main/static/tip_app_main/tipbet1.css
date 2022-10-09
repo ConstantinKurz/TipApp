@@ -2990,7 +2990,7 @@ thead .col_value--all[data-v-2ca298f2] {
 }
 
 .dashboard-container {
-    background: #f1f1f5;
+    background: #fff;
     -webkit-box-shadow: 0 8px 24px 0 rgba(49, 49, 55, .08);
     box-shadow: 0 8px 24px 0 rgba(49, 49, 55, .08);
     border-radius: 11px;

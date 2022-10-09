@@ -99,10 +99,7 @@ def get_n_joker(user, matchday_number):
 
 
 def validate_input(value):
-    if int(value) > -1:
-        return True
-    else:
-        False
+    return int(value) > -1
 
 def get_match_ids_and_matchdates_for_matchday(matchday_number):
     match_ids_and_dates = {}

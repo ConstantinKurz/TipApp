@@ -436,8 +436,8 @@ secondary.dropdown-toggle{
 }
 
 .col_user_body{
-    width: 120px;
-    min-width: 120px;
+    width: 150px;
+    /* min-width: 1px; */
     text-align: center;
 }
 

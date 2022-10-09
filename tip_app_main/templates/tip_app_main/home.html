@@ -3,8 +3,7 @@
 {% load i18n dicthelpers %}
 {% load static %}
 <div class="dashboard page pageoffset">
-  <div class="dashboard-container home_container">
-    <div class="home_countdown">
+  <div class="dashboard-container">
     {% if upcoming_match != None %}
       <table class="dashboard-countdown">
         <tr>
@@ -44,12 +43,6 @@
         </a> 
         {% endif %}
         </div>
-      </div>
-    </div>
-    <div class="home_rules_button">
-    <a href="{% url 'tip-ranking'%}">
-    <button class="la_liste_home_button">La Liste</button>
-    </a>
     </div>
   </div>
 <div id="bg_rankings_table">

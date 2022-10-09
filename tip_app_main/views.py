@@ -9,7 +9,7 @@ from .models import Match, Tip
 from users.models import Profile
 from django.http import BadHeaderError, HttpResponse
 from django.shortcuts import render
-from tip_app.settings import EMAIL_HOST_USER
+from tip_app.settings import EMAIL_HOST_USER, MEDIA_ROOT
 from django.core.mail import send_mail
 import json
 from datetime import timedelta
@@ -202,3 +202,11 @@ def reminder_email(request):
         return redirect('tip-mail')
     
     return render(request, "tip_app_main/email.html")
+
+@login_required
+@csrf_protect
+def pdf_view(request):
+    with open(MEDIA_ROOT + '/TippspielRegeln2018.pdf', 'rb') as pdf:
+        response = HttpResponse(pdf.read(), content_type='application/pdf')
+        response['Content-Disposition'] = 'inline;filename=TippspielRegeln2018.pdf'
+        return response

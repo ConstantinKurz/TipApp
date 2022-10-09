@@ -3,8 +3,8 @@
 {% load i18n dicthelpers %}
 {% load static %}
 <div class="dashboard page pageoffset">
-  <div class="dashboard-container">
-    <div>
+  <div class="dashboard-container home_container">
+    <div class="home_countdown">
     {% if upcoming_match != None %}
       <table class="dashboard-countdown">
         <tr>
@@ -46,40 +46,12 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- <div data-v-ce1968d6="" id="bg_rankings_table">
-    <table data-v-ce1968d6="" class="table">
-      <thead data-v-ce1968d6="">
-        <th data-v-ce1968d6="" class="col_pos"></th>
-        <th data-v-ce1968d6="" class="col_avatar"></th>
-        <th data-v-ce1968d6="" class="col_user"></th>
-        <th data-v-ce1968d6="" class="col_user_source"></th>
-        <th data-v-ce1968d6="" class="col_value">Pkt</th>
-        <th data-v-ce1968d6="" class="col_value">6er</th>
-        <th data-v-ce1968d6="" class="col_value_joker">
-          <img src="/media/static_pics/joker.svg">
-        </th>
-        <th data-v-ce1968d6="" class="col_value">
-          <img src="/media/static_pics/trophy.svg">
-        </th>
-      </thead>
-      <tbody data-v-ce1968d6=""></tbody>
-      {% for user in users_ranked %}
-      <tr {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
-        <td class="col_pos">{{ user.rank }}.</td>
-        <td colspan="3" class="col_user">{{ user.user.username }}</td>
-        <td class="col_value">{{ user.score }}</td>
-        <td class="col_value">{{ user.right_tips }}</td>
-        <td class="col_value_joker">{{ user.joker }}</td>
-        <td class="col_value">{{ user.Weltmeister }}</td>
-      </tr>
-      {% endfor %}
-      <tfoot data-v-ce1968d6=""></tfoot>
-    </table>
-    <a data-v-ce1968d6="" href="{% url 'tip-ranking'%}" class="">
-      <button data-v-ce1968d6="">La Liste</button>
+    <div class="home_rules_button">
+    <a href="{% url 'tip-ranking'%}">
+    <button class="la_liste_home_button">La Liste</button>
     </a>
-  </div> -->
+    </div>
+  </div>
 <div id="bg_rankings_table">
     <table  class="table">
       <thead >
@@ -112,8 +84,5 @@
     <button class="la_liste_home_button">La Liste</button>
   </a>
 </div>
-</div>
-<div id="home-endpoint-url" url="{% url 'tip-home' %}">
-  <span id="days"></span>
 </div>
 {% endblock content %}

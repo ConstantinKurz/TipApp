@@ -2990,7 +2990,7 @@ thead .col_value--all[data-v-2ca298f2] {
 }
 
 .dashboard-container {
-    background: #fff;
+    background: #f1f1f5;
     -webkit-box-shadow: 0 8px 24px 0 rgba(49, 49, 55, .08);
     box-shadow: 0 8px 24px 0 rgba(49, 49, 55, .08);
     border-radius: 11px;
@@ -3004,7 +3004,7 @@ thead .col_value--all[data-v-2ca298f2] {
         -ms-flex: 0 calc(50% - 12px);
         flex: 0 calc(50% - 12px);
         height: 0%;
-        margin:24px 0 0
+        /* margin:24px 0 0 */
     }
 
     .dashboard-container.fullwidth {

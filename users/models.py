@@ -5,6 +5,7 @@ from tip_app_main.models import Team, Tip
 
 class Profile(models.Model):
 
+    champion_choices = []
     champion_choices = [(team.team_ccode, team.team_name) for team in Team.objects.all()]
     # champion_choices = [('GER', 'Deutschland'), ('FRA', 'Frankreich')]
     champion_choices.append([('---'), ('---')])

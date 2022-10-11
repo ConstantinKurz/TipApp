@@ -23,9 +23,15 @@ class Profile(models.Model):
         right_tips = 0
         tip_score = 0
         for tipp in tipps:
-            if tipp.points() % 6 == 0 and tipp.points() != 0:
-                right_tips += 1
-            if tipp.joker and tipp.match.has_started():
+            #6er
+            if tipp.joker() and tipp.points() !=0:
+                if tipp.points() / 2 % 6 == 0:
+                    right_tips += 1      
+            elif not tipp.joker() and tipp.points() != 0: 
+                if tipp.points() % 6 == 0: 
+                    right_tips += 1
+            #joker
+            if tipp.joker and (tipp.match.has_started() or (tipp.match.guest_score != -1 and tipp.match.home_score != -1)):
                 joker += 1
             tip_score += tipp.points()
         self.joker = joker
@@ -43,7 +49,8 @@ class Profile(models.Model):
             tip_score = tipp.points()
             matchday_score += tip_score
         return matchday_score
-    
+
+
     def __str__(self):
         return f'{self.user.username} Profile'
 

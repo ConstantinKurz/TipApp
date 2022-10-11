@@ -24,10 +24,10 @@ class Profile(models.Model):
         tip_score = 0
         for tipp in tipps:
             #6er
-            if tipp.joker() and tipp.points() !=0:
+            if tipp.joker and tipp.points() !=0:
                 if tipp.points() / 2 % 6 == 0:
                     right_tips += 1      
-            elif not tipp.joker() and tipp.points() != 0: 
+            elif not tipp.joker and tipp.points() != 0: 
                 if tipp.points() % 6 == 0: 
                     right_tips += 1
             #joker

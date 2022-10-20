@@ -75,7 +75,7 @@ class Tip(models.Model):
         return self.matchday_multiplicator(points)
     
     def matchday_multiplicator(self, points):
-        if  2 < self.match.matchday < 4:
+        if  2 < self.match.matchday <= 4:
             points*=2
         if  self.match.matchday >= 5:
             points*=3

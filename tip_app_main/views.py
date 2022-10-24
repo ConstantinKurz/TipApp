@@ -206,7 +206,7 @@ def reminder_email(request):
 @login_required
 @csrf_protect
 def pdf_view(request):
-    with open(MEDIA_ROOT + '/TippspielRegeln2018.pdf', 'rb') as pdf:
+    with open(MEDIA_ROOT + '/WM2022onlineRegeln.pdf', 'rb') as pdf:
         response = HttpResponse(pdf.read(), content_type='application/pdf')
         response['Content-Disposition'] = 'inline;filename=TippspielRegeln2018.pdf'
         return response

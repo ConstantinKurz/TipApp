@@ -128,14 +128,14 @@ def get_match_ids_and_matchdates_for_matchday(matchday_number):
 def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
     last_match = Match.objects.latest('match_date')
-    # save
-    if not (last_match.is_finished() and last_match.home_score != -1):
-        for user in Profile.objects.all():
-            if (Tip.objects.filter(author=user.user)):
-                user.update_score_and_joker()
-            if matchday != None:
-                matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(
-                        matchday)
+    for user in Profile.objects.all():
+        if (Tip.objects.filter(author=user.user)):
+            user.update_score_and_joker()
+        if matchday != None:
+            matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(
+                matchday)
+            # do not save anymore if last game is over
+            if last_match.home_score == -1:
                 user.save()
     # update ranks
     users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker')

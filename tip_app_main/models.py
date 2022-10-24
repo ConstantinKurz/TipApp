@@ -29,6 +29,8 @@ class Match(models.Model):
     def half_hour_remaining(self):
         return timezone.now().replace(microsecond=0) == (self.match_date - timedelta(seconds=30*60)).replace(microsecond=0)
 
+    def is_finished(self):
+        return self.match_date + timedelta(minutes=150) < timezone.now()
     def __str__(self):
         return 'Match: ' + self.home_team.team_name + ' : ' + self.guest_team.team_name \
             + ' | Spieltag: ' + str(self.matchday) + ' | Datum: ' + str(self.match_date)

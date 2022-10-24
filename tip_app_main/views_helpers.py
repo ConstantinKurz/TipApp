@@ -1,3 +1,4 @@
+from cmath import e
 from django.utils import timezone
 from users.models import Profile
 from .models import Tip, Match
@@ -117,13 +118,22 @@ def get_match_ids_and_matchdates_for_matchday(matchday_number):
 
 def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
-    for user in Profile.objects.all():
-        if (Tip.objects.filter(author=user.user)):
-            user.update_score_and_joker()
-        if matchday != None:
-            matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(matchday)
-        user.save()
-
+    last_match = Match.objects.order_by('match_date')[-1]
+    try:
+        if last_match.is_finished() and last_match.home_score != -1:
+            for user in Profile.objects.all():
+                if (Tip.objects.filter(author=user.user)):
+                    user.update_score_and_joker()
+                if matchday != None:
+                    matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(matchday)
+                user.save()
+    except:
+        for user in Profile.objects.all():
+            if (Tip.objects.filter(author=user.user)):
+                user.update_score_and_joker()
+            if matchday != None:
+                matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(matchday)
+            user.save()
     # update ranks
     users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker')
     # order users dirty

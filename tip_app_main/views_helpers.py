@@ -127,7 +127,7 @@ def get_match_ids_and_matchdates_for_matchday(matchday_number):
 
 def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
-    last_match = Match.objects.order_by('match_date')[-1]
+    last_match = Match.objects.latest('match_date')
     # save
     if not (last_match.is_finished() and last_match.home_score != -1):
         for user in Profile.objects.all():

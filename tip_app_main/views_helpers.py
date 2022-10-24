@@ -6,20 +6,21 @@ from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from tip_app.settings import EMAIL_HOST_USER
 
+
 def save_tip(id, value, joker,  user, request):
         match_id = id.split('_', -1)[-1]
         match = get_object_or_404(Match, pk=match_id)
-        try: 
+        try:
             tip = Tip.objects.get(author=user, match__id=match_id)
         except:
             tip = None
         if 'home' in id:
-            new_home_tip(tip, match, value, user)   
-        if 'guest' in id: 
-            new_guest_tip(tip, match, value, user)    
+            new_home_tip(tip, match, value, user)
+        if 'guest' in id:
+            new_guest_tip(tip, match, value, user)
         if 'joker' in id:
-            new_joker(tip, match, joker, user)  
-     
+            new_joker(tip, match, joker, user)
+
 
 def new_home_tip(tip, match, value, user):
     if validate_input(value):
@@ -28,14 +29,15 @@ def new_home_tip(tip, match, value, user):
             tip.tip_home = value
         else:
             tip = Tip(
-                tip_date = timezone.now(),
-                author = user,
-                match = match,
-                tip_home = value,
+                tip_date=timezone.now(),
+                author=user,
+                match=match,
+                tip_home=value,
             )
         tip.save()
     else:
-        return       
+        return
+
 
 def new_guest_tip(tip, match, value, user):
     if validate_input(value):
@@ -44,28 +46,30 @@ def new_guest_tip(tip, match, value, user):
             tip.tip_guest = value
         else:
             tip = Tip(
-                tip_date = timezone.now(),
-                author = user,
-                match = match,
-                tip_guest = value,
+                tip_date=timezone.now(),
+                author=user,
+                match=match,
+                tip_guest=value,
             )
         tip.save()
     else:
-        return     
+        return
+
 
 def new_joker(tip, match, value, user):
-    if tip: 
+    if tip:
         tip.tip_date = timezone.now()
         tip.joker = value
     else:
         tip = Tip(
-            tip_date = timezone.now(),
-            author = user,
-            match = match,
-            tip_joker = value,
+            tip_date=timezone.now(),
+            author=user,
+            match=match,
+            tip_joker=value,
         )
     is_joker_valid(match.matchday, get_n_joker(user, match.matchday), tip)
-    tip.save() 
+    tip.save()
+
 
 def is_joker_valid(matchday_number, njoker, tip):
     if matchday_number < 3 and njoker > 3:
@@ -76,6 +80,7 @@ def is_joker_valid(matchday_number, njoker, tip):
         tip.joker = False
     if matchday_number > 4 and njoker > 1:
         tip.joker = False
+
 
 def get_n_joker(user, matchday_number):
     n_joker = 0
@@ -95,18 +100,21 @@ def get_n_joker(user, matchday_number):
         if tip.joker:
             n_joker += 1
     # asynchrone abgabe ist nicht gespeichert. dewegen muss hier
-    # plus/minus 1 berücksichtigt werden. 
+    # plus/minus 1 berücksichtigt werden.
     return n_joker
 
 
 def validate_input(value):
     return int(value) > -1
 
+
 def get_match_ids_and_matchdates_for_matchday(matchday_number):
     match_ids_and_dates = {}
-    matchday_matches = Match.objects.filter(matchday=matchday_number).order_by('match_date')
+    matchday_matches = Match.objects.filter(
+        matchday=matchday_number).order_by('match_date')
     for match in matchday_matches:
-        match_ids_and_dates[match.id] = match.match_date.strftime("%Y-%m-%dT%H:%M:%S")
+        match_ids_and_dates[match.id] = match.match_date.strftime(
+            "%Y-%m-%dT%H:%M:%S")
     return match_ids_and_dates
 
 # def get_match_dates(matchday_number):
@@ -116,24 +124,19 @@ def get_match_ids_and_matchdates_for_matchday(matchday_number):
 #         match_dates.append(match.matchdate)
 #     return match_dates
 
+
 def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
     last_match = Match.objects.order_by('match_date')[-1]
-    try:
-        if last_match.is_finished() and last_match.home_score != -1:
-            for user in Profile.objects.all():
-                if (Tip.objects.filter(author=user.user)):
-                    user.update_score_and_joker()
-                if matchday != None:
-                    matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(matchday)
-                user.save()
-    except:
+    # save
+    if not (last_match.is_finished() and last_match.home_score != -1):
         for user in Profile.objects.all():
             if (Tip.objects.filter(author=user.user)):
                 user.update_score_and_joker()
             if matchday != None:
-                matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(matchday)
-            user.save()
+                matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(
+                        matchday)
+                user.save()
     # update ranks
     users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker')
     # order users dirty

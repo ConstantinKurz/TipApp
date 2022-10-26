@@ -12,6 +12,8 @@ from django.shortcuts import render
 from tip_app.settings import EMAIL_HOST_USER, MEDIA_ROOT
 from django.core.mail import send_mail
 import json
+from itertools import zip_longest
+import csv
 from datetime import timedelta
 from django.utils import timezone
 
@@ -210,3 +212,33 @@ def pdf_view(request):
         response = HttpResponse(pdf.read(), content_type='application/pdf')
         response['Content-Disposition'] = 'inline;filename=TippspielRegeln2018.pdf'
         return response
+
+@login_required
+@csrf_protect
+def csv_export(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="TippSpielReport.csv"'
+    writer = csv.writer(response)
+    try:
+        profiles = Profile.objects.all()
+    except:
+        profiles = None
+    if profiles != None:
+        for profile in profiles:
+            writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Weltmeister'])
+            writer.writerow([profile.rank, profile.user.username,profile.score, profile.joker, profile.right_tips, profile.Weltmeister])
+        writer.writerow(['', '', '', '', '', ''])
+        writer.writerow(['---Tipps---', '', '', '', '', ''])
+        writer.writerow(['', '', '', '', '', ''])
+        for profile in profiles:
+            writer.writerow([str(profile.user.username), '', '', '', '', ''])
+            profile_tips = Tip.objects.filter(author=profile.user.id).order_by('match__match_date')
+            writer.writerow(['Spiel', 'Tipp', 'Spieldatum', 'Spieltag', 'Tippdatum'])
+            profile_tip_rows = []
+            for profile_tip in profile_tips:
+                profile_tip_rows.append([str(profile_tip.match.home_team.team_name) + ':' + str(profile_tip.match.guest_team.team_name),
+                str(profile_tip.tip_home) + ':' + str(profile_tip.tip_guest) ,str(profile_tip.match.match_date),
+                str(profile_tip.match.matchday),str(profile_tip.tip_date), ''])
+            writer.writerows(profile_tip_rows)
+    return response

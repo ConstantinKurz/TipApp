@@ -9,4 +9,5 @@ urlpatterns = [
     path('email/', views.email, name='tip-mail'),
     path('email/reminder', views.reminder_email, name='tip-reminder-mail'),
     path('view-pdf/', views.pdf_view,name='pdf-view'),
+    path('export-csv/', views.csv_export, name='export-csv'),
     ]

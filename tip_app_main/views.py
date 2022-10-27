@@ -225,8 +225,8 @@ def csv_export(request):
     except:
         profiles = None
     if profiles != None:
+        writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Weltmeister'])
         for profile in profiles:
-            writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Weltmeister'])
             writer.writerow([profile.rank, profile.user.username,profile.score, profile.joker, profile.right_tips, profile.Weltmeister])
         writer.writerow(['', '', '', '', '', ''])
         writer.writerow(['---Tipps---', '', '', '', '', ''])

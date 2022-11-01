@@ -24,7 +24,7 @@ USE_TZ = False
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['tip-app-wm22.herokuapp.com']
 

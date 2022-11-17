@@ -8,18 +8,18 @@ from tip_app.settings import EMAIL_HOST_USER
 
 
 def save_tip(id, value, joker,  user, request):
-        match_id = id.split('_', -1)[-1]
-        match = get_object_or_404(Match, pk=match_id)
-        try:
-            tip = Tip.objects.get(author=user, match__id=match_id)
-        except:
-            tip = None
-        if 'home' in id:
-            new_home_tip(tip, match, value, user)
-        if 'guest' in id:
-            new_guest_tip(tip, match, value, user)
-        if 'joker' in id:
-            new_joker(tip, match, joker, user)
+    match_id = id.split('_', -1)[-1]
+    match = get_object_or_404(Match, pk=match_id)
+    try:
+        tip = Tip.objects.get(author=user, match__id=match_id)
+    except:
+        tip = None
+    if 'home' in id:
+        new_home_tip(tip, match, value, user)
+    if 'guest' in id:
+        new_guest_tip(tip, match, value, user)
+    if 'joker' in id:
+        new_joker(tip, match, joker, user)
 
 
 def new_home_tip(tip, match, value, user):
@@ -86,16 +86,16 @@ def get_n_joker(user, matchday_number):
     n_joker = 0
     if (matchday_number < 3):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday__lt=3).order_by('match__match_date')
+            author=user).filter(match__matchday__lt=3).order_by('match__match_date')
     if (matchday_number == 3):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday=3).order_by('match__match_date')
+            author=user).filter(match__matchday=3).order_by('match__match_date')
     if (matchday_number == 4):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday=4).order_by('match__match_date')
+            author=user).filter(match__matchday=4).order_by('match__match_date')
     if (matchday_number > 4):
         tips = Tip.objects.filter(
-        author=user).filter(match__matchday__gt=4).order_by('match__match_date')
+            author=user).filter(match__matchday__gt=4).order_by('match__match_date')
     for tip in tips:
         if tip.joker:
             n_joker += 1
@@ -138,20 +138,36 @@ def update_scores_and_ranks(matchday=None):
             if last_match.home_score == -1:
                 user.save()
     # update ranks
-    users_ranked = Profile.objects.order_by('-score','-right_tips', 'joker')
+    users_ranked = Profile.objects.order_by('-score', '-right_tips', 'joker')
     # order users dirty
     temp_rank = 1
     for index, user in enumerate(users_ranked):
         if index > 0:
             # account for same values
             if users_ranked[index-1].score == user.score and users_ranked[index-1].right_tips == user.right_tips \
-                and users_ranked[index-1].joker == user.joker:
-                temp_rank-=1
-        user.rank=temp_rank
+                    and users_ranked[index-1].joker == user.joker:
+                temp_rank -= 1
+        user.rank = temp_rank
         user.save()
-        temp_rank+=1
+        temp_rank += 1
     return matchday_tipps_per_user
+
 
 def is_mobile(request):
     user_agent = request.META['HTTP_USER_AGENT']
     return 'Mobile' in user_agent
+
+
+def reminder_mail_message(not_tipped_matches: list):
+    message = 'Folgende Tipps für den nächsten Spieltag fehlen noch: \n \n'
+    message += '=========================\n\n'
+    if len(not_tipped_matches) == 0:
+        return False, message
+    for match in not_tipped_matches:
+        message += '' + str(match.match_date) + ' \n \n'
+        message += str(match.home_team) + ' : ' + \
+            str(match.home_team) + '\n\n'
+        message += '=========================\n\n'
+    message += 'Tippen kannst du hier: https://www.shortytipp.de'
+
+    return True, message

@@ -182,28 +182,32 @@ def email(request):
 @staff_member_required
 @login_required
 def reminder_email(request):
-    not_tipped = []
     try:
         upcoming_match = Match.objects.filter(
-            match_date__gte=timezone.now()).order_by('match_date')[0]
+            match_date__gte=timezone.now())[0]
+        upcoming_matches = Match.objects.filter(matchday=upcoming_match.matchday)
     except: 
         upcoming_match = None
+        upcoming_matches = None
     for user in Profile.objects.all():
-        try:
-            tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
-        except:
-            tip = None
-        if not tip or tip.tip_home == -1:
-            not_tipped.append(user.user.email)
-    subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
-    message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de '
-    if not_tipped:
-        send_mail(subject,
-                  message, EMAIL_HOST_USER, recipient_list=not_tipped)
-        messages.success(request, 'Reminder gesendet!')
-        return redirect('tip-mail')
-    
-    return render(request, "tip_app_main/email.html")
+        print(user.user.email)
+        not_tipped_matches = []
+        for upcoming_match in upcoming_matches:
+            try:
+                tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
+            except:
+                tip = None
+            if not tip or (tip.tip_home == -1 or tip.tip_guest == -1):
+                not_tipped_matches.append(upcoming_match)
+        subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
+        if (reminder_mail_message(not_tipped_matches)[0]):
+            message = reminder_mail_message(not_tipped_matches)[1]
+            send_mail(subject,
+                message, EMAIL_HOST_USER, recipient_list=[user.user.email])
+            
+            messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
+    return redirect('tip-mail')
+
 
 @login_required
 @csrf_protect

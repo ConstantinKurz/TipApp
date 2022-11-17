@@ -88,7 +88,6 @@ def get_upcoming_match():
 
 @register.simple_tag
 def get_matchday_name(matchday_number) -> str:
-    print(matchday_number)
     matchday_dict = {
         0: '1.Spieltag',
         1: '2.Spieltag',

@@ -4,4 +4,3 @@ from tip_app_main.models import Team, Tip
 
 for i in range(10):
     user = User.objects.create_user('testuser' + i, 'constantin.kurz@aol.com', 'testCredential' + i)
-    # print(user)

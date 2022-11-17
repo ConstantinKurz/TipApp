@@ -159,7 +159,7 @@ def is_mobile(request):
 
 
 def reminder_mail_message(not_tipped_matches: list):
-    message = 'Folgende Tipps für den nächsten Spieltag fehlen noch: \n \n'
+    message = 'Folgende Tipps für den aktuellen Spieltag fehlen noch: \n \n'
     message += '=========================\n\n'
     if len(not_tipped_matches) == 0:
         return False, message

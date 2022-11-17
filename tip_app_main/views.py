@@ -184,8 +184,10 @@ def email(request):
 def reminder_email(request):
     try:
         upcoming_match = Match.objects.filter(
-            match_date__gte=timezone.now())[0]
+            match_date__gte=timezone.now()).order_by('match__match_date')[0]
         upcoming_matches = Match.objects.filter(matchday=upcoming_match.matchday)
+        print(upcoming_match)
+        print(upcoming_matches)
     except: 
         upcoming_match = None
         upcoming_matches = None
@@ -202,8 +204,8 @@ def reminder_email(request):
         subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
         if (reminder_mail_message(not_tipped_matches)[0]):
             message = reminder_mail_message(not_tipped_matches)[1]
-            send_mail(subject,
-                message, EMAIL_HOST_USER, recipient_list=[user.user.email])
+            #send_mail(subject,
+            #    message, EMAIL_HOST_USER, recipient_list=[user.user.email])
             
             messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
     return redirect('tip-mail')

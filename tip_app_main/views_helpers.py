@@ -166,7 +166,7 @@ def reminder_mail_message(not_tipped_matches: list):
     for match in not_tipped_matches:
         message += '' + str(match.match_date) + ' \n \n'
         message += str(match.home_team) + ' : ' + \
-            str(match.home_team) + '\n\n'
+            str(match.guest_team) + '\n\n'
         message += '=========================\n\n'
     message += 'Tippen kannst du hier: https://www.shortytipp.de'
 

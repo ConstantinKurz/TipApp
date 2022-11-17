@@ -103,8 +103,8 @@ def tip_matchday(request, matchday_number):
         save_tip(id, value, joker, request.user, request)
         n_joker = get_n_joker(request.user, m_nr)
         return HttpResponse(json.dumps({'n_joker': n_joker, 'm_nr': m_nr,
-         'matchday_matches_ids_and_matchdates': matchday_match_ids_and_matchdates,
-         'match_array_length': len(matchday_match_ids_and_matchdates)}))
+                                        'matchday_matches_ids_and_matchdates': matchday_match_ids_and_matchdates,
+                                        'match_array_length': len(matchday_match_ids_and_matchdates)}))
     context = {
         'number': m_nr,
         'matches_per_day': matches_per_day,
@@ -178,17 +178,16 @@ def email(request):
             return redirect('tip-mail')
     return render(request, "tip_app_main/email.html", {'form': form})
 
+
 @csrf_protect
 @staff_member_required
 @login_required
 def reminder_email(request):
     try:
         upcoming_match = Match.objects.filter(
-            match_date__gte=timezone.now()).order_by('match__match_date')[0]
-        upcoming_matches = Match.objects.filter(matchday=upcoming_match.matchday)
-        print(upcoming_match)
-        print(upcoming_matches)
-    except: 
+            match_date__gt=timezone.now().replace(microsecond=0)).order_by('match_date')[0]
+        upcoming_matches = Match.objects.filter(matchday=upcoming_match.matchday).order_by('match_date')
+    except:
         upcoming_match = None
         upcoming_matches = None
     for user in Profile.objects.all():
@@ -204,9 +203,9 @@ def reminder_email(request):
         subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
         if (reminder_mail_message(not_tipped_matches)[0]):
             message = reminder_mail_message(not_tipped_matches)[1]
-            #send_mail(subject,
+            # send_mail(subject,
             #    message, EMAIL_HOST_USER, recipient_list=[user.user.email])
-            
+
             messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
     return redirect('tip-mail')
 
@@ -218,6 +217,7 @@ def pdf_view(request):
         response = HttpResponse(pdf.read(), content_type='application/pdf')
         response['Content-Disposition'] = 'inline;filename=TippspielRegeln2018.pdf'
         return response
+
 
 @login_required
 @csrf_protect
@@ -231,20 +231,25 @@ def csv_export(request):
     except:
         profiles = None
     if profiles != None:
-        writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Weltmeister'])
+        writer.writerow(['Rank', 'Spieler', 'Punkte',
+                        'Joker', '6er', 'Weltmeister'])
         for profile in profiles:
-            writer.writerow([profile.rank, profile.user.username,profile.score, profile.joker, profile.right_tips, profile.Weltmeister])
+            writer.writerow([profile.rank, profile.user.username, profile.score,
+                            profile.joker, profile.right_tips, profile.Weltmeister])
         writer.writerow(['', '', '', '', '', ''])
         writer.writerow(['---Tipps---', '', '', '', '', ''])
         writer.writerow(['', '', '', '', '', ''])
         for profile in profiles:
             writer.writerow([str(profile.user.username), '', '', '', '', ''])
-            profile_tips = Tip.objects.filter(author=profile.user.id).order_by('match__match_date')
-            writer.writerow(['Spiel', 'Tipp', 'Spieldatum', 'Spieltag', 'Tippdatum'])
+            profile_tips = Tip.objects.filter(
+                author=profile.user.id).order_by('match__match_date')
+            writer.writerow(
+                ['Spiel', 'Tipp', 'Spieldatum', 'Spieltag', 'Tippdatum'])
             profile_tip_rows = []
             for profile_tip in profile_tips:
                 profile_tip_rows.append([str(profile_tip.match.home_team.team_name) + ':' + str(profile_tip.match.guest_team.team_name),
-                str(profile_tip.tip_home) + ':' + str(profile_tip.tip_guest) ,str(profile_tip.match.match_date),
-                str(profile_tip.match.matchday),str(profile_tip.tip_date), ''])
+                                         str(profile_tip.tip_home) + ':' + str(
+                                             profile_tip.tip_guest), str(profile_tip.match.match_date),
+                                         str(profile_tip.match.matchday), str(profile_tip.tip_date), ''])
             writer.writerows(profile_tip_rows)
     return response

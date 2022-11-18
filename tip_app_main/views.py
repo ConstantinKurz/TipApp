@@ -191,7 +191,6 @@ def reminder_email(request):
         upcoming_match = None
         upcoming_matches = None
     for user in Profile.objects.all():
-        print(user.user.email)
         not_tipped_matches = []
         for upcoming_match in upcoming_matches:
             try:

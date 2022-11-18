@@ -37,8 +37,12 @@ def profile(request):
                                    request.FILES,
                                    instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
+            user_name = u_form.cleaned_data['username']
             if 'Weltmeister' in p_form.cleaned_data and first_match.has_started():
                 messages.warning(request, 'Das erste Spiel hat schon begonnen. Keine Änderung des Weltmeisters mehr möglich!')
+                return redirect('profile')
+            if len(user_name) > 16:
+                messages.warning(request, 'Nutzername darf maximal 16 Zeichen enthalten.')
                 return redirect('profile')
             else:
                 u_form.save()

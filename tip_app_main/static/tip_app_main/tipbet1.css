@@ -3106,8 +3106,8 @@ thead .col_value--all[data-v-2ca298f2] {
 @media screen and (min-width: 768px) {
     .dashboard #betgame_users_table, .dashboard #bg_rankings_table {
         -webkit-box-flex: 0;
-        flex: 0 calc(70% - 12px);
-        max-width: calc(70% - 12px);
+        flex: 0 calc(50% - 12px);
+        max-width: calc(50% - 12px);
         overflow: hidden;
         width: 800px;
         margin: 0 auto;

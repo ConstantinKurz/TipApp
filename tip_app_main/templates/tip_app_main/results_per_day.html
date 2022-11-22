@@ -33,7 +33,7 @@
                                 {% get_users_matchday_score matchday_scores user as get_users_matchday_score %}
                                 {% get_users_matchday_tips matchday_tips user matchday_number as get_users_matchday_tips %}
 
-                                <td class="col_pos_result_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.rank}}.</td>
+                                <td class="col_pos_result_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.rank}}</td>
                                 <td class="col_user_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.user.username}}</td>
                                 <td class="col_value col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
                                 <td class="col_value col_value_spieltag" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>

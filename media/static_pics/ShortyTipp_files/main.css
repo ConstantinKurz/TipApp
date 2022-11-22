@@ -30,12 +30,12 @@ ul {
 }
 
 .site-header .navbar-light .navbar-brand {
-    color: rgb(12, 62, 193);;
+    color: blue;
 }
 
 .site-header .navbar-nav .nav-link.active {
     font-weight: 500;
-    background-color: green;
+    background-color: rgb(12, 62, 193);
 }
 
 

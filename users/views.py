@@ -27,6 +27,8 @@ def register(request):
 
 @login_required
 def profile(request):
+    # weltmeister is already overwritten by form below so get it here first.
+    weltmeister  = request.user.profile.Weltmeister
     try:
         first_match = Match.objects.order_by('match_date')[0]
     except:
@@ -38,7 +40,7 @@ def profile(request):
                                    instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             user_name = u_form.cleaned_data['username']
-            if 'Weltmeister' in p_form.cleaned_data and first_match.has_started():
+            if weltmeister != request.user.profile.Weltmeister and first_match.has_started():
                 messages.warning(request, 'Das erste Spiel hat schon begonnen. Keine Änderung des Weltmeisters mehr möglich!')
                 return redirect('profile')
             if len(user_name) > 16:

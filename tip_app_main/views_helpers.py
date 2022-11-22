@@ -139,7 +139,6 @@ def update_scores_and_ranks(matchday=None):
                 matchday)
             # do not save if last game is over and results are set
             if last_match_not_finished or (last_match.home_score == -1 or last_match.guest_score == -1):
-                print('saved!!!')
                 user.save()
     # update ranks
     users_ranked = Profile.objects.order_by('-score', '-right_tips', 'joker')

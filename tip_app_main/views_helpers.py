@@ -164,8 +164,8 @@ def is_mobile(request):
 def reminder_mail_message(not_tipped_matches: list):
     message = 'Folgende Tipps für den aktuellen Spieltag fehlen noch: \n \n'
     message += '=========================\n\n'
-    if len(not_tipped_matches) == 0:
-        return False, message
+    # if len(not_tipped_matches) == 0:
+    #     return False, message
     for match in not_tipped_matches:
         message += '' + str(match.match_date) + ' \n \n'
         message += str(match.home_team) + ' : ' + \
@@ -173,4 +173,4 @@ def reminder_mail_message(not_tipped_matches: list):
         message += '=========================\n\n'
     message += 'Tippen kannst du hier: https://www.shortytipp.de'
 
-    return True, message
+    return message

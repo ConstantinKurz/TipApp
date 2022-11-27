@@ -131,12 +131,17 @@ def results(request, matchday_number):
     matchday_tips = Tip.objects.filter(match__matchday=matchday_number)
     users_ranked = Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username')
-
+    try:
+        upcoming_match = Match.objects.filter(
+                match_date__gt=timezone.now().replace(microsecond=0)).order_by('match_date')[0]
+    except:
+        upcoming_match = None
     context = {
         'ordered_matchday_matches': ordered_matchday_matches,
         'matchday_matches': matchday_matches,
         'matchday_number': matchday_number,
         'matchday_scores': matchday_scores,
+        'upcoming_match': upcoming_match,
         'users_ranked': users_ranked,
         'matchday_tips': matchday_tips,
         'request_user': request.user,
@@ -197,14 +202,15 @@ def reminder_email(request):
                 tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
             except:
                 tip = None
-            if not tip or (tip.tip_home == -1 or tip.tip_guest == -1):
-                not_tipped_matches.append(upcoming_match)
+            if not tip.match.has_started():
+                if not tip or (tip.tip_home == -1 or tip.tip_guest == -1):
+                    print(tip.match)
+                    not_tipped_matches.append(upcoming_match)
         subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
-        if (reminder_mail_message(not_tipped_matches)[0]):
+        if len(not_tipped_matches) != 0:
             message = reminder_mail_message(not_tipped_matches)[1]
             send_mail(subject,
                message, EMAIL_HOST_USER, recipient_list=[user.user.email])
-
             messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
     return redirect('tip-mail')
 

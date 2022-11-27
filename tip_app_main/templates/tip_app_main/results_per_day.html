@@ -38,7 +38,7 @@
                                 <td class="col_value col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
                                 <td class="col_value col_value_spieltag" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
                                 {% for tip in get_users_matchday_tips %}
-                                <td class="col_result col_grey width_result_teams" {% if user.user.id == request_user.id or tip.match  == upcoming_match %} style='background-color: #acacac;' {% endif %}>
+                                <td class="col_result col_grey width_result_teams" {% if user.user.id == request_user.id or tip.match  == current_match %} style='background-color: #acacac;' {% endif %}>
                                         {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
                                                 <span class="bet_result">
                                                 - : -

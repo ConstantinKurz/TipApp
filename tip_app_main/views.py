@@ -131,17 +131,23 @@ def results(request, matchday_number):
     matchday_tips = Tip.objects.filter(match__matchday=matchday_number)
     users_ranked = Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username')
+    # get current match
     try:
-        upcoming_match = Match.objects.filter(
-                match_date__gt=timezone.now().replace(microsecond=0)).order_by('match_date')[0]
+        current_match = Match.objects.filter(
+                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=150)).order_by('-match_date')[0]
     except:
-        upcoming_match = None
+        # no matches then none else last one.
+        if len(Match.objects.all()) == 0:
+            current_match = None
+        else: 
+            current_match = Match.objects.all().order_by('match_date').last()
+            
     context = {
         'ordered_matchday_matches': ordered_matchday_matches,
         'matchday_matches': matchday_matches,
         'matchday_number': matchday_number,
         'matchday_scores': matchday_scores,
-        'upcoming_match': upcoming_match,
+        'current_match': current_match,
         'users_ranked': users_ranked,
         'matchday_tips': matchday_tips,
         'request_user': request.user,

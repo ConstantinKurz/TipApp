@@ -244,7 +244,8 @@ def csv_export(request):
     if profiles != None:
         writer.writerow(['Rank', 'Spieler', 'Punkte',
                         'Joker', '6er', 'Weltmeister', ''])
-        for profile in profiles:
+        for profile in Profile.objects.order_by(
+        '-score', '-right_tips', 'joker', 'user__username'):
             writer.writerow([profile.rank, profile.user.username, profile.score,
                             profile.joker, profile.right_tips, profile.Weltmeister, ' '])
         writer.writerow(['', '', '', '', '', '', ''])

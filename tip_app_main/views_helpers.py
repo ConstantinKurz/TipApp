@@ -9,21 +9,22 @@ from tip_app.settings import EMAIL_HOST_USER
 
 
 def save_tip(id, value, joker,  user, request):
+    print('hier ist was da!!!!')
     match_id = id.split('_', -1)[-1]
     match = get_object_or_404(Match, pk=match_id)
     try:
+        # dont save if already started.
         tip = Tip.objects.get(author=user, match__id=match_id)
+        if tip.match.has_started():
+            return
+        if 'home' in id:
+            new_home_tip(tip, match, value, user)
+        if 'guest' in id:
+            new_guest_tip(tip, match, value, user)
+        if 'joker' in id:
+            new_joker(tip, match, joker, user)
     except:
         tip = None
-    # dont save if already started.
-    if tip.match.has_started():
-        return
-    if 'home' in id:
-        new_home_tip(tip, match, value, user)
-    if 'guest' in id:
-        new_guest_tip(tip, match, value, user)
-    if 'joker' in id:
-        new_joker(tip, match, joker, user)
 
 
 def new_home_tip(tip, match, value, user):
@@ -74,6 +75,26 @@ def new_joker(tip, match, value, user):
     is_joker_valid(match.matchday, get_n_joker(user, match.matchday), tip)
     tip.save()
 
+def create_empty_tips(request):
+    '''
+    Helper func since some frontend functionalities need a tip for all matches.
+    Creates empty tip if new match has been added.
+    '''
+    profiles = Profile.objects.all()
+    matches = Match.objects.all()
+    for profile in profiles:
+        user_tips = Tip.objects.filter(author=profile.user.id)
+        if (len(user_tips) != len(matches)):
+            for match in matches:
+                try: 
+                    tip = Tip.objects.get(author=profile.user, match__id=match.id)
+                except:
+                    tip = Tip(
+                        author=profile.user,
+                        match=match,
+                    )
+                    tip.save()
+    
 
 def is_joker_valid(matchday_number, njoker, tip):
     if matchday_number < 3 and njoker > 3:

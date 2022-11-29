@@ -25,6 +25,7 @@ from django.http import JsonResponse
 @login_required
 @csrf_protect
 def home(request):
+    create_empty_tips(request)
     update_scores_and_ranks(request)
     mobile_agent = False
     users_ranked = Profile.objects.filter(rank__lte=5).order_by(
@@ -79,7 +80,7 @@ def home(request):
 @login_required
 @csrf_protect
 def tip_matchday(request, matchday_number):
-
+    create_empty_tips(request)
     m_nr: int = int(matchday_number)
     matches_per_day = Match.objects.filter(
         matchday=m_nr).order_by('match_date')
@@ -123,6 +124,7 @@ def results(request, matchday_number):
     :param matchday_number:
     :return:
     """
+    create_empty_tips(request)
     matchday_number: int = int(matchday_number)
     matchday_matches = Match.objects.filter(matchday=matchday_number)
     ordered_matchday_matches = matchday_matches.order_by(
@@ -157,6 +159,7 @@ def results(request, matchday_number):
 
 @login_required
 def ranking(request):
+    create_empty_tips(request)
     update_scores_and_ranks(request)
     users_ranked = Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username')
@@ -194,6 +197,7 @@ def email(request):
 @staff_member_required
 @login_required
 def reminder_email(request):
+    create_empty_tips(request)
     try:
         upcoming_match = Match.objects.filter(
             match_date__gt=timezone.now().replace(microsecond=0)).order_by('match_date')[0]
@@ -201,17 +205,17 @@ def reminder_email(request):
     except:
         upcoming_match = None
         upcoming_matches = None
+        messages.warning(request, 'Keine kommenden Spiele!')
+        return redirect('tip-mail')
     for user in Profile.objects.all():
         not_tipped_matches = []
         for upcoming_match in upcoming_matches:
             try:
                 tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
-            except:
-                tip = None
-            if not tip.match.has_started():
-                if not tip or (tip.tip_home == -1 or tip.tip_guest == -1):
-                    print(tip.match)
+                if not tip.match.has_started() and (tip.tip_home == -1 or tip.tip_guest == -1):
                     not_tipped_matches.append(upcoming_match)
+            except:
+                not_tipped_matches.append(upcoming_match)
         subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
         if len(not_tipped_matches) != 0:
             message = reminder_mail_message(not_tipped_matches)

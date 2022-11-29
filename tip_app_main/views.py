@@ -134,7 +134,7 @@ def results(request, matchday_number):
     # get current match
     try:
         current_match = Match.objects.filter(
-                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=150)).order_by('-match_date')[0]
+                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=120)).order_by('-match_date')[0]
     except:
         # no matches then none else last one.
         if len(Match.objects.all()) == 0:
@@ -214,7 +214,7 @@ def reminder_email(request):
                     not_tipped_matches.append(upcoming_match)
         subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
         if len(not_tipped_matches) != 0:
-            message = reminder_mail_message(not_tipped_matches)[1]
+            message = reminder_mail_message(not_tipped_matches)
             send_mail(subject,
                message, EMAIL_HOST_USER, recipient_list=[user.user.email])
             messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')

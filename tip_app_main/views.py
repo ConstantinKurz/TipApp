@@ -256,7 +256,7 @@ def csv_export(request):
             profile_tips = Tip.objects.filter(
                 author=profile.user.id).order_by('match__match_date')
             writer.writerow(
-                ['Spiel', 'Tipp','Joker', 'Spieldatum', 'Spieltag', 'Tippdatum', 'Spieldatum - Tippdatum'])
+                ['Spiel', 'Tipp','Joker', 'Spieldatum', 'Spieltag', 'Tippdatum', 'Tippdatum - Matchdatum'])
             profile_tip_rows = []
             for profile_tip in profile_tips:
                 profile_tip_rows.append([str(profile_tip.match.home_team.team_name) + ':' + str(profile_tip.match.guest_team.team_name),

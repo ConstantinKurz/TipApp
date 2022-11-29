@@ -243,24 +243,24 @@ def csv_export(request):
         profiles = None
     if profiles != None:
         writer.writerow(['Rank', 'Spieler', 'Punkte',
-                        'Joker', '6er', 'Weltmeister'])
+                        'Joker', '6er', 'Weltmeister', ''])
         for profile in profiles:
             writer.writerow([profile.rank, profile.user.username, profile.score,
-                            profile.joker, profile.right_tips, profile.Weltmeister])
-        writer.writerow(['', '', '', '', '', ''])
-        writer.writerow(['---Tipps---', '', '', '', '', ''])
-        writer.writerow(['', '', '', '', '', ''])
+                            profile.joker, profile.right_tips, profile.Weltmeister, ' '])
+        writer.writerow(['', '', '', '', '', '', ''])
+        writer.writerow(['---Tipps---', '', '', '', '', '', ''])
+        writer.writerow(['', '', '', '', '', '', ''])
         for profile in profiles:
-            writer.writerow([str(profile.user.username), '', '', '', '', ''])
+            writer.writerow([str(profile.user.username), '', '', '', '', '', ''])
             profile_tips = Tip.objects.filter(
                 author=profile.user.id).order_by('match__match_date')
             writer.writerow(
-                ['Spiel', 'Tipp', 'Spieldatum', 'Spieltag', 'Tippdatum'])
+                ['Spiel', 'Tipp','Joker', 'Spieldatum', 'Spieltag', 'Tippdatum', 'Spieldatum - Tippdatum'])
             profile_tip_rows = []
             for profile_tip in profile_tips:
                 profile_tip_rows.append([str(profile_tip.match.home_team.team_name) + ':' + str(profile_tip.match.guest_team.team_name),
                                          str(profile_tip.tip_home) + ':' + str(
-                                             profile_tip.tip_guest), str(profile_tip.match.match_date),
-                                         str(profile_tip.match.matchday), str(profile_tip.tip_date), ''])
+                                             profile_tip.tip_guest), str(profile_tip.joker),  str(profile_tip.match.match_date),
+                                         str(profile_tip.match.matchday), str(profile_tip.tip_date), str(profile_tip.match.match_date - profile_tip.tip_date) ])
             writer.writerows(profile_tip_rows)
     return response

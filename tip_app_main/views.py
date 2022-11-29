@@ -261,6 +261,6 @@ def csv_export(request):
                 profile_tip_rows.append([str(profile_tip.match.home_team.team_name) + ':' + str(profile_tip.match.guest_team.team_name),
                                          str(profile_tip.tip_home) + ':' + str(
                                              profile_tip.tip_guest), str(profile_tip.joker),  str(profile_tip.match.match_date),
-                                         str(profile_tip.match.matchday), str(profile_tip.tip_date), str(profile_tip.match.match_date - profile_tip.tip_date) ])
+                                         str(profile_tip.match.matchday), str(profile_tip.tip_date), str(profile_tip.match.match_date.replace(microsecond=0) - profile_tip.tip_date.replace(microsecond=0)) ])
             writer.writerows(profile_tip_rows)
     return response

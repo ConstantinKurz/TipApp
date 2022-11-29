@@ -177,3 +177,8 @@ def reminder_mail_message(not_tipped_matches: list):
     message += 'Tippen kannst du hier: https://www.shortytipp.de'
 
     return message
+
+def show_too_late_tip(match_date, tip_date):
+        if tip_date - match_date > 0: 
+            return tip_date - match_date
+        return 0

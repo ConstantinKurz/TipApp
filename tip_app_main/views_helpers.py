@@ -179,6 +179,6 @@ def reminder_mail_message(not_tipped_matches: list):
     return message
 
 def show_too_late_tip(match_date, tip_date):
-        if tip_date.replace(microseconds=0) - match_date.replace(microseconds=0) > 0: 
+        if tip_date.replace(microsecond=0) - match_date.replace(microsecond=0) > 0: 
             return tip_date - match_date
         return 0

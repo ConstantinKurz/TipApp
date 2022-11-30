@@ -60,18 +60,6 @@ def get_users_matchday_score(scores, user):
 @register.simple_tag
 def get_users_matchday_tips(matchday_tips, user, matchday):
     user_matchday_tips = matchday_tips.filter(author=user.user.id)
-    # if (len(matchday_matches) != len(user_matchday_tips)):
-    #     for match in matchday_matches:
-    #         try:
-    #             tip = Tip.objects.get(author=user.user, match__id=match.id)
-    #         except:
-    #             if not tip:
-    #                 tip = Tip(
-    #                     author=user.user,
-    #                     match=match,
-    #                 )
-    #                 tip.save()
-    user_matchday_tips = matchday_tips.filter(author=user.user.id)
     return user_matchday_tips.order_by('match__match_date', 'match__home_team__team_name')
 
 

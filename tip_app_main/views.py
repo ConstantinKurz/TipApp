@@ -94,7 +94,6 @@ def tip_matchday(request, matchday_number):
     n_joker = get_n_joker(request.user, m_nr)
     matchday_match_ids_and_matchdates = get_match_ids_and_matchdates_for_matchday(
         m_nr)
-    # match_dates = get_match_dates(m_nr)
     if request.method == 'POST' and request.is_ajax():
         body_unicode = request.body.decode('utf-8')
         received_json = json.loads(body_unicode)
@@ -134,9 +133,13 @@ def results(request, matchday_number):
     users_ranked = Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username')
     # get current match
+    print(Match.objects.filter(
+                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=120))\
+                .order_by('-match_date', '-home_team__team_name'))
     try:
         current_match = Match.objects.filter(
-                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=120)).order_by('-match_date')[0]
+                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=120))\
+                .order_by('-match_date', '-home_team__team_name')[0]
     except:
         # no matches then none else last one.
         if len(Match.objects.all()) == 0:

@@ -246,15 +246,14 @@ def csv_export(request):
     except:
         profiles = None
     if profiles != None:
-        writer.writerow(['Rank', 'Spieler', 'Punkte',
-                        'Joker', '6er', 'Weltmeister', '', '', '', ''])
+        writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Weltmeister', '', '', '', ''])
         for profile in Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username'):
             writer.writerow([profile.rank, profile.user.username, profile.score,
-                            profile.joker, profile.right_tips, profile.Weltmeister, ' '])
-        writer.writerow(['', '', '', '', '', '', '', '', ''])
-        writer.writerow(['---Tipps---', '', '', '', '', '', '', '', ''])
-        writer.writerow(['', '', '', '', '', '', '', '', ''])
+                            profile.joker, profile.right_tips, profile.Weltmeister, ' ', '', '', ''])
+        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
+        writer.writerow(['---Tipps---', '', '', '', '', '', '', '', '', ''])
+        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
         for profile in profiles:
             writer.writerow([str(profile.user.username), '', '', '', '', '', '', '', ''])
             profile_tips = Tip.objects.filter(

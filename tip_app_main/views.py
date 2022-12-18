@@ -133,9 +133,6 @@ def results(request, matchday_number):
     users_ranked = Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username')
     # get current match
-    print(Match.objects.filter(
-                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=120))\
-                .order_by('-match_date', '-home_team__team_name'))
     try:
         current_match = Match.objects.filter(
                 match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=120))\
@@ -250,25 +247,28 @@ def csv_export(request):
         profiles = None
     if profiles != None:
         writer.writerow(['Rank', 'Spieler', 'Punkte',
-                        'Joker', '6er', 'Weltmeister', ''])
+                        'Joker', '6er', 'Weltmeister', '', '', '', ''])
         for profile in Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username'):
             writer.writerow([profile.rank, profile.user.username, profile.score,
                             profile.joker, profile.right_tips, profile.Weltmeister, ' '])
-        writer.writerow(['', '', '', '', '', '', ''])
-        writer.writerow(['---Tipps---', '', '', '', '', '', ''])
-        writer.writerow(['', '', '', '', '', '', ''])
+        writer.writerow(['', '', '', '', '', '', '', '', ''])
+        writer.writerow(['---Tipps---', '', '', '', '', '', '', '', ''])
+        writer.writerow(['', '', '', '', '', '', '', '', ''])
         for profile in profiles:
-            writer.writerow([str(profile.user.username), '', '', '', '', '', ''])
+            writer.writerow([str(profile.user.username), '', '', '', '', '', '', ''])
             profile_tips = Tip.objects.filter(
                 author=profile.user.id).order_by('match__match_date')
             writer.writerow(
-                ['Spiel', 'Tipp','Joker', 'Spieldatum', 'Spieltag', 'Tippdatum', 'Tippdatum - Matchdatum'])
+                ['Spiel', 'Tipp','Ergebnis', 'Joker','Punkte', 'Punkte kumuliert', 'Spieldatum', 'Spieltag', 'Tippdatum', 'Tippdatum - Matchdatum'])
             profile_tip_rows = []
-            for profile_tip in profile_tips:
+            for i, profile_tip in enumerate(profile_tips):
                 profile_tip_rows.append([str(profile_tip.match.home_team.team_name) + ':' + str(profile_tip.match.guest_team.team_name),
                                          str(profile_tip.tip_home) + ':' + str(
-                                             profile_tip.tip_guest), str(profile_tip.joker),  str(profile_tip.match.match_date),
+                                             profile_tip.tip_guest),
+                                        str(profile_tip.match.home_score) + ':' + str(
+                                             profile_tip.match.guest_score),
+                                        str(profile_tip.joker), str(profile_tip.points()), str(points_cumsum(profile_tips, i)), str(profile_tip.match.match_date),
                                          str(profile_tip.match.matchday), str(profile_tip.tip_date), str(show_too_late_tip(profile_tip.match.match_date, profile_tip.tip_date))])
             writer.writerows(profile_tip_rows)
     return response

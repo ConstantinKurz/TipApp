@@ -203,3 +203,9 @@ def show_too_late_tip(match_date, tip_date):
         if (tip_date.replace(microsecond=0) - match_date.replace(microsecond=0)).total_seconds() > 0: 
             return tip_date - match_date
         return "--"
+
+def points_cumsum(tips, tip_index):
+    cumsum_points = 0
+    for i in tips[:tip_index+1]:
+        cumsum_points += i.points()
+    return cumsum_points

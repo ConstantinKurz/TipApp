@@ -256,7 +256,7 @@ def csv_export(request):
         writer.writerow(['---Tipps---', '', '', '', '', '', '', '', ''])
         writer.writerow(['', '', '', '', '', '', '', '', ''])
         for profile in profiles:
-            writer.writerow([str(profile.user.username), '', '', '', '', '', '', ''])
+            writer.writerow([str(profile.user.username), '', '', '', '', '', '', '', ''])
             profile_tips = Tip.objects.filter(
                 author=profile.user.id).order_by('match__match_date')
             writer.writerow(

@@ -153,7 +153,8 @@ def get_match_ids_and_matchdates_for_matchday(matchday_number):
 def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
     last_match = Match.objects.latest('match_date')
-    last_match_not_finished = True
+    #TODO: Das muss automatisert werden. Vllt ein Feld ausgescheiden im Model?
+    last_match_not_finished = False
     # timezone.now().replace(microsecond=0) < \
     #         (last_match.match_date.replace(microsecond=0) + timedelta(minutes=150))
     for user in Profile.objects.all():

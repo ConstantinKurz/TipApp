@@ -21,6 +21,26 @@ from django.utils import timezone
 
 from django.http import JsonResponse
 
+"""
+Für 2024:
+
+Hi Batti,
+
+anbei ein paar Dinge, die mir aufgefallen sind und die man bis 2024 evtl noch nacharbeiten könnte. Folgende Vorschläge:
+1. Die Gewinnplätze in LaListe farbig absetzen.
+2. Die 6er in der Tippübersicht auch.
+3. Die Gesamtpunktanzeige pro „Spieltag“ ist etwas unübersichtlich. Evtl ändern in “Kalendertag” oder einfach weglassen.
+4. Die Ergebniseingabe für den admin vereinfachen, wie bei den Tipps selbst.
+5. dito für die WM-Punkte am Ende, auch wenn es meist nicht viele sind.
+6. Die Entfernung falscher WM-Tipps vereinfachen.
+7. Bei gleicher Platzierung von Spielern sollte der nächste entsprechend weiter rutschen (also nach 2x 7.Platz kommt 9. und nicht 8.), sonst ändert sich auch immer die Gesamtzahl der Spieler.
+8. Reminder nur für den Tag oder das nächste Spiel, evtl mit Wahlmöglichkeit (Es haben sich immer die beschwert, die bewusst nur das nächste Spiel getippt aber trotzdem eine Pappnase gekriegt haben).
+9. Passwort für die Leute sichtbar klicken lassen
+10. Die Teamverdoppelung in der Tippliste nach jeder Eingabe entfernen, falls möglich.
+11. Chatroom oder App ? 
+
+"""
+
 
 @login_required
 @csrf_protect

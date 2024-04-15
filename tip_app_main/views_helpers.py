@@ -154,7 +154,6 @@ def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
     last_match = Match.objects.latest('match_date')
     #TODO: Das muss automatisert werden. Vllt ein Feld ausgescheiden im Model?
-    last_match_not_finished = False
     # timezone.now().replace(microsecond=0) < \
     #         (last_match.match_date.replace(microsecond=0) + timedelta(minutes=150))
     for user in Profile.objects.all():
@@ -163,9 +162,7 @@ def update_scores_and_ranks(matchday=None):
         if matchday != None:
             matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(
                 matchday)
-            # do not save if last game is over and results are set
-            if last_match_not_finished or (last_match.home_score == -1 or last_match.guest_score == -1):
-                user.save()
+            user.save()
     # update ranks
     users_ranked = Profile.objects.order_by('-score', '-right_tips', 'joker')
     # order users dirty

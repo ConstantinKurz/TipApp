@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tip_app_main.models import Team, Tip
+from tip_app_main.models import Tip
 
 
 class Profile(models.Model):

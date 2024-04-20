@@ -250,7 +250,7 @@ def csv_export(request):
         for profile in Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username'):
             writer.writerow([profile.rank, profile.user.username, profile.score,
-                            profile.joker, profile.right_tips, profile.Weltmeister, ' ', '', '', ''])
+                            profile.joker, profile.right_tips, profile.Europameister, ' ', '', '', ''])
         writer.writerow(['', '', '', '', '', '', '', '', '', ''])
         writer.writerow(['---Tipps---', '', '', '', '', '', '', '', '', ''])
         writer.writerow(['', '', '', '', '', '', '', '', '', ''])

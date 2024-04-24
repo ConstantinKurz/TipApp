@@ -113,3 +113,14 @@ function upperLimitJokersReached(matchday, nJoker) {
   }
   return false;
 }
+
+function togglePassword() {
+  // Das Passwortfeld innerhalb des crispy-forms anzeigen
+  var passwordField = document.querySelector('input[name="password"]');
+  if (passwordField.type === "password") {
+      passwordField.type = "text";
+  } else {
+      passwordField.type = "password";
+  }
+}
+

@@ -9,3 +9,4 @@ urlpatterns = [
     path('email/', views.email, name='tip-mail'),
     path('email/reminder', views.reminder_email, name='tip-reminder-mail')
     ]
+

@@ -216,32 +216,42 @@ def email(request):
 @csrf_protect
 @staff_member_required
 @login_required
-def reminder_email(request):
+def reminder_email(request, matchday):
     create_empty_tips(request)
     try:
         upcoming_match = Match.objects.filter(
             match_date__gt=timezone.now().replace(microsecond=0)).order_by('match_date')[0]
         upcoming_matches = Match.objects.filter(matchday=upcoming_match.matchday).order_by('match_date')
+        print(upcoming_match)
     except:
         upcoming_match = None
         upcoming_matches = None
         messages.warning(request, 'Keine kommenden Spiele!')
         return redirect('tip-mail')
+    subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
     for user in Profile.objects.all():
-        not_tipped_matches = []
-        for upcoming_match in upcoming_matches:
-            try:
-                tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
-                if not tip.match.has_started() and (tip.tip_home == -1 or tip.tip_guest == -1):
+        if matchday==1:
+            not_tipped_matches = []
+            for upcoming_match in upcoming_matches:
+                try:
+                    tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
+                    if not tip.match.has_started() and (tip.tip_home == -1 or tip.tip_guest == -1):
+                        not_tipped_matches.append(upcoming_match)
+                except:
                     not_tipped_matches.append(upcoming_match)
-            except:
-                not_tipped_matches.append(upcoming_match)
-        subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
-        if len(not_tipped_matches) != 0:
-            message = reminder_mail_message(not_tipped_matches)
-            send_mail(subject,
-               message, EMAIL_HOST_USER, recipient_list=[user.user.email])
-            messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
+            if len(not_tipped_matches) != 0:
+                message = reminder_mail_matchday_message(not_tipped_matches)
+                send_mail(subject,
+                message, EMAIL_HOST_USER, recipient_list=[user.user.email])
+                messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
+        else:
+            tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
+            if (tip.tip_home == -1 or tip.tip_guest == -1):
+                message = reminder_mail_match_message(tip)
+        send_mail(subject,
+        message, EMAIL_HOST_USER, recipient_list=[user.user.email])
+        messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
+
     return redirect('tip-mail')
 
 
@@ -256,8 +266,7 @@ def pdf_view(request):
 
 @login_required
 @csrf_protect
-def csv_export(request):
-    # Create the HttpResponse object with the appropriate CSV header.
+def csv_export():
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="TippSpielReport.csv"'
     writer = csv.writer(response)
@@ -266,11 +275,11 @@ def csv_export(request):
     except:
         profiles = None
     if profiles != None:
-        writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Weltmeister', '', '', '', ''])
+        writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Europameister', '', '', '', ''])
         for profile in Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username'):
             writer.writerow([profile.rank, profile.user.username, profile.score,
-                            profile.joker, profile.right_tips, profile.Weltmeister, ' ', '', '', ''])
+                            profile.joker, profile.right_tips, profile.Europameister, ' ', '', '', ''])
         writer.writerow(['', '', '', '', '', '', '', '', '', ''])
         writer.writerow(['---Tipps---', '', '', '', '', '', '', '', '', ''])
         writer.writerow(['', '', '', '', '', '', '', '', '', ''])

@@ -9,7 +9,6 @@ from tip_app.settings import EMAIL_HOST_USER
 
 
 def save_tip(id, value, joker,  user, request):
-    print('hier ist was da!!!!')
     match_id = id.split('_', -1)[-1]
     match = get_object_or_404(Match, pk=match_id)
     try:
@@ -152,9 +151,7 @@ def get_match_ids_and_matchdates_for_matchday(matchday_number):
 
 def update_scores_and_ranks(matchday=None):
     matchday_tipps_per_user = {}
-    last_match = Match.objects.latest('match_date')
-    #TODO: Das muss automatisert werden. Vllt ein Feld ausgescheiden im Model?
-    last_match_not_finished = False
+    # last_match = Match.objects.latest('match_date')
     # timezone.now().replace(microsecond=0) < \
     #         (last_match.match_date.replace(microsecond=0) + timedelta(minutes=150))
     for user in Profile.objects.all():
@@ -163,9 +160,7 @@ def update_scores_and_ranks(matchday=None):
         if matchday != None:
             matchday_tipps_per_user[user.user.id] = user.get_score_and_joker_for_matchday(
                 matchday)
-            # do not save if last game is over and results are set
-            if last_match_not_finished or (last_match.home_score == -1 or last_match.guest_score == -1):
-                user.save()
+            user.save()
     # update ranks
     users_ranked = Profile.objects.order_by('-score', '-right_tips', 'joker')
     # order users dirty
@@ -187,7 +182,7 @@ def is_mobile(request):
     return 'Mobile' in user_agent
 
 
-def reminder_mail_message(not_tipped_matches: list):
+def reminder_mail_matchday_message(not_tipped_matches: list):
     message = 'Folgende Tipps für den aktuellen Spieltag fehlen noch: \n \n'
     message += '=========================\n\n'
 
@@ -196,6 +191,20 @@ def reminder_mail_message(not_tipped_matches: list):
         message += str(match.home_team) + ' : ' + \
             str(match.guest_team) + '\n\n'
         message += '=========================\n\n'
+    message += 'Tippen kannst du hier: https://www.shortytipp.de'
+
+    return message
+
+def reminder_mail_match_message(not_tipped_match: Tip):
+    print(not_tipped_match)
+    message = 'Folgende Tipps für den aktuellen Spieltag fehlen noch: \n \n'
+    message += '=========================\n\n'
+    # if len(not_tipped_matches) == 0:
+    #     return False, message
+    message += '' + str(not_tipped_match.match.match_date) + ' \n \n'
+    message += str(not_tipped_match.match.home_team) + ' : ' + \
+            str(not_tipped_match.match.guest_team) + '\n\n'
+    message += '=========================\n\n'
     message += 'Tippen kannst du hier: https://www.shortytipp.de'
 
     return message

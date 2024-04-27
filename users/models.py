@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tip_app_main.models import Team, Tip
+from tip_app_main.models import Tip, Team
 
 
 class Profile(models.Model):
 
     champion_choices = [(team.team_ccode, team.team_name) for team in Team.objects.all()]
-    # champion_choices = [('GER', 'Deutschland'), ('FRA', 'Frankreich')]
+    #champion_choices = [('GER', 'Deutschland'), ('FRA', 'Frankreich')]
     champion_choices.append([('---'), ('---')])
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -14,7 +14,7 @@ class Profile(models.Model):
     score = models.IntegerField(default=0)
     right_tips = models.IntegerField(default=0)
     rank = models.IntegerField(default=0)
-    Weltmeister = models.CharField(max_length=12, choices=champion_choices, default='---')
+    Europameister = models.CharField(max_length=12, choices=champion_choices, default='---')
     joker = models.IntegerField(default=0)
 
     def update_score_and_joker(self):

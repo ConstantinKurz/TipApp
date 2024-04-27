@@ -10,6 +10,7 @@
       <button class="btn btn-outline-info mb-4" type="submit">Senden</button>
     </div>
 </form>
-<a class="btn btn-outline-info mb-4" href="{% url 'tip-reminder-mail' %}" type="submit">Reminder</a>
+<a class="btn btn-outline-info mb-4" href="{% url 'tip-reminder-mail' 1%}" type="submit">Reminder matchday</a>
+<a class="btn btn-outline-info mb-4" href="{% url 'tip-reminder-mail' 0%}" type="submit">Reminder nächstes match</a>
 </div>
 {% endblock content %}

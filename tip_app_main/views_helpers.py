@@ -9,7 +9,6 @@ from tip_app.settings import EMAIL_HOST_USER
 
 
 def save_tip(id, value, joker,  user, request):
-    print('hier ist was da!!!!')
     match_id = id.split('_', -1)[-1]
     match = get_object_or_404(Match, pk=match_id)
     try:
@@ -183,7 +182,7 @@ def is_mobile(request):
     return 'Mobile' in user_agent
 
 
-def reminder_mail_message(not_tipped_matches: list):
+def reminder_mail_matchday_message(not_tipped_matches: list):
     message = 'Folgende Tipps für den aktuellen Spieltag fehlen noch: \n \n'
     message += '=========================\n\n'
     # if len(not_tipped_matches) == 0:
@@ -193,6 +192,20 @@ def reminder_mail_message(not_tipped_matches: list):
         message += str(match.home_team) + ' : ' + \
             str(match.guest_team) + '\n\n'
         message += '=========================\n\n'
+    message += 'Tippen kannst du hier: https://www.shortytipp.de'
+
+    return message
+
+def reminder_mail_match_message(not_tipped_match: Tip):
+    print(not_tipped_match)
+    message = 'Folgende Tipps für den aktuellen Spieltag fehlen noch: \n \n'
+    message += '=========================\n\n'
+    # if len(not_tipped_matches) == 0:
+    #     return False, message
+    message += '' + str(not_tipped_match.match.match_date) + ' \n \n'
+    message += str(not_tipped_match.match.home_team) + ' : ' + \
+            str(not_tipped_match.match.guest_team) + '\n\n'
+    message += '=========================\n\n'
     message += 'Tippen kannst du hier: https://www.shortytipp.de'
 
     return message

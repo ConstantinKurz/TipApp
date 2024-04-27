@@ -231,10 +231,7 @@ def reminder_email(request, matchday):
         send_mail(subject,
         message, EMAIL_HOST_USER, recipient_list=[user.user.email])
         messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
-
-            
-           
-
+        
     return redirect('tip-mail')
 
 

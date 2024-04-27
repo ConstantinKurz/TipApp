@@ -9,9 +9,11 @@ from .models import Match, Tip
 from users.models import Profile
 from django.http import BadHeaderError, HttpResponse
 from django.shortcuts import render
-from tip_app.settings import EMAIL_HOST_USER
+from tip_app.settings import EMAIL_HOST_USER, MEDIA_ROOT
 from django.core.mail import send_mail
 import json
+from itertools import zip_longest
+import csv
 from datetime import timedelta
 from django.utils import timezone
 
@@ -23,6 +25,7 @@ from django.http import JsonResponse
 @login_required
 @csrf_protect
 def home(request):
+    create_empty_tips(request)
     update_scores_and_ranks(request)
     mobile_agent = False
     users_ranked = Profile.objects.filter(rank__lte=5).order_by(
@@ -77,7 +80,7 @@ def home(request):
 @login_required
 @csrf_protect
 def tip_matchday(request, matchday_number):
-
+    create_empty_tips(request)
     m_nr: int = int(matchday_number)
     matches_per_day = Match.objects.filter(
         matchday=m_nr).order_by('match_date')
@@ -91,7 +94,6 @@ def tip_matchday(request, matchday_number):
     n_joker = get_n_joker(request.user, m_nr)
     matchday_match_ids_and_matchdates = get_match_ids_and_matchdates_for_matchday(
         m_nr)
-    # match_dates = get_match_dates(m_nr)
     if request.method == 'POST' and request.is_ajax():
         body_unicode = request.body.decode('utf-8')
         received_json = json.loads(body_unicode)
@@ -101,8 +103,8 @@ def tip_matchday(request, matchday_number):
         save_tip(id, value, joker, request.user, request)
         n_joker = get_n_joker(request.user, m_nr)
         return HttpResponse(json.dumps({'n_joker': n_joker, 'm_nr': m_nr,
-         'matchday_matches_ids_and_matchdates': matchday_match_ids_and_matchdates,
-         'match_array_length': len(matchday_match_ids_and_matchdates)}))
+                                        'matchday_matches_ids_and_matchdates': matchday_match_ids_and_matchdates,
+                                        'match_array_length': len(matchday_match_ids_and_matchdates)}))
     context = {
         'number': m_nr,
         'matches_per_day': matches_per_day,
@@ -121,6 +123,7 @@ def results(request, matchday_number):
     :param matchday_number:
     :return:
     """
+    create_empty_tips(request)
     matchday_number: int = int(matchday_number)
     matchday_matches = Match.objects.filter(matchday=matchday_number)
     ordered_matchday_matches = matchday_matches.order_by(
@@ -129,12 +132,24 @@ def results(request, matchday_number):
     matchday_tips = Tip.objects.filter(match__matchday=matchday_number)
     users_ranked = Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username')
-
+    # get current match
+    try:
+        current_match = Match.objects.filter(
+                match_date__lte=timezone.now().replace(microsecond=0) + timedelta(minutes=120))\
+                .order_by('-match_date', '-home_team__team_name')[0]
+    except:
+        # no matches then none else last one.
+        if len(Match.objects.all()) == 0:
+            current_match = None
+        else: 
+            current_match = Match.objects.all().order_by('match_date').last()
+            
     context = {
         'ordered_matchday_matches': ordered_matchday_matches,
         'matchday_matches': matchday_matches,
         'matchday_number': matchday_number,
         'matchday_scores': matchday_scores,
+        'current_match': current_match,
         'users_ranked': users_ranked,
         'matchday_tips': matchday_tips,
         'request_user': request.user,
@@ -144,6 +159,7 @@ def results(request, matchday_number):
 
 @login_required
 def ranking(request):
+    create_empty_tips(request)
     update_scores_and_ranks(request)
     users_ranked = Profile.objects.order_by(
         '-score', '-right_tips', 'joker', 'user__username')
@@ -176,29 +192,91 @@ def email(request):
             return redirect('tip-mail')
     return render(request, "tip_app_main/email.html", {'form': form})
 
+
 @csrf_protect
 @staff_member_required
 @login_required
-def reminder_email(request):
-    not_tipped = []
+def reminder_email(request, matchday):
+    create_empty_tips(request)
     try:
         upcoming_match = Match.objects.filter(
-            match_date__gte=timezone.now()).order_by('match_date')[0]
-    except: 
+            match_date__gt=timezone.now().replace(microsecond=0)).order_by('match_date')[0]
+        upcoming_matches = Match.objects.filter(matchday=upcoming_match.matchday).order_by('match_date')
+        print(upcoming_match)
+    except:
         upcoming_match = None
-    for user in Profile.objects.all():
-        try:
-            tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
-        except:
-            tip = None
-        if not tip or tip.tip_home == -1:
-            not_tipped.append(user.user.email)
-    subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
-    message = 'TIPPEN KANNST DU HIER: https://www.shortytipp.de'
-    if not_tipped:
-        send_mail(subject,
-                  message, EMAIL_HOST_USER, recipient_list=not_tipped)
-        messages.success(request, 'Reminder gesendet!')
+        upcoming_matches = None
+        messages.warning(request, 'Keine kommenden Spiele!')
         return redirect('tip-mail')
-    
-    return render(request, "tip_app_main/email.html")
+    subject = 'WO SIND DEINE TIPPS DU PAPPNASE?'
+    for user in Profile.objects.all():
+        if matchday==1:
+            not_tipped_matches = []
+            for upcoming_match in upcoming_matches:
+                try:
+                    tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
+                    if not tip.match.has_started() and (tip.tip_home == -1 or tip.tip_guest == -1):
+                        not_tipped_matches.append(upcoming_match)
+                except:
+                    not_tipped_matches.append(upcoming_match)
+            if len(not_tipped_matches) != 0:
+                message = reminder_mail_matchday_message(not_tipped_matches)
+                send_mail(subject,
+                message, EMAIL_HOST_USER, recipient_list=[user.user.email])
+                messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
+        else:
+            tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
+            if (tip.tip_home == -1 or tip.tip_guest == -1):
+                message = reminder_mail_match_message(tip)
+        send_mail(subject,
+        message, EMAIL_HOST_USER, recipient_list=[user.user.email])
+        messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
+
+    return redirect('tip-mail')
+
+
+@login_required
+@csrf_protect
+def pdf_view(request):
+    with open(MEDIA_ROOT + '/WM2022onlineRegeln.pdf', 'rb') as pdf:
+        response = HttpResponse(pdf.read(), content_type='application/pdf')
+        response['Content-Disposition'] = 'inline;filename=TippspielRegeln2018.pdf'
+        return response
+
+
+@login_required
+@csrf_protect
+def csv_export():
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="TippSpielReport.csv"'
+    writer = csv.writer(response)
+    try:
+        profiles = Profile.objects.all()
+    except:
+        profiles = None
+    if profiles != None:
+        writer.writerow(['Rank', 'Spieler', 'Punkte', 'Joker', '6er', 'Europameister', '', '', '', ''])
+        for profile in Profile.objects.order_by(
+        '-score', '-right_tips', 'joker', 'user__username'):
+            writer.writerow([profile.rank, profile.user.username, profile.score,
+                            profile.joker, profile.right_tips, profile.Europameister, ' ', '', '', ''])
+        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
+        writer.writerow(['---Tipps---', '', '', '', '', '', '', '', '', ''])
+        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
+        for profile in profiles:
+            writer.writerow([str(profile.user.username), '', '', '', '', '', '', '', ''])
+            profile_tips = Tip.objects.filter(
+                author=profile.user.id).order_by('match__match_date')
+            writer.writerow(
+                ['Spiel', 'Tipp','Ergebnis', 'Joker','Punkte', 'Punkte kumuliert', 'Spieldatum', 'Spieltag', 'Tippdatum', 'Tippdatum - Matchdatum'])
+            profile_tip_rows = []
+            for i, profile_tip in enumerate(profile_tips):
+                profile_tip_rows.append([str(profile_tip.match.home_team.team_name) + ':' + str(profile_tip.match.guest_team.team_name),
+                                         str(profile_tip.tip_home) + ':' + str(
+                                             profile_tip.tip_guest),
+                                        str(profile_tip.match.home_score) + ':' + str(
+                                             profile_tip.match.guest_score),
+                                        str(profile_tip.joker), str(profile_tip.points()), str(points_cumsum(profile_tips, i)), str(profile_tip.match.match_date),
+                                         str(profile_tip.match.matchday), str(profile_tip.tip_date), str(show_too_late_tip(profile_tip.match.match_date, profile_tip.tip_date))])
+            writer.writerows(profile_tip_rows)
+    return response

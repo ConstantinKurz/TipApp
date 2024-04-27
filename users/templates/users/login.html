@@ -1,12 +1,15 @@
 {% extends "tip_app_main/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section" xmlns="http://www.w3.org/1999/html">
+    <!-- <div class="content-section" xmlns="http://www.w3.org/1999/html">
         <form method="POST">
             {%  csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Anmelden</legend>
-                {{ form|crispy }}
+                {{form|crispy}}
+            <small>
+                <input type="checkbox" onclick="togglePassword()"> Passwort anzeigen
+            </small>
             <small>
                 <a class="ml-2" href="{% url 'password_reset' %}">Passwort vergessen?</a>
             </small>
@@ -15,5 +18,25 @@
                 <button class="btn btn-primary log_in_button" type="submit">Anmelden</button>
             </div>
         </form>
+    </div> -->
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Anmelden</legend>
+                {{ form|crispy }}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePassword()">
+                    <label class="form-check-label" for="showPassword">Passwort anzeigen</label>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary log_in_button" type="submit">Anmelden</button>
+            </div>
+            <div class="form-group" style="text-align: center;">
+                <a href="{% url 'password_reset' %}">Passwort vergessen?</a>
+            </div>
+        </form>
     </div>
+    
 {% endblock content %}

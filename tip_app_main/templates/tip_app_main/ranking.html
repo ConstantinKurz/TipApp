@@ -12,21 +12,19 @@
         <th class="col_user_source"></th>
         <th class="col_value head_borders">Pkt</th>
         <th class="col_value head_borders">6er</th>
-        <th class="col_value_joker head_borders">
-          <img src="/media/static_pics/joker.svg">
+        <th class="col_value_joker head_borders">Joker
         </th>
-        <th class="col_value">
-          <img src="/media/static_pics/trophy.svg">
+        <th class="col_value">EM
         </th>
       </thead>
       {% for user in users_ranked %}
       <tr {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
-        <td class="col_pos">{{ user.rank }}.</td>
+        <td class="col_pos">{{ user.rank }}</td>
         <td colspan="3" class="col_user">{{ user.user.username }}</td>
         <td class="col_value">{{ user.score }}</td>
         <td class="col_value">{{ user.right_tips }}</td>
         <td class="col_value_joker">{{ user.joker }}</td>
-        <td class="col_value">{{ user.Weltmeister }}</td>
+        <td class="col_value">{{ user.Europameister }}</td>
       </tr>
       {% endfor %}
       <tfoot></tfoot>

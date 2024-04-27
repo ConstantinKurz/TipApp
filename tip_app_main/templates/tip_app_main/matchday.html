@@ -23,7 +23,7 @@
             </div>
             <div class="col-1 col_tip">
               {% if not match.has_started %}
-              <input type="number" class="form-control home_tip" min="0" max="9" id="tip_home_{{ match.id }}"
+              <input type="text" class="form-control home_tip" min="0" max="9" id="tip_home_{{ match.id }}"
                   placeholder="{% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %}">
               {% else%}
               <span class="home_tip"> {% if tip.tip_home == -1 %} - {% else %} {{ tip.tip_home }} {% endif %} </span>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-1 col_tip">
               {% if not match.has_started %}
-                <input type="number" class="form-control guest_tip" id="tip_guest_{{ match.id }}" min="0" max="9" pattern="[0-9]"
+                <input type="text" class="form-control guest_tip" id="tip_guest_{{ match.id }}" min="0" max="9" pattern="[0-9]"
                     placeholder="{% if tip.tip_guest == -1 %} - {% else %} {{ tip.tip_guest }} {% endif %}">
               {% else%}
                 <span class="guest_tip"> {% if tip.tip_guest == -1 %} - {% else %} {{ tip.tip_guest }} {% endif %} </span>

@@ -33,27 +33,12 @@
                                 {% get_users_matchday_score matchday_scores user as get_users_matchday_score %}
                                 {% get_users_matchday_tips matchday_tips user matchday_number as get_users_matchday_tips %}
 
-                                <td class="col_pos_result_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.rank}}.</td>
+                                <td class="col_pos_result_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.rank}}</td>
                                 <td class="col_user_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.user.username}}</td>
                                 <td class="col_value col_value_gesamt_body" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{user.score}}</td>
                                 <td class="col_value col_value_spieltag" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>{{ get_users_matchday_score }}</td>
                                 {% for tip in get_users_matchday_tips %}
-                                {% ifequal forloop.counter|modulo:2 0 %}
-                                <td class="col_result col_white width_result_teams" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
-                                                {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
-                                                <span class="bet_result">
-                                                - : -
-                                                </span>
-                                                {% else %}
-                                                <span class="bet_result">
-                                                {{tip.tip_home}} : {{tip.tip_guest}}
-                                                </span>
-                                                <span {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
-                                                </span>
-                                                {% endif %}
-                                </td>
-                                {% else %}
-                                <td class="col_result col_grey width_result_teams" {% if user.user.id == request_user.id %} style='background-color: #acacac;' {% endif %}>
+                                <td class="col_result col_grey width_result_teams" {% if user.user.id == request_user.id or tip.match  == current_match %} style='background-color: #acacac;' {% endif %}>
                                         {% if  tip.tip_home == -1 or tip.tip_guest == -1 %}
                                                 <span class="bet_result">
                                                 - : -
@@ -62,11 +47,10 @@
                                                 <span class="bet_result">
                                                 {{tip.tip_home}} : {{tip.tip_guest}}
                                                 </span>
-                                                <span {% if tip.joker %} style="color:red;" {% endif %}> {{ tip.points}} 
+                                                <span {% if tip.joker %} style="color:blue; font-weight: 1000" {% endif %}> {{ tip.points}} 
                                                 </span>
                                         {% endif %}
                                 </td>
-                                {% endifequal %}
                                 {% endfor %}
                         </tr>
                         {% endfor %}

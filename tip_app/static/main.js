@@ -1,6 +1,5 @@
 const tipForm = document.getElementById('tip-form')
 const home_endpoint = document.getElementById('home-endpoint-url');
-
 if (tipForm) {
   tipForm.addEventListener('change', e => {
     e.preventDefault()
@@ -70,7 +69,6 @@ if (home_endpoint) {
           var now = new Date().getTime();
           const countDownDate = new Date(response.upcoming_match_time).getTime();
           const distance = countDownDate - now;
-
           // Time calculations for days, hours, minutes and seconds
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -85,7 +83,6 @@ if (home_endpoint) {
           count_hours.innerHTML = hours;
           count_minutes.innerHTML = minutes
           count_seconds.innerHTML = seconds;
-
           if (distance <= 0) {
             clearInterval(x)
           }
@@ -116,3 +113,14 @@ function upperLimitJokersReached(matchday, nJoker) {
   }
   return false;
 }
+
+function togglePassword() {
+  // Das Passwortfeld innerhalb des crispy-forms anzeigen
+  var passwordField = document.querySelector('input[name="password"]');
+  if (passwordField.type === "password") {
+      passwordField.type = "text";
+  } else {
+      passwordField.type = "password";
+  }
+}
+

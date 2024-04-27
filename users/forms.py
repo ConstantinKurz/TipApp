@@ -19,7 +19,6 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-
         fields = ['username', 'email']
 
 
@@ -28,5 +27,5 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
 
         exclude = ['jokers']
-        fields = ['Weltmeister']
+        fields = ['Europameister']
 

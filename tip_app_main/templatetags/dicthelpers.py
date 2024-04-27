@@ -60,20 +60,6 @@ def get_users_matchday_score(scores, user):
 @register.simple_tag
 def get_users_matchday_tips(matchday_tips, user, matchday):
     user_matchday_tips = matchday_tips.filter(author=user.user.id)
-    matchday_matches = Match.objects.filter(matchday=matchday)
-    if (len(matchday_matches) != len(user_matchday_tips)):
-        for match in matchday_matches:
-            try:
-                tip = Tip.objects.get(author=user.user, match__id=match.id)
-            except:
-                tip = None
-            if tip == None:
-                tip = Tip(
-                    author=user.user,
-                    match=match,
-                )
-                tip.save()
-    user_matchday_tips = matchday_tips.filter(author=user.user.id)
     return user_matchday_tips.order_by('match__match_date', 'match__home_team__team_name')
 
 
@@ -88,7 +74,6 @@ def get_upcoming_match():
 
 @register.simple_tag
 def get_matchday_name(matchday_number) -> str:
-    print(matchday_number)
     matchday_dict = {
         0: '1.Spieltag',
         1: '2.Spieltag',

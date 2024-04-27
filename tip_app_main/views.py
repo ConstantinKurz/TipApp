@@ -221,9 +221,9 @@ def reminder_email(request, matchday):
                     not_tipped_matches.append(upcoming_match)
             if len(not_tipped_matches) != 0:
                 message = reminder_mail_matchday_message(not_tipped_matches)
-                # send_mail(subject,
-                # message, EMAIL_HOST_USER, recipient_list=[user.user.email])
-                # messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
+                send_mail(subject,
+                message, EMAIL_HOST_USER, recipient_list=[user.user.email])
+                messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
         else:
             tip = Tip.objects.get(author=user.user.id, match_id=upcoming_match.id)
             if (tip.tip_home == -1 or tip.tip_guest == -1):
@@ -231,7 +231,7 @@ def reminder_email(request, matchday):
         send_mail(subject,
         message, EMAIL_HOST_USER, recipient_list=[user.user.email])
         messages.success(request, 'Reminder an ' + user.user.email + ' gesendet!')
-        
+
     return redirect('tip-mail')
 
 

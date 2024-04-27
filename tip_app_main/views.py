@@ -246,8 +246,7 @@ def pdf_view(request):
 
 @login_required
 @csrf_protect
-def csv_export(request):
-    # Create the HttpResponse object with the appropriate CSV header.
+def csv_export():
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="TippSpielReport.csv"'
     writer = csv.writer(response)
